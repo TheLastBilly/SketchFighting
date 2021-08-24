@@ -7,6 +7,9 @@ namespace ui
 {
     class menu: public graphics::view
     {
+    public:
+        menu(): view("Main Menu") {}
+
         void setup() override
         {
             SDL_Renderer *renderer = this->get_renderer();

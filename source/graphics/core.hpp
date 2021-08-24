@@ -9,7 +9,7 @@
 #include "utilities/exceptions.hpp"
 #include "utilities/utilities.hpp"
 
-#define SDL_WINDOW_NAME "Gutless"
+#define SDL_WINDOW_NAME APP_NAME
 
 #define SDL_DEFAULT_FLAGS SDL_INIT_VIDEO
 #define SDL_DEFAULT_WINDOW_FLAGS 0
