@@ -11,24 +11,31 @@ namespace graphics
     {
     public:
         register_exception(texture_loading_error, "cannot load specified texture");
+        register_exception(sprite_rendering_error, "cannot render current sprite");
 
     public:
-        sprite(const std::string &name, const std::string &path);
+        sprite(const std::string &name, const std::string &path, SDL_Renderer * renderer);
+        ~sprite()
+        {
+            if(texture != NULL)
+                SDL_DestroyTexture(texture);
+        }
 
-        void render(SDL_Renderer *render, int x, int y) const;
+        void render(int x, int y) const;
 
-        int get_width() const
+        int getWidth() const
         {
             return width;
         }
-        int get_height() const
+        int getHeight() const
         {
             return height;
         }
 
     private:
         SDL_Texture* texture = NULL;
-        std::string path;
+        const std::string path;
+        const SDL_Renderer* renderer;
 
         int width = 0, height = 0;
     };

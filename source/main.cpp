@@ -1,6 +1,6 @@
 #include "utilities/logger.hpp"
 
-#include "graphics/core.hpp"
+#include "engine/core.hpp"
 #include "ui/menu.hpp"
 
 #ifdef WINDOWS
@@ -16,8 +16,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 int main(int argc, char *argv[])
 #endif
 {
-    graphics::core game_core(800,600,std::make_shared<ui::menu>());
-    game_core.initialize();
-    game_core.execute();
+    graphics::core gameCore(800,600);
+    
+    gameCore.getChild<engine::assetsManager>("Assets Manager")->requestSprite("Test", "Test.png");
+    gameCore.getChild<engine::viewsManager>("Views Manager")->registerView(std::make_shared<ui::menu>("Main"));
+
+    gameCore.initialize();
+    gameCore.execute();
     return 0;
 }

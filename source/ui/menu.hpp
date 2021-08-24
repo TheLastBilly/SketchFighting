@@ -2,22 +2,26 @@
 #define menu_hpp__
 
 #include "graphics/view.hpp"
+#include "engine/assetsManager.hpp"
 
 namespace ui
 {
     class menu: public graphics::view
     {
     public:
-        menu(): view("Main Menu") {}
+        menu(const std::string &name): view(name) {}
 
         void setup() override
         {
-            SDL_Renderer *renderer = this->get_renderer();
+            mainSprite = getRoot()->getChild<engine::assetsManager>("Assets Manager")->getChild<graphics::sprite>("Test");
         }
         void update(const SDL_Event &event, size_t delta) override
         {
-            
+            mainSprite->render(0,0);
         }
+    
+    private:
+        graphics::sprite* mainSprite;
     };
 }
 

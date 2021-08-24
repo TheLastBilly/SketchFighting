@@ -4,20 +4,25 @@
 #include <memory>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "graphics/view.hpp"
+#include "engine/assetsManager.hpp"
+#include "engine/viewsManager.hpp"
+
 #include "utilities/exceptions.hpp"
-#include "utilities/utilities.hpp"
+#include "utilities/generics.hpp"
 
 #define SDL_WINDOW_NAME APP_NAME
 
+#define SDL_IMAGE_DEFAULT_FLAGS (IMG_INIT_JPG | IMG_INIT_PNG)
 #define SDL_DEFAULT_FLAGS SDL_INIT_VIDEO
 #define SDL_DEFAULT_WINDOW_FLAGS 0
 #define SDL_DEFAULT_RENDERER_FLAGS SDL_RENDERER_ACCELERATED
 
 namespace graphics
 {
-    class core
+    class core: public engine::node
     {
     public:
         register_exception(sdl_initialization_error, "cannot initialize SDL");
@@ -25,16 +30,16 @@ namespace graphics
         register_exception(sdl_renderer_creation_error, "cannot create sdl renderer");
 
     public:
-        core(int width, int height, const std::shared_ptr<view> &current_view): width(width), height(height), current_view(current_view) {}
+        core(int width, int height);
         ~core();
 
         void initialize();
         void execute();
         void terminate();
 
-        bool is_initialized() const;
+        bool isInitialized() const;
 
-        bool window_should_close(const SDL_Event &event) const;
+        bool windowShouldClose(const SDL_Event &event) const;
     
     private:
         SDL_Window *window = NULL;
@@ -42,9 +47,13 @@ namespace graphics
 
         int width, height;
 
-        std::shared_ptr<view> current_view = nullptr, next_view = nullptr;
+        view *currentView, *nextView;
 
         bool initialized = false;
+    
+    private:
+        std::shared_ptr<engine::assetsManager> assetsManagerPtr;
+        std::shared_ptr<engine::viewsManager>  viewsManagerPtr;
     };
 }
 

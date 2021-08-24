@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "utilities/utilities.hpp"
+#include "utilities/generics.hpp"
 #include "utilities/exceptions.hpp"
 
 namespace engine
@@ -12,63 +12,91 @@ namespace engine
     {
     public:
         register_exception(node_not_found, "cannot find node with requested name");
+        register_exception(repeated_name_error, "cannot append child with name already in used");
 
     public:
         node(const std::string &name): name(name) {}
 
-        inline void append_child(std::shared_ptr<node> &child)
+        void appendChild(node* child)
         {
-            child->set_parent(std::shared_ptr<node>(this));
+            try
+            {
+                getChild<node>(child->getName());
+                throw_exception_with_msg(repeated_name_error, "cannot append child \"" + child->getName() + "\": name already in used");
+            }
+            catch(...)
+            { }
+            
+            child->setParent(this);
             children.push_back(child);
         }
-        inline void remove_child(size_t index)
+
+        template<typename type>
+        inline void appendChild(const std::shared_ptr<type> &child)
+        { appendChild(child.get()); }
+
+        inline void removeChild(size_t index)
         {
-            get_child(index);
+            getChild<node>(index);
             children.erase(children.begin() + index);
         }
-        inline void set_parent(const std::shared_ptr<node> &parent)
-        {
-            this->parent = parent;
-        }
-        inline size_t get_children_count() const
+        inline size_t getChildrenCount() const
         {
             return children.size();
         }
         
-        const std::shared_ptr<node> get_child(size_t index) const
+        template<typename type>
+        const type* getChild(size_t index) const
         {
             if(children.size() <= index)
                 throw_exception_with_msg(utilities::index_out_of_bounds_error, "cannot find index of size " + std::to_string(index));
 
-            return children.at(index);
+            return children.at(index)->cast<type>();
         }
 
-        const std::shared_ptr<node> get_child(const std::string &name) const
+        template<typename type>
+        type* getChild(const std::string &name) const
         {
             for(size_t i = 0; i < children.size(); i++)
             {
-                if(children.at(i)->get_name() == name)
-                    return children.at(i);
+                if(children.at(i)->getName() == name)
+                    return children.at(i)->cast<type>();
             }
 
             throw_exception_with_msg(node_not_found, "cannot find node \"" + name + "\" on \"" + this->name + "\"");
             return nullptr;
         }
 
-        template<typename type>
-        const std::shared_ptr<type> cast()
+        node* getRoot() const
         {
-            return std::shared_ptr<type>(static_cast<type*>(this));
+            node* root = (node*)this;
+            
+            while(root->parent != nullptr)
+                root = root->parent;
+            
+            return root;
         }
 
-        std::string get_name() const
+        std::string getName() const
         {
             return name;
         }
 
+        template<typename type>
+        type* cast()
+        {
+            return static_cast<type*>(this);
+        }
+
+    protected:
+        inline void setParent(node* parent)
+        {
+            this->parent = parent;
+        }
+
     private:
-        std::vector<std::shared_ptr<node>> children;
-        std::shared_ptr<node> parent;
+        std::vector<node*> children;
+        node* parent = nullptr;
 
         const std::string name;
     };

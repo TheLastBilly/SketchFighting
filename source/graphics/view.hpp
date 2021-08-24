@@ -7,61 +7,64 @@
 
 #include <SDL2/SDL.h>
 
+#include <engine/assetsManager.hpp>
+
 #include "engine/node.hpp"
-#include "utilities/utilities.hpp"
+#include "utilities/generics.hpp"
 
 namespace graphics
 {
     class view: public engine::node
     {
     public:
-        virtual void setup() = 0;
-        virtual void update(const SDL_Event &event, size_t delta) = 0;
+        struct resolution
+        { int width, height; };
 
     public:
         view(const std::string &name): node(name) {}
 
-        inline void set_change_active_view_callback(const std::function<void(const std::shared_ptr<view>&)> &callback)
+    public:
+        virtual void setup() = 0;
+        virtual void update(const SDL_Event &event, size_t delta) = 0;
+
+    public:
+        inline void setChangeActiveViewCallback(const std::function<void(view*)> &callback)
         {
-            change_active_view_callback = callback;
+            changeActiveViewCallback = callback;
         }
-        inline void set_get_renderer_callback(const std::function<SDL_Renderer*()> &callback)
+        
+        inline void setRenderer(SDL_Renderer *renderer)
+        { this->renderer = renderer; }
+        void setWindow(SDL_Window *window)
         {
-            get_renderer_callback = callback;
-        }
-        inline void set_get_window_callback(const std::function<SDL_Window*()> &callback)
-        {
-            get_window_callback = callback;
+            this->window = window;
+            SDL_GetWindowSize(window, &width, &height);
         }
 
-        SDL_Renderer* get_renderer() const
-        {
-            if(!get_renderer_callback)
-                throw_exception_with_msg(utilities::null_callback_error, "get_renderer callback was not set");
-            
-            return get_renderer_callback();
-        }
+        inline SDL_Renderer* getRenderer() const
+        { return renderer; }
+        inline SDL_Window* getWindow() const
+        { return window; }
 
-        SDL_Window* get_window() const
-        {
-            if(!get_window_callback)
-                throw_exception_with_msg(utilities::null_callback_error, "get_window callback was not set");
-            
-            return get_window_callback();
-        }
+        inline int getWindowHeight() const
+        { return height; } 
+        inline int getWindowWidth() const
+        { return width; } 
 
-        void change_active_node(const std::shared_ptr<node> &child) const
+        void changeActiveNode(node* child) const
         {
-            if(!change_active_view_callback)
-                throw_exception_with_msg(utilities::null_callback_error, "change_active_node callback was not set");
+            if(!changeActiveViewCallback)
+                throw_exception_with_msg(utilities::null_callback_error, "changeActiveNode callback was not set");
             
-            change_active_view_callback(child->cast<view>());
+            changeActiveViewCallback(child->cast<view>());
         }
     private:
-        std::function<void(const std::shared_ptr<view>&)> change_active_view_callback;
+        std::function<void(view*)> changeActiveViewCallback;
         
-        std::function<SDL_Renderer*()> get_renderer_callback;
-        std::function<SDL_Window*()> get_window_callback;
+        SDL_Window* window = nullptr;
+        SDL_Renderer* renderer = nullptr;
+
+        int height = 0, width = 0;
     };
 }
 

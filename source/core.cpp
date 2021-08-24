@@ -1,9 +1,24 @@
-#include "graphics/core.hpp"
+#include "engine/core.hpp"
 #include "utilities/logger.hpp"
 
 register_logger();
 
 using namespace graphics;
+using namespace engine;
+
+core::core(int width, int height):
+    node("Root"),
+
+    width(width), 
+    height(height), 
+    currentView(currentView),
+
+    assetsManagerPtr(std::make_shared<assetsManager>("Assets Manager")),
+    viewsManagerPtr(std::make_shared<viewsManager>("Views Manager"))
+{
+    appendChild<assetsManager>(assetsManagerPtr);
+    appendChild<viewsManager>(viewsManagerPtr);
+}
 
 core::~core()
 {
@@ -16,6 +31,8 @@ void core::initialize()
 
     if(SDL_Init(SDL_DEFAULT_FLAGS) < 0)
         throw_exception_with_msg(sdl_initialization_error, SDL_GetError());
+    if(IMG_Init(SDL_IMAGE_DEFAULT_FLAGS) < 0)
+        throw_exception_with_msg(sdl_initialization_error, IMG_GetError());
 
     window = SDL_CreateWindow(
         SDL_WINDOW_NAME,
@@ -32,6 +49,9 @@ void core::initialize()
     if(!renderer)
         throw_exception(sdl_renderer_creation_error, SDL_GetError());
 
+    assetsManagerPtr->loadSprites("./test/", renderer);
+    nextView = currentView = viewsManagerPtr->getChild<view>("Main");
+
     initialized = true;
 }
 
@@ -43,15 +63,18 @@ void core::terminate()
     if(window)
         SDL_DestroyWindow(window);
 
+    IMG_Quit();
+    SDL_Quit();
+
     initialized = false;
 }
 
-bool core::is_initialized() const
+bool core::isInitialized() const
 {
     return initialized;
 }
 
-bool core::window_should_close(const SDL_Event &event) const
+bool core::windowShouldClose(const SDL_Event &event) const
 {
     switch (event.type)
     {
@@ -77,51 +100,45 @@ bool core::window_should_close(const SDL_Event &event) const
 
 void core::execute()
 {
-    bool should_run = true;
-    int recevied_event = 0;
+    bool shouldRun = true;
+    int receivedEvent = 0;
 
     SDL_Event event = {};
-    size_t before_frame = 0, after_frame = 0;
+    size_t beforeFrame = 0, afterFrame = 0;
 
     SDL_RenderClear(renderer);
 
-    while((recevied_event = SDL_PollEvent(&event)) || should_run)
+    while((receivedEvent = SDL_PollEvent(&event)) || shouldRun)
     {
-        if(recevied_event < 1)
+        if(receivedEvent < 1)
             event = {};
 
-        before_frame = utilities::get_current_time_in_milliseconds();
+        beforeFrame = utilities::getCurrentTimeInMilliseconds();
 
-        if(next_view)
+        if(nextView)
         {
-            next_view->set_change_active_view_callback(
-                [this](const std::shared_ptr<view> &next_view) {
-                    this->next_view = next_view;
+            nextView->setChangeActiveViewCallback(
+                [this](view* nextView) {
+                    this->nextView = nextView;
                 }
             );
-            next_view->set_get_renderer_callback(
-                [this]() {
-                    return renderer;
-                }
-            );
-            next_view->set_get_window_callback(
-                [this]() {
-                    return window;
-                }
-            );
-            next_view->setup();
-            current_view = next_view;
-            next_view = nullptr;
+            
+            nextView->setRenderer(renderer);
+            nextView->setWindow(window);
+
+            nextView->setup();
+            currentView = nextView;
+            nextView = nullptr;
 
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
         }
 
-        current_view->update(event, before_frame - after_frame);
+        currentView->update(event, beforeFrame - afterFrame);
         SDL_RenderPresent(renderer);
-        after_frame = utilities::get_current_time_in_milliseconds();
+        afterFrame = utilities::getCurrentTimeInMilliseconds();
 
-        if(recevied_event && window_should_close(event))
+        if(receivedEvent && windowShouldClose(event))
             return;
 
         SDL_Delay(16);
