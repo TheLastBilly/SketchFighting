@@ -14,12 +14,34 @@ void intro::setup()
         playerPtr = new engine::player("Player")
     );
     playerPtr->setCurrentAnimation(introAnimation);
+    playerPtr->getCoordinates()->setHorizontalRange(0, getWindowWidth());
+    playerPtr->getCoordinates()->setVerticalRange(getWindowHeight(), 0);
 }
 
 void intro::update(const SDL_Event &event, size_t delta)
 {
-    // introSprite->render(0,0);
-    // renderSpriteOnCenter(introSprite);
-    // SDL_SetRenderDrawColor(getRenderer(), 0, 0, 0, 255);
+    const int speed = 1;
+
+    if(event.type == SDL_KEYDOWN)
+    {
+        switch (event.key.keysym.sym)
+        {
+        case SDLK_LEFT:
+            playerPtr->getCoordinates()->moveHorizontally(-speed*delta);
+            break;
+        case SDLK_RIGHT:
+            playerPtr->getCoordinates()->moveHorizontally(speed*delta);
+            break;
+        case SDLK_UP:
+            playerPtr->getCoordinates()->moveVertically(-speed*delta);
+            break;
+        case SDLK_DOWN:
+            playerPtr->getCoordinates()->moveVertically(speed*delta);
+            break;
+        
+        default:
+            break;
+        }
+    }
     playerPtr->playAnimation(delta);
 }
