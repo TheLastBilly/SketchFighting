@@ -5,23 +5,37 @@ using namespace ksf::views;
 using namespace graphics;
 using namespace engine;
 
+register_logger();
+
 void intro::initialize()
 {
     introSprite = getAssetsManager()->getChild<sprite>("Test");
     introAnimation = getAnimationsManager()->getChild<animation>("IntroAnimation");
+    introAnimation->setRepeat(false);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
-        playerPtr = new engine::player("Player")
+        playerPtr = new engine::entity("Player")
+    );
+    getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
+        enemyPtr = new engine::entity("Enemy")
     );
 
     playerPtr->setCurrentAnimation(introAnimation);
-    playerPtr->getCoordinates()->setHorizontalRange(0, getWindowWidth());
-    playerPtr->getCoordinates()->setVerticalRange(getWindowHeight(), 0);
+    playerPtr->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+
+    enemyPtr->setCurrentAnimation(introAnimation);
+    enemyPtr->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+
+    enemyPtr->getCoordinates()->setX(400);
+    enemyPtr->getCoordinates()->setY(300);
 
     for(size_t i = 0; i < playerPtr->getCurrentAnimation()->getFrameCount(); i++)
     {
         playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setHeight(100);
         playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
+
+        enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setHeight(100);
+        enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
     }
 
 }
@@ -59,5 +73,17 @@ void intro::update(const SDL_Event &event, size_t delta)
             break;
         }
     }
+
     playerPtr->playAnimation(delta);
+    enemyPtr->playAnimation(delta);
+
+    if(math::collisions::hitboxesCollide(*playerPtr->getHitbox(), *enemyPtr->getHitbox()))
+        info("Collision detected!");
+
+    if(playerPtr->getCurrentAnimation()->isDonePlaying())
+    {
+        info("Done playing animation \"" + playerPtr->getCurrentAnimation()->getName() + "\"");
+        info("Reseting...");
+        playerPtr->getCurrentAnimation()->reset();
+    }
 }

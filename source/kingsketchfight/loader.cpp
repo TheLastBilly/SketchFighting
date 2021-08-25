@@ -21,6 +21,14 @@ void loader::loadAnimations(engine::managers::animationsManager* animationsManag
 {
     animationsManagerPtr->requestAnimation("IntroAnimation",{
         {"Test", 1000},
+        {"Test2", 500},
+        {"Test", 1000},
+        {"Test2", 500},
+        {"Test", 1000},
+        {"Test2", 500},
+        {"Test", 1000},
+        {"Test2", 500},
+        {"Test", 1000},
         {"Test2", 500}
     });
 }

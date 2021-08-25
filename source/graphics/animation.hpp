@@ -40,21 +40,32 @@ namespace graphics
         inline void addFrames(engine::managers::assetsManager* manager, const std::vector<std::pair<std::string, int>> &frames)
         { for(const auto& f: frames) addFrame(manager, f.first, f.second); }
 
-        frame* getFrame(size_t i) const
+        frame* getFrame(size_t i)
         {
             if(i >= frames.size())
                 throw_exception_without_msg(utilities::index_out_of_bounds_error);
             
-            return (frame*)&frames.data()[i];
+            return &frames.data()[i];
         }
         inline size_t getFrameCount() const
         { return frames.size(); }
+
+        inline frame* getCurrentFrame()
+        { return &frames.data()[currentFrame]; }
 
         void reset()
         {
             timer = 0;
             currentFrame = 0;
         }
+
+        inline void setRepeat(bool repeat)
+        { this->repeat = repeat; }
+        inline bool getRepeat() const
+        { return repeat; }
+
+        inline bool isDonePlaying() const
+        { return !repeat && currentFrame == frames.size()-1; }
 
         void play(size_t delta, int x, int y)
         {
@@ -64,7 +75,7 @@ namespace graphics
             size_t counter = timer;
             if((timer += delta) >= frames[currentFrame].getDuration())
             {
-                currentFrame = currentFrame < frames.size()-1 ? currentFrame + 1: 0;
+                currentFrame = currentFrame < frames.size()-1 ? currentFrame + 1: (repeat ? 0 : currentFrame);
                 timer = 0;
             }
 
@@ -77,5 +88,7 @@ namespace graphics
 
         size_t timer = 0;
         size_t currentFrame = 0;
+
+        bool repeat = true;
     };
 }

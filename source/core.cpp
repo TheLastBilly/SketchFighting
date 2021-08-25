@@ -168,7 +168,9 @@ void core::execute()
         currentView->update(event, delta);
         afterFrame = utilities::getCurrentTimeInMilliseconds();
         
+#ifdef PRINT_DELTA
         info(std::to_string(counter++) + " delta: " + std::to_string(delta));
+#endif
 
         SDL_RenderPresent(renderer);
 

@@ -4,11 +4,9 @@
 
 namespace math
 {
-    class coordinates: public engine::node
+    class coordinates
     {
     public:
-        coordinates(const std::string &name): node(name) {}
-
         inline void setHorizontalRange(int leftLimit, int rightLimit)
         {
             this->leftLimit = leftLimit;
@@ -41,6 +39,11 @@ namespace math
         { return x; }
         inline int getY() const
         { return y; }
+
+        inline void setX(int x)
+        { this->x = x; }
+        inline void setY(int y)
+        { this->y = y; }
 
     private:
         int x = 0, y = 0;
