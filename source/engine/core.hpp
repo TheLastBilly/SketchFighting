@@ -10,6 +10,7 @@
 #include "engine/managers/assetsManager.hpp"
 #include "engine/managers/viewsManager.hpp"
 #include "engine/managers/animationsManager.hpp"
+#include "engine/managers/nodesManager.hpp"
 
 #include "utilities/exceptions.hpp"
 #include "utilities/generics.hpp"
@@ -74,8 +75,10 @@ namespace engine
     
     private:
         std::shared_ptr<engine::managers::assetsManager> assetsManagerPtr;
-        std::shared_ptr<engine::managers::viewsManager>  viewsManagerPtr;
-        std::shared_ptr<engine::managers::animationsManager>  animationsManagerPtr;
+        std::shared_ptr<engine::managers::viewsManager> viewsManagerPtr;
+        std::shared_ptr<engine::managers::animationsManager> animationsManagerPtr;
+
+        std::shared_ptr<engine::managers::nodesManager> nodesManagerPtr;
 
         std::string appName = "";
 

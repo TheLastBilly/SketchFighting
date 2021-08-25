@@ -16,16 +16,12 @@ namespace engine
 
     public:
         node(const std::string &name): name(name) {}
+        virtual ~node() {}
 
         void appendChild(node* child)
         {
-            try
-            {
-                getChild<node>(child->getName());
+            if(hasChild(child->getName()))
                 throw_exception_with_msg(repeated_name_error, "cannot append child \"" + child->getName() + "\": name already in used");
-            }
-            catch(...)
-            { }
             
             child->setParent(this);
             children.push_back(child);
@@ -66,6 +62,15 @@ namespace engine
 
             throw_exception_with_msg(node_not_found, "cannot find node \"" + name + "\" on \"" + this->name + "\"");
             return 0;
+        }
+        bool hasChild(const std::string &name) const
+        {
+            try
+            { findChild(name); }
+            catch(...)
+            { return false; }
+            
+            return true;
         }
 
         template<typename type>

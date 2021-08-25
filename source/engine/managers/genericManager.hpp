@@ -4,6 +4,8 @@
 
 #include "utilities/exceptions.hpp"
 
+#include "engine/node.hpp"
+
 namespace engine::managers
 {
     template<typename type>
@@ -28,6 +30,9 @@ namespace engine::managers
             appendChild(request);
             elements.push_back(std::shared_ptr<type>(request));
         }
+
+        inline type* getObject(const std::string &name) const
+        { return getChild<type>(name); }
     
     protected:
         std::vector<std::shared_ptr<type>> elements;

@@ -3,6 +3,7 @@
 #include "graphics/view.hpp"
 #include "graphics/animation.hpp"
 #include "engine/core.hpp"
+#include "engine/player.hpp"
 
 namespace ksf::views
 {
@@ -17,5 +18,7 @@ namespace ksf::views
     private:
         graphics::sprite* introSprite = nullptr;
         graphics::animation* introAnimation = nullptr;
+
+        engine::player* playerPtr = nullptr;
     };
 }

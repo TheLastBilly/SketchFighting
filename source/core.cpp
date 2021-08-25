@@ -17,11 +17,14 @@ core::core(int width, int height):
 
     assetsManagerPtr(std::make_shared<managers::assetsManager>("Assets Manager")),
     viewsManagerPtr(std::make_shared<managers::viewsManager>("Views Manager")),
-    animationsManagerPtr(std::make_shared<managers::animationsManager>("Animations Manager"))
+    animationsManagerPtr(std::make_shared<managers::animationsManager>("Animations Manager")),
+
+    nodesManagerPtr(std::make_shared<managers::nodesManager>("Generic Nodes Manager"))
 {
     appendChild<managers::assetsManager>(assetsManagerPtr);
     appendChild<managers::viewsManager>(viewsManagerPtr);
     appendChild<managers::animationsManager>(animationsManagerPtr);
+    appendChild<managers::nodesManager>(nodesManagerPtr);
 }
 
 core::~core()
