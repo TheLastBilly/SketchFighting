@@ -20,6 +20,8 @@ namespace ksf::views
         graphics::sprite* introSprite = nullptr;
         graphics::animation* introAnimation = nullptr;
 
+        engine::keyboardHandler* keyboardHandlerPtr = nullptr;
+
         engine::entity *playerPtr = nullptr, *enemyPtr = nullptr;
     };
 }

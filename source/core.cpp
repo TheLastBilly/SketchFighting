@@ -19,12 +19,16 @@ core::core(int width, int height):
     viewsManagerPtr(std::make_shared<managers::viewsManager>("Views Manager")),
     animationsManagerPtr(std::make_shared<managers::animationsManager>("Animations Manager")),
 
-    nodesManagerPtr(std::make_shared<managers::nodesManager>("Generic Nodes Manager"))
+    nodesManagerPtr(std::make_shared<managers::nodesManager>("Generic Nodes Manager")),
+
+    keyboardHandlerPtr(std::make_shared<keyboardHandler>("Keyboard Handler"))
 {
     appendChild<managers::assetsManager>(assetsManagerPtr);
     appendChild<managers::viewsManager>(viewsManagerPtr);
     appendChild<managers::animationsManager>(animationsManagerPtr);
     appendChild<managers::nodesManager>(nodesManagerPtr);
+
+    appendChild<keyboardHandler>(keyboardHandlerPtr);
 }
 
 core::~core()
@@ -144,6 +148,8 @@ void core::execute()
     {
         if(receivedEvent < 1)
             event = {};
+        else
+            keyboardHandlerPtr->updateInputs(event);
 
         SDL_RenderClear(renderer);
         beforeFrame = utilities::getCurrentTimeInMilliseconds();
@@ -176,8 +182,6 @@ void core::execute()
 
         if(receivedEvent && windowShouldClose(event))
             break;
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 
     info("exiting...");

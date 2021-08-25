@@ -1,5 +1,7 @@
 #include "kingsketchfight/views/intro.hpp"
 
+#include "engine/inputs.hpp"
+
 using namespace ksf::views;
 
 using namespace graphics;
@@ -38,6 +40,7 @@ void intro::initialize()
         enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
     }
 
+    keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
 }
 
 void intro::setup()
@@ -49,30 +52,18 @@ void intro::update(const SDL_Event &event, size_t delta)
 {
     const int speed = 1;
 
-    if(event.type == SDL_KEYDOWN)
-    {
-        switch (event.key.keysym.sym)
-        {
-        case SDLK_LEFT:
-            playerPtr->getCoordinates()->moveHorizontally(-speed*delta);
-            break;
-        case SDLK_RIGHT:
-            playerPtr->getCoordinates()->moveHorizontally(speed*delta);
-            break;
-        case SDLK_UP:
-            playerPtr->getCoordinates()->moveVertically(-speed*delta);
-            break;
-        case SDLK_DOWN:
-            playerPtr->getCoordinates()->moveVertically(speed*delta);
-            break;
-        case SDLK_q:
-            shouldClose(true);
-            break;
+    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::left))
+        playerPtr->getCoordinates()->moveHorizontally(-speed*delta);
+    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::right))
+        playerPtr->getCoordinates()->moveHorizontally(speed*delta);
         
-        default:
-            break;
-        }
-    }
+    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::up))
+        playerPtr->getCoordinates()->moveVertically(-speed*delta);
+    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::down))
+        playerPtr->getCoordinates()->moveVertically(speed*delta);
+
+    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::q))
+        shouldClose(true);
 
     playerPtr->playAnimation(delta);
     enemyPtr->playAnimation(delta);

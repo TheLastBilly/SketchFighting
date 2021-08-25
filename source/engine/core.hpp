@@ -7,6 +7,9 @@
 #include <SDL2/SDL_image.h>
 
 #include "graphics/view.hpp"
+
+#include "engine/inputs.hpp"
+
 #include "engine/managers/assetsManager.hpp"
 #include "engine/managers/viewsManager.hpp"
 #include "engine/managers/animationsManager.hpp"
@@ -80,6 +83,8 @@ namespace engine
         std::shared_ptr<engine::managers::animationsManager> animationsManagerPtr;
 
         std::shared_ptr<engine::managers::nodesManager> nodesManagerPtr;
+
+        std::shared_ptr<keyboardHandler> keyboardHandlerPtr;
 
         std::string appName = "";
 
