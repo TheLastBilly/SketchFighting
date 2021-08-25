@@ -72,6 +72,7 @@ namespace engine
         graphics::view *currentView = nullptr;
 
         bool initialized = false;
+        bool shouldClose = false;
     
     private:
         std::shared_ptr<engine::managers::assetsManager> assetsManagerPtr;

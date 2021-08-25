@@ -23,20 +23,26 @@ namespace graphics
 
         void render(int x, int y) const;
 
-        int getWidth() const
-        {
-            return width;
-        }
-        int getHeight() const
-        {
-            return height;
-        }
+        inline int getWidth() const
+        { return width; }
+        inline int getHeight() const
+        { return height; }
+
+        inline int getDefaultWidth() const
+        { return defaultWidth; }
+        inline int getDefaultHeight() const
+        { return defaultHeight; }
+
+        inline void setWidth(int width)
+        { this->width = width; }
+        inline void setHeight(int height)
+        { this->height = height; }
 
     private:
         SDL_Texture* texture = NULL;
         const std::string path;
         const SDL_Renderer* renderer;
 
-        int width = 0, height = 0;
+        int width = 0, height = 0, defaultWidth = 0, defaultHeight = 0;
     };
 }

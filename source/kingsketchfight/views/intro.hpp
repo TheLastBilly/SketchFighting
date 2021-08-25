@@ -12,6 +12,7 @@ namespace ksf::views
     public:
         intro(): view("Intro") {}
 
+        void initialize() override;
         void setup() override;
         void update(const SDL_Event &event, size_t delta) override;
     

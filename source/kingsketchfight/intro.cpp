@@ -5,7 +5,7 @@ using namespace ksf::views;
 using namespace graphics;
 using namespace engine;
 
-void intro::setup()
+void intro::initialize()
 {
     introSprite = getAssetsManager()->getChild<sprite>("Test");
     introAnimation = getAnimationsManager()->getChild<animation>("IntroAnimation");
@@ -13,9 +13,22 @@ void intro::setup()
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
         playerPtr = new engine::player("Player")
     );
+
     playerPtr->setCurrentAnimation(introAnimation);
     playerPtr->getCoordinates()->setHorizontalRange(0, getWindowWidth());
     playerPtr->getCoordinates()->setVerticalRange(getWindowHeight(), 0);
+
+    for(size_t i = 0; i < playerPtr->getCurrentAnimation()->getFrameCount(); i++)
+    {
+        playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setHeight(100);
+        playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
+    }
+
+}
+
+void intro::setup()
+{
+    playerPtr->getCurrentAnimation()->reset();
 }
 
 void intro::update(const SDL_Event &event, size_t delta)
@@ -37,6 +50,9 @@ void intro::update(const SDL_Event &event, size_t delta)
             break;
         case SDLK_DOWN:
             playerPtr->getCoordinates()->moveVertically(speed*delta);
+            break;
+        case SDLK_q:
+            shouldClose(true);
             break;
         
         default:

@@ -25,6 +25,7 @@ namespace graphics
         view(const std::string &name): node(name) {}
 
     public:
+        virtual void initialize() = 0;
         virtual void setup() = 0;
         virtual void update(const SDL_Event &event, size_t delta) = 0;
 
@@ -67,11 +68,22 @@ namespace graphics
             changeActiveViewCallback(name);
         }
 
+        inline void setShouldCloseCallback(const std::function<void(bool)> &callback)
+        { shouldCloseCallback = callback; }
+        void shouldClose(bool shouldClose) const
+        {
+            if(!shouldCloseCallback)
+                throw_exception_with_msg(utilities::null_callback_error, "shouldClose callback was not set");
+            
+            shouldCloseCallback(shouldClose);
+        }
+
         inline void renderSpriteOnCenter(sprite* spritePtr) const
         { spritePtr->render(getWindowWidth()/2 - spritePtr->getWidth()/2, getWindowHeight()/2 - spritePtr->getHeight()/2); }
 
     private:
         std::function<void(const std::string &name)> changeActiveViewCallback;
+        std::function<void(bool)> shouldCloseCallback;
         
         SDL_Window* window = nullptr;
         SDL_Renderer* renderer = nullptr;

@@ -115,6 +115,15 @@ void core::setupViews()
         viewPtr->setWindow(window);
         viewPtr->setAssetsManager(getAssetsManager());
         viewPtr->setAnimationsManager(getAnimationsManager());
+
+        viewPtr->setShouldCloseCallback([this](bool shouldClose){this->shouldClose = true;});
+        viewPtr->setChangeActiveViewCallback(
+            [this](const std::string &name) {
+                this->getViewsManager()->setActiveView(name);
+            }
+        );
+
+        viewPtr->initialize();
     }
 }
 
@@ -131,7 +140,7 @@ void core::execute()
 
     size_t counter =0;
 
-    while((receivedEvent = SDL_PollEvent(&event)) || shouldRun)
+    while(((receivedEvent = SDL_PollEvent(&event)) || shouldRun) && !this->shouldClose)
     {
         if(receivedEvent < 1)
             event = {};
@@ -142,11 +151,6 @@ void core::execute()
         if(currentView != viewsManagerPtr->getActiveView())
         {
             currentView = viewsManagerPtr->getActiveView();
-            currentView->setChangeActiveViewCallback(
-                [this](const std::string &name) {
-                    this->getViewsManager()->setActiveView(name);
-                }
-            );
 
             currentView->setup();
 
