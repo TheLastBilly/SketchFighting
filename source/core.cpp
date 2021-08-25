@@ -35,7 +35,7 @@ void core::initialize()
         throw_exception_with_msg(sdl_initialization_error, IMG_GetError());
 
     window = SDL_CreateWindow(
-        SDL_WINDOW_NAME,
+        getAppName().c_str(),
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         width, height,
         SDL_DEFAULT_WINDOW_FLAGS
@@ -49,8 +49,7 @@ void core::initialize()
     if(!renderer)
         throw_exception(sdl_renderer_creation_error, SDL_GetError());
 
-    assetsManagerPtr->loadSprites("./test/", renderer);
-    nextView = currentView = viewsManagerPtr->getChild<view>("Main");
+    assetsManagerPtr->loadSprites(assetsRootPath, renderer);
 
     initialized = true;
 }
@@ -115,24 +114,27 @@ void core::execute()
 
         beforeFrame = utilities::getCurrentTimeInMilliseconds();
 
-        if(nextView)
+        if(currentView != viewsManagerPtr->getActiveView())
         {
-            nextView->setChangeActiveViewCallback(
-                [this](view* nextView) {
-                    this->nextView = nextView;
+            currentView = viewsManagerPtr->getActiveView();
+            currentView->setChangeActiveViewCallback(
+                [this](const std::string &name) {
+                    this->getViewsManager()->setActiveView(name);
                 }
             );
             
-            nextView->setRenderer(renderer);
-            nextView->setWindow(window);
+            currentView->setRenderer(renderer);
+            currentView->setWindow(window);
+            currentView->setAssetsManager(getAssetsManager());
 
-            nextView->setup();
-            currentView = nextView;
-            nextView = nullptr;
+            currentView->setup();
 
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
         }
+
+        if(!currentView)
+            throw_exception_without_msg(active_view_missing_error);
 
         currentView->update(event, beforeFrame - afterFrame);
         SDL_RenderPresent(renderer);

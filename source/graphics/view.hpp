@@ -27,12 +27,7 @@ namespace graphics
         virtual void setup() = 0;
         virtual void update(const SDL_Event &event, size_t delta) = 0;
 
-    public:
-        inline void setChangeActiveViewCallback(const std::function<void(view*)> &callback)
-        {
-            changeActiveViewCallback = callback;
-        }
-        
+    public:        
         inline void setRenderer(SDL_Renderer *renderer)
         { this->renderer = renderer; }
         void setWindow(SDL_Window *window)
@@ -51,18 +46,27 @@ namespace graphics
         inline int getWindowWidth() const
         { return width; } 
 
-        void changeActiveNode(node* child) const
+        inline void setAssetsManager(engine::assetsManager* manager)
+        { assetsManagerPtr = manager; }
+        inline engine::assetsManager* getAssetsManager() const
+        { return assetsManagerPtr; }
+
+        inline void setChangeActiveViewCallback(const std::function<void(const std::string &name)> &callback)
+        { changeActiveViewCallback = callback; }
+        void changeActiveNode(const std::string &name) const
         {
             if(!changeActiveViewCallback)
                 throw_exception_with_msg(utilities::null_callback_error, "changeActiveNode callback was not set");
             
-            changeActiveViewCallback(child->cast<view>());
+            changeActiveViewCallback(name);
         }
     private:
-        std::function<void(view*)> changeActiveViewCallback;
+        std::function<void(const std::string &name)> changeActiveViewCallback;
         
         SDL_Window* window = nullptr;
         SDL_Renderer* renderer = nullptr;
+
+        engine::assetsManager* assetsManagerPtr = nullptr;
 
         int height = 0, width = 0;
     };

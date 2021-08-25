@@ -12,11 +12,11 @@ namespace engine
     public:
         viewsManager(const std::string &name): node(name) {}
         
-        void registerView(const std::shared_ptr<graphics::view> &request);
+        void registerView(graphics::view* request);
 
         inline void setActiveView(const std::string &name)
         { activeView = getChild<graphics::view>(name); }
-        inline view* getActiveView() const
+        inline graphics::view* getActiveView() const
         { return activeView; }
     
     private:

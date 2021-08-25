@@ -40,10 +40,9 @@ namespace engine
             getChild<node>(index);
             children.erase(children.begin() + index);
         }
-        inline size_t getChildrenCount() const
-        {
-            return children.size();
-        }
+        inline void removeChild(const std::string &name)
+        { removeChild(findChild(name)); }
+
         
         template<typename type>
         const type* getChild(size_t index) const
@@ -53,19 +52,25 @@ namespace engine
 
             return children.at(index)->cast<type>();
         }
-
-        template<typename type>
-        type* getChild(const std::string &name) const
+        inline size_t getChildrenCount() const
+        {
+            return children.size();
+        }
+        size_t findChild(const std::string &name) const
         {
             for(size_t i = 0; i < children.size(); i++)
             {
                 if(children.at(i)->getName() == name)
-                    return children.at(i)->cast<type>();
+                    return i;
             }
 
             throw_exception_with_msg(node_not_found, "cannot find node \"" + name + "\" on \"" + this->name + "\"");
-            return nullptr;
+            return 0;
         }
+
+        template<typename type>
+        inline type* getChild(const std::string &name) const
+        { return children.at(findChild(name))->cast<type>(); }
 
         node* getRoot() const
         {

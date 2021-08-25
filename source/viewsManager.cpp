@@ -5,7 +5,7 @@ register_logger();
 using namespace engine;
 using namespace graphics;
 
-void viewsManager::registerView(const std::shared_ptr<view> &request)
+void viewsManager::registerView(view* request)
 {
     try
     {
@@ -15,6 +15,6 @@ void viewsManager::registerView(const std::shared_ptr<view> &request)
     catch(...)
     { }
     
-    appendChild<view>(request);
-    views.push_back(request);
+    appendChild(request);
+    views.push_back(std::shared_ptr<view>(request));
 }
