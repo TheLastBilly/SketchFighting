@@ -7,8 +7,9 @@
 #include <SDL2/SDL_image.h>
 
 #include "graphics/view.hpp"
-#include "engine/assetsManager.hpp"
-#include "engine/viewsManager.hpp"
+#include "engine/managers/assetsManager.hpp"
+#include "engine/managers/viewsManager.hpp"
+#include "engine/managers/animationsManager.hpp"
 
 #include "utilities/exceptions.hpp"
 #include "utilities/generics.hpp"
@@ -38,10 +39,12 @@ namespace engine
         inline std::string getAssetsRootPath() const
         { return assetsRootPath; }
 
-        inline engine::assetsManager* getAssetsManager() const
+        inline engine::managers::assetsManager* getAssetsManager() const
         { return assetsManagerPtr.get(); }
-        inline engine::viewsManager* getViewsManager() const
+        inline engine::managers::viewsManager* getViewsManager() const
         { return viewsManagerPtr.get(); }
+        inline engine::managers::animationsManager* getAnimationsManager() const
+        { return animationsManagerPtr.get(); }
 
         inline void setAppName(const std::string &name)
         { appName = name; }
@@ -56,6 +59,8 @@ namespace engine
     private:
         bool isInitialized() const;
         bool windowShouldClose(const SDL_Event &event) const;
+
+        void setupViews();
     
     private:
         SDL_Window *window = NULL;
@@ -68,8 +73,9 @@ namespace engine
         bool initialized = false;
     
     private:
-        std::shared_ptr<engine::assetsManager> assetsManagerPtr;
-        std::shared_ptr<engine::viewsManager>  viewsManagerPtr;
+        std::shared_ptr<engine::managers::assetsManager> assetsManagerPtr;
+        std::shared_ptr<engine::managers::viewsManager>  viewsManagerPtr;
+        std::shared_ptr<engine::managers::animationsManager>  animationsManagerPtr;
 
         std::string appName = "";
 

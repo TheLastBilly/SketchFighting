@@ -7,7 +7,8 @@
 
 #include <SDL2/SDL.h>
 
-#include <engine/assetsManager.hpp>
+#include <engine/managers/assetsManager.hpp>
+#include <engine/managers/animationsManager.hpp>
 
 #include "engine/node.hpp"
 #include "utilities/generics.hpp"
@@ -46,10 +47,15 @@ namespace graphics
         inline int getWindowWidth() const
         { return width; } 
 
-        inline void setAssetsManager(engine::assetsManager* manager)
+        inline void setAssetsManager(engine::managers::assetsManager* manager)
         { assetsManagerPtr = manager; }
-        inline engine::assetsManager* getAssetsManager() const
+        inline engine::managers::assetsManager* getAssetsManager() const
         { return assetsManagerPtr; }
+
+        inline void setAnimationsManager(engine::managers::animationsManager* manager)
+        { animationsManagerPtr = manager; }
+        inline engine::managers::animationsManager* getAnimationsManager() const
+        { return animationsManagerPtr; }
 
         inline void setChangeActiveViewCallback(const std::function<void(const std::string &name)> &callback)
         { changeActiveViewCallback = callback; }
@@ -60,13 +66,18 @@ namespace graphics
             
             changeActiveViewCallback(name);
         }
+
+        inline void renderSpriteOnCenter(sprite* spritePtr) const
+        { spritePtr->render(getWindowWidth()/2 - spritePtr->getWidth()/2, getWindowHeight()/2 - spritePtr->getHeight()/2); }
+
     private:
         std::function<void(const std::string &name)> changeActiveViewCallback;
         
         SDL_Window* window = nullptr;
         SDL_Renderer* renderer = nullptr;
 
-        engine::assetsManager* assetsManagerPtr = nullptr;
+        engine::managers::assetsManager* assetsManagerPtr = nullptr;
+        engine::managers::animationsManager* animationsManagerPtr = nullptr;
 
         int height = 0, width = 0;
     };

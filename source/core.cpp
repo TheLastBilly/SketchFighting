@@ -1,6 +1,8 @@
 #include "engine/core.hpp"
 #include "utilities/logger.hpp"
 
+#include <thread>
+
 register_logger();
 
 using namespace graphics;
@@ -13,11 +15,13 @@ core::core(int width, int height):
     height(height), 
     currentView(currentView),
 
-    assetsManagerPtr(std::make_shared<assetsManager>("Assets Manager")),
-    viewsManagerPtr(std::make_shared<viewsManager>("Views Manager"))
+    assetsManagerPtr(std::make_shared<managers::assetsManager>("Assets Manager")),
+    viewsManagerPtr(std::make_shared<managers::viewsManager>("Views Manager")),
+    animationsManagerPtr(std::make_shared<managers::animationsManager>("Animations Manager"))
 {
-    appendChild<assetsManager>(assetsManagerPtr);
-    appendChild<viewsManager>(viewsManagerPtr);
+    appendChild<managers::assetsManager>(assetsManagerPtr);
+    appendChild<managers::viewsManager>(viewsManagerPtr);
+    appendChild<managers::animationsManager>(animationsManagerPtr);
 }
 
 core::~core()
@@ -50,6 +54,8 @@ void core::initialize()
         throw_exception(sdl_renderer_creation_error, SDL_GetError());
 
     assetsManagerPtr->loadSprites(assetsRootPath, renderer);
+    animationsManagerPtr->loadAnimations(getAssetsManager());
+    setupViews();
 
     initialized = true;
 }
@@ -89,12 +95,24 @@ bool core::windowShouldClose(const SDL_Event &event) const
         break;
     case SDL_QUIT:
         return true;
-    
     default:
         break;
     }
 
     return false;
+}
+
+void core::setupViews()
+{
+    for(size_t i = 0; i < getViewsManager()->getChildrenCount(); i++)
+    {
+        graphics::view* viewPtr = getViewsManager()->getChild<view>(i);
+
+        viewPtr->setRenderer(renderer);
+        viewPtr->setWindow(window);
+        viewPtr->setAssetsManager(getAssetsManager());
+        viewPtr->setAnimationsManager(getAnimationsManager());
+    }
 }
 
 void core::execute()
@@ -104,14 +122,18 @@ void core::execute()
 
     SDL_Event event = {};
     size_t beforeFrame = 0, afterFrame = 0;
+    size_t delta = 0;
 
     SDL_RenderClear(renderer);
+
+    size_t counter =0;
 
     while((receivedEvent = SDL_PollEvent(&event)) || shouldRun)
     {
         if(receivedEvent < 1)
             event = {};
 
+        SDL_RenderClear(renderer);
         beforeFrame = utilities::getCurrentTimeInMilliseconds();
 
         if(currentView != viewsManagerPtr->getActiveView())
@@ -122,27 +144,32 @@ void core::execute()
                     this->getViewsManager()->setActiveView(name);
                 }
             );
-            
-            currentView->setRenderer(renderer);
-            currentView->setWindow(window);
-            currentView->setAssetsManager(getAssetsManager());
 
             currentView->setup();
 
+            SDL_SetRenderDrawColor(renderer, 0,0,0,255);
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
+
+            afterFrame = beforeFrame;
         }
 
         if(!currentView)
             throw_exception_without_msg(active_view_missing_error);
 
-        currentView->update(event, beforeFrame - afterFrame);
-        SDL_RenderPresent(renderer);
+        delta = beforeFrame - afterFrame;
+        currentView->update(event, delta);
         afterFrame = utilities::getCurrentTimeInMilliseconds();
+        
+        info(std::to_string(counter++) + " delta: " + std::to_string(delta));
+
+        SDL_RenderPresent(renderer);
 
         if(receivedEvent && windowShouldClose(event))
-            return;
-
-        SDL_Delay(16);
+            break;
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
+
+    info("exiting...");
 }

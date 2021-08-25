@@ -1,4 +1,4 @@
-#include "engine/assetsManager.hpp"
+#include "engine/managers/assetsManager.hpp"
 
 register_logger();
 
@@ -10,22 +10,19 @@ register_logger();
         path += "/";
 
 #define loadSprite(basePath, name, path, renderer)                                              \
-    sprites.push_back(std::make_shared<sprite>(name, basePath + path, renderer));               \
-    appendChild(sprites.back());
+    registerElement(new sprite(name, basePath + path, renderer));
 
-using namespace engine;
+using namespace engine::managers;
 using namespace graphics;
 
 void assetsManager::loadSprites(std::string basePath, SDL_Renderer *renderer)
 {
     validatePath(basePath);
     
-    info("Loading sprites from \"" + basePath + "\"");
     while(!spriteQueue.empty())
     {
         std::pair<std::string, std::string> pair = spriteQueue.front();
         loadSprite(basePath, pair.first, pair.second, renderer);
         spriteQueue.pop();
     }
-    info("Done loading sprites from \"" + basePath + "\"");
 }

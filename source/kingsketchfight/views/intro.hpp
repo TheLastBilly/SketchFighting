@@ -1,6 +1,7 @@
 #pragma once
 
 #include "graphics/view.hpp"
+#include "graphics/animation.hpp"
 #include "engine/core.hpp"
 
 namespace ksf::views
@@ -15,5 +16,6 @@ namespace ksf::views
     
     private:
         graphics::sprite* introSprite = nullptr;
+        graphics::animation* introAnimation = nullptr;
     };
 }

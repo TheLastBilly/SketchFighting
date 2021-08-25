@@ -3,16 +3,18 @@
 #include <vector>
 
 #include "utilities/logger.hpp"
+#include "engine/managers/genericManager.hpp"
 #include "graphics/view.hpp"
 
-namespace engine
+namespace engine::managers
 {
-    class viewsManager: public engine::node 
+    class viewsManager: public genericManager<graphics::view>
     {
     public:
-        viewsManager(const std::string &name): node(name) {}
+        viewsManager(const std::string &name): genericManager(name) {}
         
-        void registerView(graphics::view* request);
+        inline void registerView(graphics::view* request)
+        { registerElement(request); }
 
         inline void setActiveView(const std::string &name)
         { activeView = getChild<graphics::view>(name); }
@@ -20,8 +22,6 @@ namespace engine
         { return activeView; }
     
     private:
-        std::vector<std::shared_ptr<graphics::view>> views;
-
         graphics::view* activeView = nullptr;
     };
 }

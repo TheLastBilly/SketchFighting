@@ -26,8 +26,8 @@ void sprite::render(int x, int y) const
     destination = source;
 
     source.x = source.y = 0;
-    source.x = x;
-    source.y = y;
+    destination.x = x;
+    destination.y = y;
 
     if(SDL_RenderCopy((SDL_Renderer *)renderer, texture, &source, &destination) != 0)
         throw_exception_with_msg(sprite_rendering_error, SDL_GetError());

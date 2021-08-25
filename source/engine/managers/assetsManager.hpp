@@ -9,12 +9,14 @@
 #include "engine/node.hpp"
 #include "graphics/sprite.hpp"
 
-namespace engine
+#include "engine/managers/genericManager.hpp"
+
+namespace engine::managers
 {
-    class assetsManager: public engine::node 
+    class assetsManager: public genericManager<graphics::sprite>
     {
     public:
-        assetsManager(const std::string &name): node(name) {}
+        assetsManager(const std::string &name): genericManager(name) {}
 
         inline void requestSprite(const std::string& name, const std::string &path)
         { spriteQueue.push(std::pair<std::string, std::string>(name, path)); }
@@ -22,6 +24,5 @@ namespace engine
     
     private:
         std::queue<std::pair<std::string, std::string>> spriteQueue;
-        std::vector<std::shared_ptr<graphics::sprite>> sprites;
     };
 }

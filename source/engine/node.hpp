@@ -45,7 +45,7 @@ namespace engine
 
         
         template<typename type>
-        const type* getChild(size_t index) const
+        type* getChild(size_t index) const
         {
             if(children.size() <= index)
                 throw_exception_with_msg(utilities::index_out_of_bounds_error, "cannot find index of size " + std::to_string(index));
