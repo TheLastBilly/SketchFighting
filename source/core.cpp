@@ -18,7 +18,7 @@ core::core(int width, int height):
     assetsManagerPtr(std::make_shared<managers::assetsManager>("Assets Manager")),
     viewsManagerPtr(std::make_shared<managers::viewsManager>("Views Manager")),
     animationsManagerPtr(std::make_shared<managers::animationsManager>("Animations Manager")),
-
+    collisionsManagerPtr(std::make_shared<managers::collisionsManager>("Collisions Manager")),
     nodesManagerPtr(std::make_shared<managers::nodesManager>("Generic Nodes Manager")),
 
     keyboardHandlerPtr(std::make_shared<keyboardHandler>("Keyboard Handler"))
@@ -26,6 +26,7 @@ core::core(int width, int height):
     appendChild<managers::assetsManager>(assetsManagerPtr);
     appendChild<managers::viewsManager>(viewsManagerPtr);
     appendChild<managers::animationsManager>(animationsManagerPtr);
+    appendChild<managers::collisionsManager>(collisionsManagerPtr);
     appendChild<managers::nodesManager>(nodesManagerPtr);
 
     appendChild<keyboardHandler>(keyboardHandlerPtr);
@@ -117,8 +118,6 @@ void core::setupViews()
 
         viewPtr->setRenderer(renderer);
         viewPtr->setWindow(window);
-        viewPtr->setAssetsManager(getAssetsManager());
-        viewPtr->setAnimationsManager(getAnimationsManager());
 
         viewPtr->setShouldCloseCallback([this](bool shouldClose){this->shouldClose = true;});
         viewPtr->setChangeActiveViewCallback(
@@ -156,14 +155,14 @@ void core::execute()
 
         if(currentView != viewsManagerPtr->getActiveView())
         {
+            collisionsManagerPtr->setAllCollisionsEnable(false);
             currentView = viewsManagerPtr->getActiveView();
-
-            currentView->setup();
 
             SDL_SetRenderDrawColor(renderer, 0,0,0,255);
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
 
+            currentView->setup();
             afterFrame = beforeFrame;
         }
 
@@ -172,6 +171,7 @@ void core::execute()
 
         delta = beforeFrame - afterFrame;
         currentView->update(event, delta);
+        collisionsManagerPtr->runCollisions();
         afterFrame = utilities::getCurrentTimeInMilliseconds();
         
 #ifdef PRINT_DELTA

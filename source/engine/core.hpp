@@ -13,6 +13,7 @@
 #include "engine/managers/assetsManager.hpp"
 #include "engine/managers/viewsManager.hpp"
 #include "engine/managers/animationsManager.hpp"
+#include "engine/managers/collisionsManager.hpp"
 #include "engine/managers/nodesManager.hpp"
 
 #include "utilities/exceptions.hpp"
@@ -49,6 +50,10 @@ namespace engine
         { return viewsManagerPtr.get(); }
         inline engine::managers::animationsManager* getAnimationsManager() const
         { return animationsManagerPtr.get(); }
+        inline engine::managers::collisionsManager* getCollisionsManager() const
+        { return collisionsManagerPtr.get(); }
+        inline engine::managers::nodesManager* getNodesManager() const
+        { return nodesManagerPtr.get(); }
 
         inline void setAppName(const std::string &name)
         { appName = name; }
@@ -81,7 +86,7 @@ namespace engine
         std::shared_ptr<engine::managers::assetsManager> assetsManagerPtr;
         std::shared_ptr<engine::managers::viewsManager> viewsManagerPtr;
         std::shared_ptr<engine::managers::animationsManager> animationsManagerPtr;
-
+        std::shared_ptr<engine::managers::collisionsManager> collisionsManagerPtr;
         std::shared_ptr<engine::managers::nodesManager> nodesManagerPtr;
 
         std::shared_ptr<keyboardHandler> keyboardHandlerPtr;

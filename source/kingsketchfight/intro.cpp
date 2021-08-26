@@ -11,8 +11,8 @@ register_logger();
 
 void intro::initialize()
 {
-    introSprite = getAssetsManager()->getChild<sprite>("Test");
-    introAnimation = getAnimationsManager()->getChild<animation>("IntroAnimation");
+    introSprite = getRoot()->getChild<managers::assetsManager>("Assets Manager")->getChild<sprite>("Test");
+    introAnimation = getRoot()->getChild<managers::animationsManager>("Animations Manager")->getChild<animation>("IntroAnimation");
     introAnimation->setRepeat(false);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
@@ -40,12 +40,21 @@ void intro::initialize()
         enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
     }
 
+    getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager")->regsiterCollisionEvent(
+        new engine::managers::collisionEvent("Entities Collide", playerPtr, enemyPtr,
+            [this](engine::entity *a, engine::entity *b)
+            { info("Collision detected!"); }
+        )
+    );
+
     keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
 }
 
 void intro::setup()
 {
     playerPtr->getCurrentAnimation()->reset();
+    
+    getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager")->getCollision("Entities Collide")->setActive(true);
 }
 
 void intro::update(const SDL_Event &event, size_t delta)
@@ -67,9 +76,6 @@ void intro::update(const SDL_Event &event, size_t delta)
 
     playerPtr->playAnimation(delta);
     enemyPtr->playAnimation(delta);
-
-    if(math::collisions::hitboxesCollide(*playerPtr->getHitbox(), *enemyPtr->getHitbox()))
-        info("Collision detected!");
 
     if(playerPtr->getCurrentAnimation()->isDonePlaying())
     {
