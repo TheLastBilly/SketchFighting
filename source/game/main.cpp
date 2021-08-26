@@ -1,7 +1,7 @@
-#include "engine/core.hpp"
+#include "engine/engine/core.hpp"
 
-#include "kingsketchfight/views/intro.hpp"
-#include "kingsketchfight/utilities/loader.hpp"
+#include "views/intro.hpp"
+#include "utilities/loader.hpp"
 
 void setupCore(engine::core *engineCore)
 {

@@ -1,7 +1,7 @@
 #include <vector>
 #include <utility>
 
-#include "kingsketchfight/utilities/loader.hpp"
+#include "utilities/loader.hpp"
 
 using namespace ksf::utilities;
 

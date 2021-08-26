@@ -1,4 +1,4 @@
-#include "kingsketchfight/views/intro.hpp"
+#include "views/intro.hpp"
 
 #include "engine/inputs.hpp"
 

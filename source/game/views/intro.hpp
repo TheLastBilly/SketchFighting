@@ -1,9 +1,9 @@
 #pragma once
 
-#include "graphics/view.hpp"
-#include "graphics/animation.hpp"
-#include "engine/core.hpp"
-#include "engine/entity.hpp"
+#include "engine/graphics/view.hpp"
+#include "engine/graphics/animation.hpp"
+#include "engine/engine/core.hpp"
+#include "engine/engine/entity.hpp"
 
 namespace ksf::views
 {

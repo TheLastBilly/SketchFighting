@@ -15,10 +15,10 @@ PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image)
 
 include_directories(${SDL2_INCLUDE_DIRS})
 
-include_directories("${CMAKE_SOURCE_DIR}/source")
+include_directories("${CMAKE_SOURCE_DIR}/source/engine" "${CMAKE_SOURCE_DIR}/source/game" "${CMAKE_SOURCE_DIR}/source")
 file(GLOB SOURCES
-    "source/*.cpp"
-	"source/${PROJECT_NAME}/*.cpp"
+    "source/engine/*.cpp"
+	"source/game/*.cpp"
 )
 
 add_executable(${PROJECT_NAME} 
