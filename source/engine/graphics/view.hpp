@@ -11,6 +11,7 @@
 #include <engine/managers/animationsManager.hpp>
 
 #include "engine/node.hpp"
+#include "engine/entity.hpp"
 #include "utilities/generics.hpp"
 
 namespace graphics
@@ -68,8 +69,13 @@ namespace graphics
             shouldCloseCallback(shouldClose);
         }
 
-        inline void renderSpriteOnCenter(sprite* spritePtr) const
-        { spritePtr->render(getWindowWidth()/2 - spritePtr->getWidth()/2, getWindowHeight()/2 - spritePtr->getHeight()/2); }
+        void moveEntityToCenter(engine::entity* entityPtr) const
+        { 
+            sprite* spritePtr = entityPtr->getCurrentAnimation()->getCurrentFrame()->getSprite();
+            
+            entityPtr->getCoordinates()->setX(getWindowWidth()/2 - spritePtr->getWidth()/2);
+            entityPtr->getCoordinates()->setY(getWindowHeight()/2 - spritePtr->getHeight()/2);
+        }
 
     private:
         std::function<void(const std::string &name)> changeActiveViewCallback;

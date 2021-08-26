@@ -12,5 +12,6 @@ void setupCore(engine::core *engineCore)
 
     engineCore->getViewsManager()->registerView(new ksf::views::intro());
     engineCore->getViewsManager()->setActiveView("Intro");
+    
     engineCore->setAppName(APP_NAME);
 }
