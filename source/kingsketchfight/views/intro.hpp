@@ -14,7 +14,7 @@ namespace ksf::views
 
         void initialize() override;
         void setup() override;
-        void update(const SDL_Event &event, size_t delta) override;
+        void update(size_t delta) override;
     
     private:
         graphics::sprite* introSprite = nullptr;

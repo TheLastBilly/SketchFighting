@@ -57,7 +57,7 @@ void intro::setup()
     getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager")->getCollision("Entities Collide")->setActive(true);
 }
 
-void intro::update(const SDL_Event &event, size_t delta)
+void intro::update(size_t delta)
 {
     const int speed = 1;
 

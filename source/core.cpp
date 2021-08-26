@@ -170,7 +170,7 @@ void core::execute()
             throw_exception_without_msg(active_view_missing_error);
 
         delta = beforeFrame - afterFrame;
-        currentView->update(event, delta);
+        currentView->update(delta);
         collisionsManagerPtr->runCollisions();
         afterFrame = utilities::getCurrentTimeInMilliseconds();
         

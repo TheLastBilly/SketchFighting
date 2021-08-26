@@ -27,7 +27,7 @@ namespace graphics
     public:
         virtual void initialize() = 0;
         virtual void setup() = 0;
-        virtual void update(const SDL_Event &event, size_t delta) = 0;
+        virtual void update(size_t delta) = 0;
 
     public:        
         inline void setRenderer(SDL_Renderer *renderer)
