@@ -6,6 +6,7 @@
 #include "engine/engine/entity.hpp"
 
 #include "entities/player.hpp"
+#include "entities/background.hpp"
 
 namespace ksf
 {
@@ -23,6 +24,8 @@ namespace ksf
         private:
             entities::player *playerPtr = nullptr;
             entities::player* player2Ptr = nullptr;
+
+            entities::background* backgroundPtr = nullptr;
 
             graphics::animation* idleAnimation = nullptr;
             graphics::animation* walkingAnimation = nullptr;

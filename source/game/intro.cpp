@@ -18,9 +18,13 @@ void intro::initialize()
     walkingAnimation = animationManagerPtr->getChild<graphics::animation>("walking");
     jumpingAnimation = animationManagerPtr->getChild<graphics::animation>("jumping");
 
-    idleAnimation->setSpritesSize(400, 400);
-    walkingAnimation->setSpritesSize(400, 400);
-    jumpingAnimation->setSpritesSize(400, 400);
+    getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
+        backgroundPtr = new entities::background("Background", animationManagerPtr->getAnimation("background"))
+    );
+
+    idleAnimation->setSpritesSize(200, 200);
+    walkingAnimation->setSpritesSize(200, 200);
+    jumpingAnimation->setSpritesSize(200, 200);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
         playerPtr = new entities::player("Player", idleAnimation, walkingAnimation, jumpingAnimation)
@@ -30,9 +34,10 @@ void intro::initialize()
     walkingAnimation = animationManagerPtr->getChild<graphics::animation>("walking2");
     jumpingAnimation = animationManagerPtr->getChild<graphics::animation>("jumping2");
 
-    idleAnimation->setSpritesSize(400, 400);
-    walkingAnimation->setSpritesSize(400, 400);
-    jumpingAnimation->setSpritesSize(400, 400);
+    idleAnimation->setSpritesSize(200, 200);
+    walkingAnimation->setSpritesSize(200, 200);
+    jumpingAnimation->setSpritesSize(200, 200);
+
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
         player2Ptr = new entities::player("Player2", idleAnimation, walkingAnimation, jumpingAnimation)
     );
@@ -46,6 +51,10 @@ void intro::initialize()
     player2Ptr->setJumpSpeed(10.);
 
     keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
+
+    backgroundPtr->getCurrentAnimation()->setSpritesSize(getWindowWidth(), getWindowHeight());
+    backgroundPtr->centerToScreen(getWindowWidth(), getWindowHeight());
+        
 
     entities::player::controller controller;
     controller.setLeftCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::left);  });
@@ -86,4 +95,5 @@ void intro::update(size_t delta)
     player2Ptr->setWindowConstraints(getWindowWidth(), getWindowHeight());
     player2Ptr->update(delta);
 
+    backgroundPtr->update(delta);
 }

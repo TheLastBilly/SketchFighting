@@ -51,7 +51,7 @@ namespace engine
             coordinates.moveVertically(0);
         }
 
-        void playAnimation(int delta)
+        void update(int delta)
         {
             if(!currentAnimation)
                 throw_exception_without_msg(animation_not_defined_error);

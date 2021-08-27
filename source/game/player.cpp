@@ -50,7 +50,6 @@ void ksf::entities::player::update(size_t delta)
 
 
     // Set animations
-
     graphics::sprite::flip flip = getCurrentAnimation()->getSpritesFlip();
     if (isMidAir)
     {
@@ -67,6 +66,6 @@ void ksf::entities::player::update(size_t delta)
         setCurrentAnimation(idleAnimation);
     getCurrentAnimation()->flipSprites(flip);
 
-    // Play current animation
-    playAnimation(delta);
+    // Play current animation and update hitboxes
+    entity::update(delta);
 }

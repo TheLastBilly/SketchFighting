@@ -29,6 +29,9 @@ namespace engine
             }
             void loadAnimations(assetsManager* assetsManaterPtr);
 
+            graphics::animation* getAnimation(const std::string &name) const
+            { return getObject(name); }
+
         private:
             std::queue<std::pair<std::string, framesRequest>> animationQueue;
         };
