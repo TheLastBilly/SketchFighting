@@ -21,16 +21,26 @@ void intro::initialize()
     walkingAnimation->setSpritesSize(200, 200);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
-        playerPtr = new engine::entity("Player")
+        playerPtr = new entities::player("Player", idleAnimation, walkingAnimation)
     );
 
-    playerPtr->setCurrentAnimation(idleAnimation);
-    playerPtr->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-
-    playerPtr->getCoordinates()->setX(0);
-    playerPtr->getCoordinates()->setY(getWindowHeight());
+    playerPtr->setGravity(.005);
+    playerPtr->setHorizontalSpeed(.15);
+    playerPtr->setJumpSpeed(10.);
 
     keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
+
+    entities::player::controller controller;
+    controller.setLeftCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::left);  });
+    controller.setRightCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::right);  });
+    controller.setUpCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::up);  });
+    controller.setDownCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::down);  });
+
+    controller.setLightCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::z);  });
+    controller.setHeavyCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::x);  });
+    controller.setJumpCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::space);  });
+
+    playerPtr->setController(controller);
 }
 
 void intro::setup()
@@ -41,65 +51,10 @@ void intro::setup()
 
 void intro::update(size_t delta)
 {
-    float speed = .15;
-    int floor = getWindowHeight() - playerPtr->getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight();
-    int wall = getWindowWidth() - playerPtr->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth();
-    playerPtr->setConstraints(0, wall, floor, 0);
-
-    static float verticalVelocity = 0;
-
-    static size_t counter = 0;
-    counter += delta;
-    bool shouldMove = counter > 16;
-    if (shouldMove) counter = 0;
-
-    static float speedBuffer = .0;
-    static float verticalSpeedBuffer = .0;
-
-    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::left))
-    {
-        playerPtr->setCurrentAnimation(walkingAnimation);
-        speedBuffer += speed;
-
-        if (shouldMove)
-        {
-            playerPtr->getCoordinates()->moveHorizontally(-speedBuffer * delta);
-            speedBuffer = .0;
-        }
-        playerPtr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::none);
-    }
-    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::right))
-    {
-        playerPtr->setCurrentAnimation(walkingAnimation);
-        speedBuffer += speed;
-
-        if (shouldMove)
-        {
-            playerPtr->getCoordinates()->moveHorizontally(speedBuffer * delta);
-            speedBuffer = .0;
-        }
-        playerPtr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
-    }
-    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::space) && playerPtr->getCoordinates()->getY() == floor)
-    {
-        verticalVelocity = 10.;
-    }
-
-    verticalSpeedBuffer += verticalVelocity;
-
-    if (shouldMove)
-    {
-        playerPtr->getCoordinates()->moveVertically(-verticalVelocity *delta);
-        verticalSpeedBuffer = .0;
-    }
-
-    if (playerPtr->getCoordinates()->getY() < floor)
-    {
-        verticalVelocity -= .005;
-    }
-
-    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::q))
+    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::q))
         shouldClose(true);
 
-    playerPtr->playAnimation(delta);
+    playerPtr->setWindowConstraints(getWindowWidth(), getWindowHeight());
+    playerPtr->update(delta);
+
 }

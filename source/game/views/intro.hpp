@@ -5,6 +5,8 @@
 #include "engine/engine/core.hpp"
 #include "engine/engine/entity.hpp"
 
+#include "entities/player.hpp"
+
 namespace ksf
 {
     namespace views
@@ -19,7 +21,7 @@ namespace ksf
             void update(size_t delta) override;
 
         private:
-            engine::entity* playerPtr = nullptr;
+            entities::player *playerPtr = nullptr;
             graphics::animation* idleAnimation = nullptr;
             graphics::animation* walkingAnimation = nullptr;
 

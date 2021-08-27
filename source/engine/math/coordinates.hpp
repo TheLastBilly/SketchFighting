@@ -45,6 +45,15 @@ namespace math
         inline void setY(int y)
         { this->y = y; }
 
+        inline int getLeftLimit() const
+        { return leftLimit; }
+        inline int getRightLimit() const
+        { return rightLimit; }
+        inline int getUpperLimit() const
+        { return upperLimit; }
+        inline int getLowerLimit() const
+        { return lowerLimit; }
+
     private:
         int x = 0, y = 0;
 
