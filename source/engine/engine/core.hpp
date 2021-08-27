@@ -60,6 +60,11 @@ namespace engine
         inline std::string getAppName() const
         { return appName; }
 
+        inline void setWindowHeight(int height)
+        { this->height = height; }
+        inline void setWindowWidth(int width)
+        { this->width = width; }
+
     protected:
         void initialize();
         void execute();

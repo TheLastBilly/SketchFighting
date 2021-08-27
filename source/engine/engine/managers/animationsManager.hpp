@@ -11,21 +11,26 @@
 #include "engine/managers/genericManager.hpp"
 #include "engine/managers/assetsManager.hpp"
 
-namespace engine::managers
+namespace engine
 {
-    class animationsManager: public genericManager<graphics::animation>
+    namespace managers
     {
-    private:
-        typedef std::vector<std::pair<std::string, int>> framesRequest;
+        class animationsManager : public genericManager<graphics::animation>
+        {
+        private:
+            typedef std::vector<std::pair<std::string, int>> framesRequest;
 
-    public:
-        animationsManager(const std::string &name): genericManager(name) {}
+        public:
+            animationsManager(const std::string& name) : genericManager(name) {}
 
-        inline void requestAnimation(const std::string &name, const std::vector<std::pair<std::string, int>> &frames)
-        { animationQueue.push({name, frames}); }
-        void loadAnimations(assetsManager* assetsManaterPtr);
-    
-    private:
-        std::queue<std::pair<std::string, framesRequest>> animationQueue;
-    };
+            inline void requestAnimation(const std::string& name, const std::vector<std::pair<std::string, int>>& frames)
+            {
+                animationQueue.push({ name, frames });
+            }
+            void loadAnimations(assetsManager* assetsManaterPtr);
+
+        private:
+            std::queue<std::pair<std::string, framesRequest>> animationQueue;
+        };
+    }
 }

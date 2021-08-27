@@ -14,6 +14,14 @@ namespace graphics
         register_exception(sprite_rendering_error, "cannot render current sprite");
 
     public:
+        enum flip
+        {
+            horizontal = SDL_FLIP_HORIZONTAL ,
+            vertical = SDL_FLIP_VERTICAL,
+            none = SDL_FLIP_NONE
+        };
+
+    public:
         sprite(const std::string &name, const std::string &path, SDL_Renderer * renderer);
         ~sprite()
         {
@@ -38,10 +46,15 @@ namespace graphics
         inline void setHeight(int height)
         { this->height = height; }
 
+        inline void setFlip(flip f)
+        { currentFlip = static_cast<SDL_RendererFlip>(f); }
+
     private:
         SDL_Texture* texture = NULL;
         const std::string path;
         const SDL_Renderer* renderer;
+
+        SDL_RendererFlip currentFlip = SDL_FLIP_NONE;
 
         int width = 0, height = 0, defaultWidth = 0, defaultHeight = 0;
     };

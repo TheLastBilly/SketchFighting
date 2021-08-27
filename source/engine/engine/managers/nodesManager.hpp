@@ -7,14 +7,19 @@
 
 #include "engine/managers/genericManager.hpp"
 
-namespace engine::managers
+namespace engine
 {
-    class nodesManager: public genericManager<node>
+    namespace managers
     {
-    public:
-        nodesManager(const std::string &name): genericManager(name) {}
+        class nodesManager : public genericManager<node>
+        {
+        public:
+            nodesManager(const std::string& name) : genericManager(name) {}
 
-        inline void registerNode(node* request)
-        { registerElement(request); }
-    };
+            inline void registerNode(node* request)
+            {
+                registerElement(request);
+            }
+        };
+    }
 }

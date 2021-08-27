@@ -13,6 +13,10 @@ namespace utilities
     register_exception(null_callback_error, "attempting to use null callback");
     register_exception(invalid_path_error, "specified path is not valid");
 
+#ifdef WIN32
+    inline long long getCurrentTimeInMilliseconds()
+#else
     inline size_t getCurrentTimeInMilliseconds()
+#endif
     { return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(); }
 }

@@ -46,6 +46,9 @@ namespace engine
         {
             coordinates.setHorizontalRange(minX, maxX);
             coordinates.setVerticalRange(minY, maxY);
+
+            coordinates.moveHorizontally(0);
+            coordinates.moveVertically(0);
         }
 
         void playAnimation(int delta)

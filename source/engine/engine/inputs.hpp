@@ -22,8 +22,8 @@ namespace engine
     private:
         struct input
         {
-            input(const key &id, int code): id(id), code(code) {} 
-            const key id; const int code;
+            input(const key &id, unsigned int code): id(id), code(code) {} 
+            const key id; const unsigned int code;
         };
     
     public: 
@@ -35,6 +35,6 @@ namespace engine
         { return inputState[id]; }
 
     private:
-        bool inputState[key::none];
+        bool inputState[static_cast<unsigned int>(key::none)] = {false};
     };
 }

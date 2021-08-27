@@ -34,6 +34,6 @@ void sprite::render(int x, int y) const
     destination.x = x;
     destination.y = y;
 
-    if(SDL_RenderCopy((SDL_Renderer *)renderer, texture, &source, &destination) != 0)
+    if(SDL_RenderCopyEx((SDL_Renderer *)renderer, texture, &source, &destination, 0.0, NULL, currentFlip) != 0)
         throw_exception_with_msg(sprite_rendering_error, SDL_GetError());
 }

@@ -5,23 +5,27 @@
 #include "engine/engine/core.hpp"
 #include "engine/engine/entity.hpp"
 
-namespace ksf::views
+namespace ksf
 {
-    class intro: public graphics::view
+    namespace views
     {
-    public:
-        intro(): view("Intro") {}
+        class intro : public graphics::view
+        {
+        public:
+            intro() : view("Intro") {}
 
-        void initialize() override;
-        void setup() override;
-        void update(size_t delta) override;
-    
-    private:
-        graphics::sprite* introSprite = nullptr;
-        graphics::animation* introAnimation = nullptr;
+            void initialize() override;
+            void setup() override;
+            void update(size_t delta) override;
 
-        engine::keyboardHandler* keyboardHandlerPtr = nullptr;
+        private:
+            engine::entity* playerPtr = nullptr;
+            graphics::animation* idleAnimation = nullptr;
+            graphics::animation* walkingAnimation = nullptr;
 
-        engine::entity *playerPtr = nullptr, *enemyPtr = nullptr;
-    };
+            engine::managers::animationsManager* animationManagerPtr = nullptr;
+
+            engine::keyboardHandler* keyboardHandlerPtr = nullptr;
+        };
+    }
 }

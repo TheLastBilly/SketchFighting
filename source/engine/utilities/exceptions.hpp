@@ -1,6 +1,7 @@
 #ifndef exceptions_hpp__
 #define exceptions_hpp__
 
+#include <string>
 #include <cstring>
 
 #include <iostream>
@@ -65,8 +66,6 @@
 
 namespace exceptions
 {
-	std::string get_last_error_string();
-	
 	class base_exception: public std::exception
 	{
 	protected:

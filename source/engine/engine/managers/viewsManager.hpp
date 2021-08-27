@@ -6,22 +6,31 @@
 #include "engine/managers/genericManager.hpp"
 #include "graphics/view.hpp"
 
-namespace engine::managers
+namespace engine
 {
-    class viewsManager: public genericManager<graphics::view>
+    namespace managers
     {
-    public:
-        viewsManager(const std::string &name): genericManager(name) {}
-        
-        inline void registerView(graphics::view* request)
-        { registerElement(request); }
+        class viewsManager : public genericManager<graphics::view>
+        {
+        public:
+            viewsManager(const std::string& name) : genericManager(name) {}
 
-        inline void setActiveView(const std::string &name)
-        { activeView = getChild<graphics::view>(name); }
-        inline graphics::view* getActiveView() const
-        { return activeView; }
-    
-    private:
-        graphics::view* activeView = nullptr;
-    };
+            inline void registerView(graphics::view* request)
+            {
+                registerElement(request);
+            }
+
+            inline void setActiveView(const std::string& name)
+            {
+                activeView = getChild<graphics::view>(name);
+            }
+            inline graphics::view* getActiveView() const
+            {
+                return activeView;
+            }
+
+        private:
+            graphics::view* activeView = nullptr;
+        };
+    }
 }

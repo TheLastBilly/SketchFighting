@@ -23,13 +23,18 @@ namespace utilities
         {
             std::unique_lock<std::mutex> lck(logger_mutex);
 
-            time_t t = time(NULL);
-            struct tm* tm = localtime(&t);
+#ifdef ENABLE_LOG_TIMESTAMP
+            time_t currentTime = time(NULL);
+            struct tm t = {};
+            localtime_s(&t, &currentTime);
 
             char buf[35] = {0};
-            snprintf(buf, 34, "%02d:%02d:%02d", tm->tm_mday, tm->tm_hour, tm->tm_min);
+            snprintf(buf, 34, "%02d:%02d:%02d", t.tm_mday, t.tm_hour, t.tm_min);
 
             std::cout << "[" + std::string(buf) + "] " + msg + "\n";
+#else
+            std::cout << msg << "\n";
+#endif
         }
 
     private:    

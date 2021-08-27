@@ -6,35 +6,41 @@
 
 #include "engine/node.hpp"
 
-namespace engine::managers
+namespace engine
 {
-    template<typename type>
-    class genericManager: public engine::node 
+    namespace managers
     {
-    public:
-        register_exception(repeated_name_error, "cannot register child with repeating name");
-
-    protected:
-        genericManager(const std::string &name): node(name) {}
-
-        void registerElement(type* request)
+        template<typename type>
+        class genericManager : public engine::node
         {
-            try
-            {
-                getChild<type>(request->getName());
-                throw_exception_with_msg(repeated_name_error, "child with name \"" + request->getName() + "\" already registered");
-            }
-            catch(...)
-            { }
-            
-            appendChild(request);
-            elements.push_back(std::shared_ptr<type>(request));
-        }
+        public:
+            register_exception(repeated_name_error, "cannot register child with repeating name");
 
-        inline type* getObject(const std::string &name) const
-        { return getChild<type>(name); }
-    
-    protected:
-        std::vector<std::shared_ptr<type>> elements;
-    };
+        protected:
+            genericManager(const std::string& name) : node(name) {}
+
+            void registerElement(type* request)
+            {
+                try
+                {
+                    getChild<type>(request->getName());
+                    throw_exception_with_msg(repeated_name_error, "child with name \"" + request->getName() + "\" already registered");
+                }
+                catch (...)
+                {
+                }
+
+                appendChild(request);
+                elements.push_back(std::shared_ptr<type>(request));
+            }
+
+            inline type* getObject(const std::string& name) const
+            {
+                return getChild<type>(name);
+            }
+
+        protected:
+            std::vector<std::shared_ptr<type>> elements;
+        };
+    }
 }

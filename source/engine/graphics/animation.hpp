@@ -8,6 +8,10 @@
 
 #include "graphics/sprite.hpp"
 
+#ifdef WIN32
+#define ssize_t signed long long 
+#endif
+
 namespace graphics
 {
     class animation: public engine::node
@@ -67,12 +71,12 @@ namespace graphics
         inline bool isDonePlaying() const
         { return !repeat && currentFrame == frames.size()-1; }
 
-        void play(size_t delta, int x, int y)
+        void play(ssize_t delta, int x, int y)
         {
             if(frames.size() < 1)
                 return;
 
-            size_t counter = timer;
+            ssize_t counter = timer;
             if((timer += delta) >= frames[currentFrame].getDuration())
             {
                 currentFrame = currentFrame < frames.size()-1 ? currentFrame + 1: (repeat ? 0 : currentFrame);
@@ -83,11 +87,32 @@ namespace graphics
             frames[currentFrame].getSprite()->render(x, y);
         }
 
+        void setSpritesSize(int width, int height)
+        {
+            for (size_t i = 0; i < frames.size(); i++)
+            {
+                frames[i].getSprite()->setWidth(width);
+                frames[i].getSprite()->setHeight(height);
+            }
+        }
+
+        inline void flipSprites(sprite::flip f)
+        {
+            currentFlip = f;
+
+            for (size_t i = 0; i < frames.size(); i++)
+            { frames[i].getSprite()->setFlip(f); }
+        }
+        inline sprite::flip getSpritesFlip() const
+        { return currentFlip; }
+
     private:
         std::vector<frame> frames;
 
         size_t timer = 0;
         size_t currentFrame = 0;
+
+        sprite::flip currentFlip = sprite::flip::none;
 
         bool repeat = true;
     };

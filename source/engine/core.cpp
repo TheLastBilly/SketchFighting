@@ -41,9 +41,9 @@ void core::initialize()
 {
     terminate();
 
-    if(SDL_Init(SDL_DEFAULT_FLAGS) < 0)
+    if(SDL_Init(SDL_DEFAULT_FLAGS) != 0)
         throw_exception_with_msg(sdl_initialization_error, SDL_GetError());
-    if(IMG_Init(SDL_IMAGE_DEFAULT_FLAGS) < 0)
+    if(IMG_Init(SDL_IMAGE_DEFAULT_FLAGS) != SDL_IMAGE_DEFAULT_FLAGS)
         throw_exception_with_msg(sdl_initialization_error, IMG_GetError());
 
     window = SDL_CreateWindow(
@@ -53,13 +53,13 @@ void core::initialize()
         SDL_DEFAULT_WINDOW_FLAGS
     );
     if(!window)
-        throw_exception(sdl_window_creation_error, SDL_GetError());
+        throw_exception_with_msg(sdl_window_creation_error, SDL_GetError());
     
     renderer = SDL_CreateRenderer(
         window, -1, SDL_DEFAULT_RENDERER_FLAGS
     );
     if(!renderer)
-        throw_exception(sdl_renderer_creation_error, SDL_GetError());
+        throw_exception_with_msg(sdl_renderer_creation_error, SDL_GetError());
 
     assetsManagerPtr->loadSprites(assetsRootPath, renderer);
     animationsManagerPtr->loadAnimations(getAssetsManager());
@@ -143,9 +143,9 @@ void core::execute()
 
     size_t counter =0;
 
-    while(((receivedEvent = SDL_PollEvent(&event)) || shouldRun) && !this->shouldClose)
+    while(shouldRun && !this->shouldClose)
     {
-        if(receivedEvent < 1)
+        if((receivedEvent = SDL_PollEvent(&event)) < 1)
             event = {};
         else
             keyboardHandlerPtr->updateInputs(event);

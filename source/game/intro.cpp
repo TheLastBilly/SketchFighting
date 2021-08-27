@@ -1,86 +1,105 @@
 #include "views/intro.hpp"
 
 #include "engine/inputs.hpp"
+#include "utilities/logger.hpp"
 
 using namespace ksf::views;
 
 using namespace graphics;
 using namespace engine;
 
-register_logger();
+register_logger()
 
 void intro::initialize()
 {
-    introSprite = getRoot()->getChild<managers::assetsManager>("Assets Manager")->getChild<sprite>("Test");
-    introAnimation = getRoot()->getChild<managers::animationsManager>("Animations Manager")->getChild<animation>("IntroAnimation");
-    introAnimation->setRepeat(false);
+    animationManagerPtr = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
+
+    idleAnimation = animationManagerPtr->getChild<graphics::animation>("standing");
+    walkingAnimation = animationManagerPtr->getChild<graphics::animation>("walking");
+
+    idleAnimation->setSpritesSize(200, 200);
+    walkingAnimation->setSpritesSize(200, 200);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
         playerPtr = new engine::entity("Player")
     );
-    getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
-        enemyPtr = new engine::entity("Enemy")
-    );
 
-    playerPtr->setCurrentAnimation(introAnimation);
+    playerPtr->setCurrentAnimation(idleAnimation);
     playerPtr->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
 
-    enemyPtr->setCurrentAnimation(introAnimation);
-    enemyPtr->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-
-    enemyPtr->getCoordinates()->setX(400);
-    enemyPtr->getCoordinates()->setY(300);
-
-    for(size_t i = 0; i < playerPtr->getCurrentAnimation()->getFrameCount(); i++)
-    {
-        playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setHeight(100);
-        playerPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
-
-        enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setHeight(100);
-        enemyPtr->getCurrentAnimation()->getFrame(i)->getSprite()->setWidth(200);
-    }
-
-    getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager")->regsiterCollisionEvent(
-        new engine::managers::collisionEvent("Entities Collide", playerPtr, enemyPtr,
-            [this](engine::entity *a, engine::entity *b)
-            { info("Collision detected!"); }
-        )
-    );
+    playerPtr->getCoordinates()->setX(0);
+    playerPtr->getCoordinates()->setY(getWindowHeight());
 
     keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
 }
 
 void intro::setup()
 {
-    playerPtr->getCurrentAnimation()->reset();
-    
-    getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager")->getCollision("Entities Collide")->setActive(true);
+    SDL_SetRenderDrawColor(getRenderer(), 255,255,255,255);
+    SDL_RenderClear(getRenderer());
 }
 
 void intro::update(size_t delta)
 {
-    const int speed = 1;
+    float speed = .15;
+    int floor = getWindowHeight() - playerPtr->getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight();
+    int wall = getWindowWidth() - playerPtr->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth();
+    playerPtr->setConstraints(0, wall, floor, 0);
 
-    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::left))
-        playerPtr->getCoordinates()->moveHorizontally(-speed*delta);
-    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::right))
-        playerPtr->getCoordinates()->moveHorizontally(speed*delta);
-        
-    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::up))
-        playerPtr->getCoordinates()->moveVertically(-speed*delta);
-    if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::down))
-        playerPtr->getCoordinates()->moveVertically(speed*delta);
+    static float verticalVelocity = 0;
+
+    static size_t counter = 0;
+    counter += delta;
+    bool shouldMove = counter > 16;
+    if (shouldMove) counter = 0;
+
+    static float speedBuffer = .0;
+    static float verticalSpeedBuffer = .0;
+
+    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::left))
+    {
+        playerPtr->setCurrentAnimation(walkingAnimation);
+        speedBuffer += speed;
+
+        if (shouldMove)
+        {
+            playerPtr->getCoordinates()->moveHorizontally(-speedBuffer * delta);
+            speedBuffer = .0;
+        }
+        playerPtr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::none);
+    }
+    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::right))
+    {
+        playerPtr->setCurrentAnimation(walkingAnimation);
+        speedBuffer += speed;
+
+        if (shouldMove)
+        {
+            playerPtr->getCoordinates()->moveHorizontally(speedBuffer * delta);
+            speedBuffer = .0;
+        }
+        playerPtr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
+    }
+    if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::space) && playerPtr->getCoordinates()->getY() == floor)
+    {
+        verticalVelocity = 10.;
+    }
+
+    verticalSpeedBuffer += verticalVelocity;
+
+    if (shouldMove)
+    {
+        playerPtr->getCoordinates()->moveVertically(-verticalVelocity *delta);
+        verticalSpeedBuffer = .0;
+    }
+
+    if (playerPtr->getCoordinates()->getY() < floor)
+    {
+        verticalVelocity -= .005;
+    }
 
     if(keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::q))
         shouldClose(true);
 
     playerPtr->playAnimation(delta);
-    enemyPtr->playAnimation(delta);
-
-    if(playerPtr->getCurrentAnimation()->isDonePlaying())
-    {
-        info("Done playing animation \"" + playerPtr->getCurrentAnimation()->getName() + "\"");
-        info("Reseting...");
-        playerPtr->getCurrentAnimation()->reset();
-    }
 }

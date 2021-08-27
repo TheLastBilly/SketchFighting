@@ -10,7 +10,7 @@ keyboardHandler::keyboardHandler(const std::string &name):
 
 void keyboardHandler::updateInputs(const SDL_Event &event)
 {
-    uint index = 0;
+    unsigned int index = 0;
 
     switch (event.key.keysym.sym)
     {
