@@ -43,4 +43,19 @@ void loader::loadAnimations(engine::managers::animationsManager* animationsManag
         {"jumping01", 700},
         {"jumping02", 700},
     });
+
+    animationsManagerPtr->requestAnimation("walking2", {
+        {"walking01", 500},
+        {"walking02", 500},
+        {"walking03", 500},
+        {"walking02", 500}
+        });
+    animationsManagerPtr->requestAnimation("standing2", {
+        {"standing01", 700},
+        {"standing02", 700},
+        });
+    animationsManagerPtr->requestAnimation("jumping2", {
+        {"jumping01", 700},
+        {"jumping02", 700},
+        });
 }

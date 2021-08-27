@@ -31,7 +31,7 @@ void ksf::entities::player::update(size_t delta)
         isMovingHorizontally = true;
     }
     if (currentController.jumpPressed() && getCoordinates()->getY() == getCoordinates()->getUpperLimit())
-    { verticalVelocity = jumpSpeed; }
+    { jump(); }
     
     // Apply gravity
     if (isMidAir =  (getCoordinates()->getY() < getCoordinates()->getUpperLimit()))

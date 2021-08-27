@@ -177,8 +177,13 @@ void core::execute()
 #ifdef PRINT_DELTA
         info(std::to_string(counter++) + " delta: " + std::to_string(delta));
 #endif
+        counter += delta;
 
-        SDL_RenderPresent(renderer);
+        if (counter >= 10)
+        {
+            SDL_RenderPresent(renderer);
+            counter = 0;
+        }
 
         if(receivedEvent && windowShouldClose(event))
             break;

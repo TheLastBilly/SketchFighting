@@ -131,6 +131,9 @@ namespace ksf
             controller* getController()
             { return &currentController; }
 
+            inline void jump()
+            { verticalVelocity = jumpSpeed; }
+
         private:
             graphics::animation 
                 *idleAnimation = nullptr,

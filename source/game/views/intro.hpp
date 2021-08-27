@@ -22,6 +22,8 @@ namespace ksf
 
         private:
             entities::player *playerPtr = nullptr;
+            entities::player* player2Ptr = nullptr;
+
             graphics::animation* idleAnimation = nullptr;
             graphics::animation* walkingAnimation = nullptr;
             graphics::animation* jumpingAnimation = nullptr;
