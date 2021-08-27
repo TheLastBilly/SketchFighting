@@ -26,8 +26,8 @@ void intro::initialize()
         playerPtr = new entities::player("Player", idleAnimation, walkingAnimation, jumpingAnimation)
     );
 
-    playerPtr->setGravity(.005);
-    playerPtr->setHorizontalSpeed(.15);
+    playerPtr->setGravity(.02);
+    playerPtr->setHorizontalSpeed(.3);
     playerPtr->setJumpSpeed(10.);
 
     keyboardHandlerPtr = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");

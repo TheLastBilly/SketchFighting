@@ -182,6 +182,9 @@ void core::execute()
 
         if(receivedEvent && windowShouldClose(event))
             break;
+        
+        if (delta < 1)
+            SDL_Delay(1);
     }
 
     info("exiting...");
