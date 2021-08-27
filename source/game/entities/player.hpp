@@ -95,14 +95,17 @@ namespace ksf
             player(
                 const std::string &name,
                 graphics::animation *idleAnimation,
-                graphics::animation *walkingAnimation
+                graphics::animation* walkingAnimation,
+                graphics::animation* jumpingAnimation
             ): 
                 entity(name),
 
                 idleAnimation(idleAnimation),
-                walkingAnimation(walkingAnimation)
+                walkingAnimation(walkingAnimation),
+                jumpingAnimation(jumpingAnimation)
             {
                 setCurrentAnimation(idleAnimation);
+                jumpingAnimation->setRepeat(false);
             }
         
             void update(size_t delta);
@@ -131,7 +134,8 @@ namespace ksf
         private:
             graphics::animation 
                 *idleAnimation = nullptr,
-                *walkingAnimation = nullptr;
+                *walkingAnimation = nullptr,
+                *jumpingAnimation = nullptr;
             
             size_t updateTimeCounter = 0;
 

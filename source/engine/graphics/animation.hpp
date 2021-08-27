@@ -57,6 +57,14 @@ namespace graphics
         inline frame* getCurrentFrame()
         { return &frames.data()[currentFrame]; }
 
+        void setCurrentFrame(size_t i)
+        {
+            if (i >= frames.size())
+                throw_exception_without_msg(utilities::index_out_of_bounds_error);
+            
+            currentFrame = i;
+        }
+
         void reset()
         {
             timer = 0;

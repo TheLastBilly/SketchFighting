@@ -17,7 +17,10 @@ void loader::loadSprites(engine::managers::assetsManager* manager)
 
         {"walking01", "walking01.png"},
         {"walking02", "walking02.png"},
-        {"walking03", "walking03.png"}
+        {"walking03", "walking03.png"},
+
+        {"jumping01", "jumping01.png"},
+        {"jumping02", "jumping02.png"}
     };
 
     for(const auto &sprite: sprites)
@@ -29,10 +32,15 @@ void loader::loadAnimations(engine::managers::animationsManager* animationsManag
     animationsManagerPtr->requestAnimation("walking",{
         {"walking01", 500},
         {"walking02", 500},
-        {"walking03", 500}
+        {"walking03", 500},
+        {"walking02", 500}
     });
     animationsManagerPtr->requestAnimation("standing", {
         {"standing01", 700},
         {"standing02", 700},
+    });
+    animationsManagerPtr->requestAnimation("jumping", {
+        {"jumping01", 700},
+        {"jumping02", 700},
     });
 }

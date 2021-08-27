@@ -16,12 +16,14 @@ void intro::initialize()
 
     idleAnimation = animationManagerPtr->getChild<graphics::animation>("standing");
     walkingAnimation = animationManagerPtr->getChild<graphics::animation>("walking");
+    jumpingAnimation = animationManagerPtr->getChild<graphics::animation>("jumping");
 
     idleAnimation->setSpritesSize(200, 200);
     walkingAnimation->setSpritesSize(200, 200);
+    jumpingAnimation->setSpritesSize(200, 200);
 
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
-        playerPtr = new entities::player("Player", idleAnimation, walkingAnimation)
+        playerPtr = new entities::player("Player", idleAnimation, walkingAnimation, jumpingAnimation)
     );
 
     playerPtr->setGravity(.005);

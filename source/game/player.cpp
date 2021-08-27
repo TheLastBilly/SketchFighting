@@ -48,11 +48,24 @@ void ksf::entities::player::update(size_t delta)
         horizontalSpeedBuffer = .0;
     }
 
-    if (isMovingHorizontally)
+
+    // Set animations
+
+    graphics::sprite::flip flip = getCurrentAnimation()->getSpritesFlip();
+    if (isMidAir)
+    {
+        if (verticalVelocity > .0)
+            jumpingAnimation->setCurrentFrame(0);
+        else if (verticalVelocity < .0)
+            jumpingAnimation->setCurrentFrame(1);
+        
+        setCurrentAnimation(jumpingAnimation);
+    }
+    else if (isMovingHorizontally)
         setCurrentAnimation(walkingAnimation);
     else
         setCurrentAnimation(idleAnimation);
-        
+    getCurrentAnimation()->flipSprites(flip);
 
     // Play current animation
     playAnimation(delta);

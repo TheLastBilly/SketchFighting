@@ -24,6 +24,7 @@ namespace ksf
             entities::player *playerPtr = nullptr;
             graphics::animation* idleAnimation = nullptr;
             graphics::animation* walkingAnimation = nullptr;
+            graphics::animation* jumpingAnimation = nullptr;
 
             engine::managers::animationsManager* animationManagerPtr = nullptr;
 
