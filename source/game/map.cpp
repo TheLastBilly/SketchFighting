@@ -14,7 +14,6 @@ register_logger()
 
 void map::initialize()
 {
-    animationsManager = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
     collisionsManager = getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager");
     nodesManager = getRoot()->getChild<engine::managers::nodesManager>("Generic Nodes Manager");
 }
@@ -25,7 +24,10 @@ void map::setup()
     globalSettings = nodesManager->getChild<entities::globalSettings>("Global Settings");
 
     // Get pointers from global settings
-    backgroundPtr = globalSettings->background;
+    nodesManager->registerNode(
+        new background("Background", globalSettings->background)
+    );
+
     player1Ptr = globalSettings->player1;
     player2Ptr = globalSettings->player2;
 
@@ -33,11 +35,6 @@ void map::setup()
     nodesManager->registerNode(
         floorPtr = new map::floor("Floor", getWindowWidth(), 1, 0, getWindowHeight() - globalSettings->floorHeight)
     );
-
-    // Load sprites
-    backgroundPtr->getCurrentAnimation()->load();
-    player1Ptr->load();
-    player2Ptr->load();
 
     // Setup background
     backgroundPtr->getCurrentAnimation()->setSpritesSize(getWindowWidth(), getWindowHeight());
@@ -70,9 +67,8 @@ void map::setup()
     player1Ptr->setController(globalSettings->player1Controller);
     player2Ptr->setController(globalSettings->player2Controller);
 
-    // Cleare render and set background color
-    SDL_SetRenderDrawColor(getRenderer(), 255, 255, 255, 255);
-    SDL_RenderClear(getRenderer());
+    // Set background color
+    setBackgroundColor(255,255,255,255);
 }
 
 void map::update(size_t delta)
@@ -96,4 +92,7 @@ void map::cleannup()
 
     // Remove floor
     nodesManager->removeChild("Floor");
+
+    // Remove background
+    nodesManager->removeChild("Background");
 }

@@ -14,7 +14,6 @@ namespace ksf
 {
     namespace views
     {
-
         class map : public graphics::view
         {
         public:
@@ -54,18 +53,14 @@ namespace ksf
         protected:
             void initialize() override;
 
-            void initializePlayers();
-
         protected:
             int floorHeight = 0;
 
             entities::player* player1Ptr = nullptr;
             entities::player* player2Ptr = nullptr;
-
             background* backgroundPtr = nullptr;
             floor* floorPtr = nullptr;
 
-            engine::managers::animationsManager* animationsManager = nullptr;
             engine::managers::collisionsManager* collisionsManager = nullptr;
             engine::managers::nodesManager* nodesManager = nullptr;
 

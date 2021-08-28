@@ -20,6 +20,8 @@ namespace engine
 
         inline math::coordinates* getCoordinates()
         { return &coordinates; }
+        inline void setCoordinates(math::coordinates* coordinates)
+        { this->coordinates = *coordinates; }
 
         inline void setCurrentAnimation(graphics::animation* animation)
         { currentAnimation = animation; }
@@ -51,10 +53,12 @@ namespace engine
         void setHorizontalContraints(int minX, int maxX)
         {
             coordinates.setHorizontalRange(minX, maxX);
+            coordinates.moveHorizontally(0);
         }
         void setVerticalContraints(int minY, int maxY)
         {
             coordinates.setVerticalRange(minY, maxY);
+            coordinates.moveVertically(0);
         }
 
         void update(int delta)
@@ -78,7 +82,7 @@ namespace engine
             {
                 graphics::sprite* currentSprite = getCurrentAnimation()->getFrame(i)->getSprite();
                 coordinates->setX(screenWidth / 2 - currentSprite->getWidth() / 2);
-                coordinates->setX(screenHeight / 2 - currentSprite->getHeight() / 2);
+                coordinates->setY(screenHeight / 2 - currentSprite->getHeight() / 2);
             }
         }
 

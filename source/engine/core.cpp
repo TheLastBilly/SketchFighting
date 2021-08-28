@@ -160,7 +160,8 @@ void core::execute()
             collisionsManagerPtr->setAllCollisionsEnable(false);
             currentView = viewsManagerPtr->getActiveView();
 
-            SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+            view::backgroundColor bg = currentView->getBackgroundColor();
+            SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
 

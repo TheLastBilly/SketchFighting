@@ -22,6 +22,9 @@ namespace graphics
         struct resolution
         { int width, height; };
 
+        struct backgroundColor
+        { int r = 0, g = 0, b = 0, a = 0; };
+
     public:
         view(const std::string &name): node(name) {}
 
@@ -78,14 +81,26 @@ namespace graphics
             entityPtr->getCoordinates()->setY(getWindowHeight()/2 - spritePtr->getHeight()/2);
         }
 
+        void setBackgroundColor(int r, int g, int b, int a)
+        {
+            currentBackgroundColor.r = r;
+            currentBackgroundColor.g = g;
+            currentBackgroundColor.b = b;
+            currentBackgroundColor.a = a;
+        }
+        inline backgroundColor getBackgroundColor() const
+        { return currentBackgroundColor; }
+
     private:
         std::function<void(const std::string &name)> changeActiveViewCallback;
         std::function<void(bool)> shouldCloseCallback;
-        
+
         SDL_Window* window = nullptr;
         SDL_Renderer* renderer = nullptr;
 
         int height = 0, width = 0;
+
+        backgroundColor currentBackgroundColor = {};
     };
 }
 

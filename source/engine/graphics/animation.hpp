@@ -96,7 +96,7 @@ namespace graphics
                 return;
 
             ssize_t counter = timer;
-            if((timer += delta) >= frames[currentFrame].getDuration())
+            if((timer += delta) >= frames[currentFrame].getDuration() && shouldTransition)
             {
                 currentFrame = currentFrame < frames.size()-1 ? currentFrame + 1: (repeat ? 0 : currentFrame);
                 timer = 0;
@@ -125,6 +125,11 @@ namespace graphics
         inline sprite::flip getSpritesFlip() const
         { return currentFlip; }
 
+        inline void setShouldTransition(bool shouldTransition)
+        { this->shouldTransition = shouldTransition; }
+        inline bool getShouldTransition() const
+        { return shouldTransition; }
+
     private:
         std::vector<frame> frames;
 
@@ -133,6 +138,6 @@ namespace graphics
 
         sprite::flip currentFlip = sprite::flip::none;
 
-        bool repeat = true;
+        bool repeat = true, shouldTransition = false;
     };
 }

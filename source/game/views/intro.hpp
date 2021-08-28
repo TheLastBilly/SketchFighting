@@ -6,7 +6,7 @@
 #include "engine/engine/entity.hpp"
 
 #include "entities/player.hpp"
-#include "entities/map.hpp"
+#include "views/map.hpp"
 
 namespace ksf
 {
