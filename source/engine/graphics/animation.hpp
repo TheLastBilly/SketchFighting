@@ -138,6 +138,6 @@ namespace graphics
 
         sprite::flip currentFlip = sprite::flip::none;
 
-        bool repeat = true, shouldTransition = false;
+        bool repeat = true, shouldTransition = true;
     };
 }

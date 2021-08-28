@@ -38,6 +38,10 @@ namespace ksf
 				* play = nullptr,
 				* arrow = nullptr;
 			
+			graphics::animation
+				* arrowOn = nullptr,
+				* arrowOff = nullptr;
+			
 			int option = 0;
 			bool optionSelected = false;
 

@@ -3,6 +3,7 @@
 #include <chrono>
 
 #include "utilities/exceptions.hpp"
+#include "SDL2/SDL.h"
 
 #define throw_out_of_bounds_error(allocation, index) \
     throw_exception_with_msg(utilities::index_out_of_bounds_error, "index of size \"" + std::to_string(index) + "\" is too large for allocation " #allocation);
@@ -18,5 +19,11 @@ namespace utilities
 #else
     inline size_t getCurrentTimeInMilliseconds()
 #endif
-    { return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(); }
+    { 
+#ifdef WAIT_WITH_STD_THREAD
+        return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+#else
+        return SDL_GetTicks();
+#endif
+    }
 }

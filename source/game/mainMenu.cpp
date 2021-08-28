@@ -24,10 +24,13 @@ void mainMenu::initialize()
         arrow = new engine::entity("Arrow")
     );
 
+    arrowOn = animationsManager->getAnimation("Main Menu Select On");
+    arrowOff = animationsManager->getAnimation("Main Menu Select Off");
+
     title->setCurrentAnimation(animationsManager->getAnimation("Main Menu Title"));
     quit->setCurrentAnimation(animationsManager->getAnimation("Main Menu Quit"));
     play->setCurrentAnimation(animationsManager->getAnimation("Main Menu Play"));
-    arrow->setCurrentAnimation(animationsManager->getAnimation("Main Menu Select"));
+    arrow->setCurrentAnimation(arrowOff);
 }
 
 void mainMenu::setup()
@@ -36,14 +39,14 @@ void mainMenu::setup()
     title->getCurrentAnimation()->load();
     quit->getCurrentAnimation()->load();
     play->getCurrentAnimation()->load();
-    arrow->getCurrentAnimation()->load();
 
-    play->getCurrentAnimation()->setShouldTransition(false);
+    arrowOn->load();
+    arrowOff->load();
 
-    title->getCurrentAnimation()->setSpritesSize(300, 300);
-    quit->getCurrentAnimation()->setSpritesSize(300, 300);
+    title->getCurrentAnimation()->setSpritesSize(500, 500);
+    /*quit->getCurrentAnimation()->setSpritesSize(300, 300);
     play->getCurrentAnimation()->setSpritesSize(300, 300);
-    arrow->getCurrentAnimation()->setSpritesSize(300, 300);
+    arrow->getCurrentAnimation()->setSpritesSize(300, 300);*/
 
     // Setup animations
     arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
@@ -56,12 +59,13 @@ void mainMenu::setup()
     title->getCoordinates()->moveVertically(100);
 
     play->centerToScreen(getWindowWidth(), getWindowHeight());
+    play->getCoordinates()->moveVertically(100);
     quit->setCoordinates(play->getCoordinates());
-    quit->getCoordinates()->moveVertically(250);
+    quit->getCoordinates()->moveVertically(150);
 
-    arrow->centerToScreen(getWindowWidth(), getWindowHeight());
+    arrow->setCoordinates(play->getCoordinates());
 
-    option = 0;
+    option = 1;
 
     // Cleare render and set background color
     SDL_SetRenderDrawColor(getRenderer(), 255, 255, 255, 255);
@@ -82,7 +86,7 @@ void mainMenu::update(size_t delta)
         if (keyboardHandler->isKeyActive(engine::keyboardHandler::key::enter))
         {
             optionSelected = true;
-            arrow->getCurrentAnimation()->setShouldTransition(true);
+            arrow->setCurrentAnimation(arrowOn);
         }
     }
 
@@ -134,4 +138,7 @@ void mainMenu::cleannup()
     quit->getCurrentAnimation()->unload();
     play->getCurrentAnimation()->unload();
     arrow->getCurrentAnimation()->unload();
+
+    arrowOn->unload();
+    arrowOff->unload();
 }

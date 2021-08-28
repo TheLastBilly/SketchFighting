@@ -13,10 +13,19 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
     const std::vector<std::pair<std::string, std::string>> sprites =
     {
         // Main Menu
-        {"Main Menu Play", "mainMenu/play.png"},
-        {"Main Menu Quit", "mainMenu/quit.png"},
+        {"Main Menu Play 01", "mainMenu/play01.png"},
+        {"Main Menu Play 02", "mainMenu/play02.png"},
+        
+        {"Main Menu Quit 01", "mainMenu/quit01.png"},
+        {"Main Menu Quit 02", "mainMenu/quit02.png"},
+
         {"Main Menu Select 01", "mainMenu/select01.png"},
         {"Main Menu Select 02", "mainMenu/select02.png"},
+        {"Main Menu Select 03", "mainMenu/select03.png"},
+        {"Main Menu Select 04", "mainMenu/select04.png"},
+
+        {"Main Menu Title 01", "mainMenu/title01.png"},
+        {"Main Menu Title 02", "mainMenu/title02.png"},
 
         // Beach background
         {"Beach Background 01", "beach/1.png"},
@@ -33,17 +42,24 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
 void contentLoader::loadAnimations(engine::managers::animationsManager* animationsManagerPtr, engine::managers::assetsManager* assetsManaterPtr)
 {
     animationsManagerPtr->requestAnimation("Main Menu Title", {
-        { "Main Menu Select 01", 500 }
+        { "Main Menu Title 01", 500 },
+        { "Main Menu Title 02", 500 }
     });
     animationsManagerPtr->requestAnimation("Main Menu Play", {
-        { "Main Menu Play", 500 }
+        { "Main Menu Play 01", 500 },
+        { "Main Menu Play 02", 500 }
     });
     animationsManagerPtr->requestAnimation("Main Menu Quit", {
-        { "Main Menu Quit", 500 }
+        { "Main Menu Quit 01", 500 },
+        { "Main Menu Quit 02", 500 }
     });
-    animationsManagerPtr->requestAnimation("Main Menu Select", {
+    animationsManagerPtr->requestAnimation("Main Menu Select On", {
         { "Main Menu Select 01", 200 },
-        { "Main Menu Select 02", 200 }
+        { "Main Menu Select 04", 200 }
+    });
+    animationsManagerPtr->requestAnimation("Main Menu Select Off", {
+        { "Main Menu Select 02", 200 },
+        { "Main Menu Select 03", 200 }
     });
 
     animationsManagerPtr->requestAnimation("BeachBackground",{
