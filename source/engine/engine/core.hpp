@@ -33,6 +33,7 @@ namespace engine
         register_exception(sdl_window_creation_error, "cannot create sdl window");
         register_exception(sdl_renderer_creation_error, "cannot create sdl renderer");
         register_exception(active_view_missing_error, "no active view has been specified");
+        register_exception(core_not_initialized_error, "engine core has not been initialized");
 
     public:
         core(int width = 800, int height = 600);
@@ -64,6 +65,23 @@ namespace engine
         { this->height = height; }
         inline void setWindowWidth(int width)
         { this->width = width; }
+
+        inline void setWindowResizeEnabled(bool enabled) const
+        {
+            if (!initialized)
+                throw_exception_without_msg(core_not_initialized_error);
+
+            SDL_SetWindowResizable(window, enabled ? SDL_TRUE : SDL_FALSE);
+        }
+        bool getWindowResizeEnabled() const
+        {
+            if (!initialized)
+                throw_exception_without_msg(core_not_initialized_error);
+            
+            SDL_bool resizeable = SDL_FALSE;
+            SDL_SetWindowResizable(window, resizeable);
+            return resizeable == SDL_TRUE ? true : false;
+        }
 
     protected:
         void initialize();

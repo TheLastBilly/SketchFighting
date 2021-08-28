@@ -87,6 +87,17 @@ namespace engine
             return root;
         }
 
+        template<typename type>
+        type* getRoot() const
+        {
+            node* root = (node*)this;
+
+            while (root->parent != nullptr)
+                root = root->parent;
+
+            return static_cast<type*>(root);
+        }
+
         std::string getName() const
         {
             return name;

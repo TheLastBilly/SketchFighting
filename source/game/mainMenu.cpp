@@ -1,5 +1,7 @@
 #include "views/mainMenu.hpp"
 
+#include "engine/core.hpp"
+
 using namespace ksf::views;
 
 register_logger()
@@ -10,6 +12,7 @@ void mainMenu::initialize()
     viewsManager = getRoot()->getChild<engine::managers::viewsManager>("Views Manager");
     nodesManager = getRoot()->getChild<engine::managers::nodesManager>("Keyboard Handler");
     keyboardHandler = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
+    getRoot<engine::core>()->setWindowResizeEnabled(true);
 
     nodesManager->registerNode(
         title = new engine::entity("Title Button")
