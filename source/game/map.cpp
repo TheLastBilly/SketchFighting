@@ -41,7 +41,6 @@ void map::setup()
         floorPtr = new map::floor("Floor", getWindowWidth(), 1, 0, getWindowHeight() - globalSettings->floorHeight)
     );
 
-
     // Regsiter floor collisions
     collisionsManager->regsiterCollisionEvent(
         new engine::managers::collisionEvent("Player 1 Hits Floor", player1Ptr, floorPtr, collisionEventCallback { player1Ptr->setMidAir(false); }, collisionEventCallback { player1Ptr->setMidAir(true); })
@@ -53,9 +52,20 @@ void map::setup()
     // Make sure players are facing eachother
     player1Ptr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
 
+    // Fix scaling
+    fixScaling();
+
+    // Move players to their respective positions
+    player1Ptr->getCoordinates()->moveHorizontally(-getWindowWidth());
+    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
+    player2Ptr->getCoordinates()->moveHorizontally(getWindowWidth());
+    player2Ptr->getCoordinates()->moveVertically(getWindowHeight());
+
     // Assign player controllers
     player1Ptr->setController(globalSettings->player1Controller);
     player2Ptr->setController(globalSettings->player2Controller);
+
+    initialScaling = true;
 
     // Set background color
     setBackgroundColor(255,255,255,255);
@@ -68,16 +78,12 @@ void map::update(size_t delta)
     backgroundPtr->centerToScreen(getWindowWidth(), getWindowHeight());
 
     // Set player boundaries
-    player1Ptr->setWindowBorders(0, getWindowWidth());
-    player2Ptr->setWindowBorders(0, getWindowWidth());
-    player1Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
-    player2Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
+    if (initialScaling || windowSizeHasChanged())
+    {
+        initialScaling = false;
 
-    // Move players to their respective positions
-    player1Ptr->getCoordinates()->moveHorizontally(0);
-    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
-    player2Ptr->getCoordinates()->moveHorizontally(getWindowWidth());
-    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
+        fixScaling();
+    }
 
     player1Ptr->update(delta);
     player2Ptr->update(delta);

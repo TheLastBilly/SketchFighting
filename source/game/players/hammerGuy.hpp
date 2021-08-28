@@ -25,7 +25,7 @@ namespace ksf
 				player->setHorizontalSpeed(.3);
 				player->setJumpSpeed(10.);
 
-				player->setSpritesSize(200,200);
+				player->setSpritesSize(300,300);
 
 				return player;
 			}

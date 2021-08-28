@@ -44,8 +44,7 @@ void ksf::entities::player::update(size_t delta)
     { jump(); }
     
     // Apply gravity
-    if (isMidAir())
-    { verticalVelocity -= gravity; }
+    verticalVelocity -= gravity;
     verticalSpeedBuffer += verticalVelocity;
 
     // Apply movements
