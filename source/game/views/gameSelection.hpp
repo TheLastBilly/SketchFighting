@@ -51,7 +51,9 @@ namespace ksf
                 *selectionOff = nullptr,
                 
                 *leftArrowAnimation = nullptr,
-                *rightArrowAnimation = nullptr;
+                *rightArrowAnimation = nullptr,
+                
+                *currentAnimation = nullptr;
 
 			int option = 0, options = 0;
 			bool optionSelected = false, buttonPressed = false;

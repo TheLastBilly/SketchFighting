@@ -30,9 +30,11 @@ namespace ksf
 				return player;
 			}
 
-			graphics::animation* getIdleAnimation() override
+			graphics::animation* getIntroAnimation() override
 			{
-				return animationsManager->getAnimation("Miso Idle");
+				graphics::animation* intro = animationsManager->getAnimation("Miso Idle");
+				intro->setSpritesSize(450,450);
+				return intro;
 			}
 			graphics::animation* getNameAnimation()
 			{

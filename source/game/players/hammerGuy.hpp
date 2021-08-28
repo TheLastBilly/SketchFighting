@@ -30,9 +30,11 @@ namespace ksf
 				return player;
 			}
 
-			graphics::animation* getIdleAnimation() override
+			graphics::animation* getIntroAnimation() override
 			{
-				return animationsManager->getAnimation("Hammer Guy Idle");
+				graphics::animation* intro = animationsManager->getAnimation("Hammer Guy Idle");
+				intro->setSpritesSize(350,350);
+				return intro;
 			}
 			graphics::animation* getNameAnimation()
 			{

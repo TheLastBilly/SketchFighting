@@ -70,7 +70,7 @@ void gameSelection::setup()
     // Load animations
     for (players::genericPlayer* player : players)
     {
-        player->getIdleAnimation()->load();
+        player->getIntroAnimation()->load();
         player->getNameAnimation()->load();
     }
 
@@ -83,10 +83,13 @@ void gameSelection::setup()
     selectionFrame->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
     selectionArrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
     playerName->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+    currentSelection->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
 
     selectionFrame->getCurrentAnimation()->setSpritesSize(600,600);
     selectionFrame->centerToScreen(getWindowWidth(), getWindowHeight());
     selectionFrame->getCoordinates()->moveVertically(-100);
+
+    currentAnimation = players.at(0)->getIntroAnimation();
 
     option = 0;
     counter = 0;
@@ -100,6 +103,16 @@ void gameSelection::setup()
 void gameSelection::update(size_t delta)
 {
     int playerNameWidthHalf = playerName->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth()/2;
+
+    // Setup current selection
+    currentSelection->setCurrentAnimation(currentAnimation);
+    currentSelection->setCoordinates(selectionFrame->getCoordinates());
+
+    graphics::sprite
+        *frameSprite = selectionFrame->getCurrentAnimation()->getCurrentFrame()->getSprite(),
+        *currentSprite = currentSelection->getCurrentAnimation()->getCurrentFrame()->getSprite();
+    currentSelection->getCoordinates()->moveHorizontally(frameSprite->getWidth() / 2 - currentSprite->getWidth()/2);
+    currentSelection->getCoordinates()->moveVertically(frameSprite->getHeight() / 2 - currentSprite->getHeight() / 2);
 
     // Move player name
     playerName->setCurrentAnimation(players.at(option)->getNameAnimation());
@@ -139,19 +152,25 @@ void gameSelection::update(size_t delta)
         }
         else
             rightArrowAnimation = selectionOff;
+
+        if (buttonPressed)
+        {
+            currentAnimation = players.at(option)->getIntroAnimation();
+        }
     }
     buttonPressed = currentController->leftPressed() || currentController->rightPressed();
 
     // Update animations
     selectionFrame->update(delta);
     playerName->update(delta);
+    currentSelection->update(delta);
 }
 
 void gameSelection::cleannup()
 {
     // Unload sprites
     for (players::genericPlayer* player : players)
-        player->getIdleAnimation()->unload();
+        player->getIntroAnimation()->unload();
 
     selectionFrame->getCurrentAnimation()->unload();
     selectionArrow->getCurrentAnimation()->unload();

@@ -13,7 +13,7 @@ namespace ksf
             genericPlayer(const std::string &name, engine::managers::animationsManager* animationsManager): node(name), animationsManager(animationsManager) {}
 
             virtual entities::player* createPlayer() = 0;
-            virtual graphics::animation* getIdleAnimation() = 0;
+            virtual graphics::animation* getIntroAnimation() = 0;
             virtual graphics::animation* getNameAnimation() = 0;
 
         protected:
