@@ -25,7 +25,13 @@ namespace graphics
         sprite(const std::string &name, const std::string &path, SDL_Renderer * renderer);
         ~sprite()
         {
-            if(texture != NULL)
+            unload();
+        }
+
+        void load();
+        void unload()
+        {
+            if (texture != NULL)
                 SDL_DestroyTexture(texture);
         }
 
@@ -51,8 +57,8 @@ namespace graphics
 
     private:
         SDL_Texture* texture = NULL;
-        const std::string path;
-        const SDL_Renderer* renderer;
+        std::string path;
+        SDL_Renderer* renderer;
 
         SDL_RendererFlip currentFlip = SDL_FLIP_NONE;
 

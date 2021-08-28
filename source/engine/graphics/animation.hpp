@@ -65,6 +65,17 @@ namespace graphics
             currentFrame = i;
         }
 
+        void load()
+        {
+            for (size_t i = 0; i < frames.size(); i++)
+                frames[i].getSprite()->load();
+        }
+        void unload()
+        {
+            for (size_t i = 0; i < frames.size(); i++)
+                frames[i].getSprite()->unload();
+        }
+
         void reset()
         {
             timer = 0;

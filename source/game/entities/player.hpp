@@ -110,6 +110,8 @@ namespace ksf
         
             void update(size_t delta);
             void setWindowConstraints(int windowWidth, int windowHeight);
+            void setFloorHeight(int height);
+            void setWindowBorders(int x, int width);
             
             inline void setGravity(float gravity)
             { this->gravity = gravity; }
@@ -134,6 +136,31 @@ namespace ksf
             inline void jump()
             { verticalVelocity = jumpSpeed; }
 
+            inline void setMidAir(bool midAir)
+            { this->midAir = midAir; }
+            inline bool isMidAir() const
+            { return this->midAir; }
+
+            void load()
+            {
+                idleAnimation->load();
+                walkingAnimation->load();
+                jumpingAnimation->load();
+            }
+            void unload()
+            {
+                idleAnimation->unload();
+                walkingAnimation->unload();
+                jumpingAnimation->unload();
+            }
+
+            void setSpritesSize(int width, int height)
+            {
+                idleAnimation->setSpritesSize(width, height);
+                walkingAnimation->setSpritesSize(width, height);
+                jumpingAnimation->setSpritesSize(width, height);
+            }
+
         private:
             graphics::animation 
                 *idleAnimation = nullptr,
@@ -155,7 +182,7 @@ namespace ksf
             bool
                 shouldMove = false,
                 isMovingHorizontally = false,
-                isMidAir = false;
+                midAir = false;
 
             controller currentController;
         };

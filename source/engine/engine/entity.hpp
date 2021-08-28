@@ -26,44 +26,66 @@ namespace engine
         inline graphics::animation* getCurrentAnimation() const 
         { return currentAnimation; }
 
-        const math::collisions::hitbox* getHitbox() const
+        inline const math::collisions::hitbox* getHitbox() const
         { return &hitbox; }
 
-        void updateHitbox()
+        void updateHitbox(int width, int height)
         {
             hitbox.upperVector.a.setX(coordinates.getX());
             hitbox.upperVector.a.setY(coordinates.getY());
 
-            hitbox.upperVector.b.setX(coordinates.getX() + currentAnimation->getCurrentFrame()->getSprite()->getWidth());
+            hitbox.upperVector.b.setX(coordinates.getX() + width);
             hitbox.upperVector.b.setY(hitbox.upperVector.a.getY());
 
             hitbox.lowerVector = hitbox.upperVector;
-            hitbox.lowerVector.a.setY(coordinates.getY() + currentAnimation->getCurrentFrame()->getSprite()->getHeight());
+            hitbox.lowerVector.a.setY(coordinates.getY() + height);
             hitbox.lowerVector.b.setY(hitbox.lowerVector.a.getY());
         }
 
         void setConstraints(int minX, int maxX, int minY, int maxY)
         {
-            coordinates.setHorizontalRange(minX, maxX);
-            coordinates.setVerticalRange(minY, maxY);
+            setHorizontalContraints(minX, maxX);
+            setVerticalContraints(minY, maxY);
+        }
 
-            coordinates.moveHorizontally(0);
-            coordinates.moveVertically(0);
+        void setHorizontalContraints(int minX, int maxX)
+        {
+            coordinates.setHorizontalRange(minX, maxX);
+        }
+        void setVerticalContraints(int minY, int maxY)
+        {
+            coordinates.setVerticalRange(minY, maxY);
         }
 
         void update(int delta)
         {
-            if(!currentAnimation)
-                throw_exception_without_msg(animation_not_defined_error);
-            
-            currentAnimation->play(delta, coordinates.getX(), coordinates.getY());
-            updateHitbox();
+            if (currentAnimation)
+            {
+                currentAnimation->play(delta, coordinates.getX(), coordinates.getY());
+                updateHitbox(currentAnimation->getCurrentFrame()->getSprite()->getWidth(), currentAnimation->getCurrentFrame()->getSprite()->getHeight());
+            }
         }
 
-    private:
+        void centerToScreen(int screenWidth, int screenHeight)
+        {
+            if (!currentAnimation)
+                throw_exception_without_msg(animation_not_defined_error);
+            
+            math::coordinates* coordinates = getCoordinates();
+            const size_t sprites = getCurrentAnimation()->getFrameCount();
+
+            for (size_t i = 0; i < sprites; i++)
+            {
+                graphics::sprite* currentSprite = getCurrentAnimation()->getFrame(i)->getSprite();
+                coordinates->setX(screenWidth / 2 - currentSprite->getWidth() / 2);
+                coordinates->setX(screenHeight / 2 - currentSprite->getHeight() / 2);
+            }
+        }
+
+    protected:
         graphics::animation* currentAnimation = nullptr;
 
-    private:
+    protected:
         math::coordinates coordinates;
         math::collisions::hitbox hitbox;
     };

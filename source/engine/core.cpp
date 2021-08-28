@@ -12,8 +12,7 @@ core::core(int width, int height):
     node("Root"),
 
     width(width), 
-    height(height), 
-    currentView(currentView),
+    height(height),
 
     assetsManagerPtr(std::make_shared<managers::assetsManager>("Assets Manager")),
     viewsManagerPtr(std::make_shared<managers::viewsManager>("Views Manager")),
@@ -155,6 +154,9 @@ void core::execute()
 
         if(currentView != viewsManagerPtr->getActiveView())
         {
+            if(currentView != nullptr)
+                currentView->cleannup();
+
             collisionsManagerPtr->setAllCollisionsEnable(false);
             currentView = viewsManagerPtr->getActiveView();
 

@@ -13,13 +13,23 @@ register_logger()
 void intro::initialize()
 {
     animationManagerPtr = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
+    collisionManagerPtr = getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager");
 
     idleAnimation = animationManagerPtr->getChild<graphics::animation>("standing");
     walkingAnimation = animationManagerPtr->getChild<graphics::animation>("walking");
     jumpingAnimation = animationManagerPtr->getChild<graphics::animation>("jumping");
 
+    idleAnimation->load();
+    walkingAnimation->load();
+    jumpingAnimation->load();
+
     getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
-        backgroundPtr = new entities::background("Background", animationManagerPtr->getAnimation("background"))
+        backgroundPtr = new entities::background("Background", backgroundAnimation = animationManagerPtr->getAnimation("background"))
+    );
+    backgroundAnimation->load();
+
+    getRoot()->getChild<managers::nodesManager>("Generic Nodes Manager")->registerNode(
+        floorPtr = new entities::floor("Floor", getWindowWidth(), 1, 0, getWindowHeight()-10)
     );
 
     idleAnimation->setSpritesSize(200, 200);
@@ -76,12 +86,33 @@ void intro::initialize()
     controller.setHeavyCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::h);  });
     controller.setJumpCallback([this]() { return keyboardHandlerPtr->isKeyActive(keyboardHandler::key::f);  });
     player2Ptr->setController(controller);
+
+    collisionManagerPtr->regsiterCollisionEvent(
+        new engine::managers::collisionEvent("player1hitsfloor", playerPtr, floorPtr, [=]() { playerPtr->setMidAir(false); }, [=]() { playerPtr->setMidAir(true); })
+    );
+    collisionManagerPtr->regsiterCollisionEvent(
+        new engine::managers::collisionEvent("player2hitsfloor", player2Ptr, floorPtr, [=]() { player2Ptr->setMidAir(false); }, [=]() { player2Ptr->setMidAir(true); })
+    );
+
+    playerPtr->setVerticalContraints(0, floorPtr->getCoordinates()->getUpperLimit());
+    player2Ptr->setVerticalContraints(0, floorPtr->getCoordinates()->getUpperLimit());
 }
 
 void intro::setup()
 {
     SDL_SetRenderDrawColor(getRenderer(), 255,255,255,255);
     SDL_RenderClear(getRenderer());
+
+    collisionManagerPtr->getCollision("player1hitsfloor")->setActive(true);
+    collisionManagerPtr->getCollision("player2hitsfloor")->setActive(true);
+}
+
+void intro::cleannup()
+{
+    idleAnimation->unload();
+    walkingAnimation->unload();
+    jumpingAnimation->unload();
+    backgroundAnimation->unload();
 }
 
 void intro::update(size_t delta)
@@ -89,10 +120,12 @@ void intro::update(size_t delta)
     if (keyboardHandlerPtr->isKeyActive(engine::keyboardHandler::q))
         shouldClose(true);
 
-    playerPtr->setWindowConstraints(getWindowWidth(), getWindowHeight());
-    playerPtr->update(delta);
+    playerPtr->setFloorHeight(floorPtr->getCoordinates()->getY());
+    player2Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
+    playerPtr->setWindowBorders(0, getWindowWidth());
+    player2Ptr->setWindowBorders(0, getWindowWidth());
 
-    player2Ptr->setWindowConstraints(getWindowWidth(), getWindowHeight());
+    playerPtr->update(delta);
     player2Ptr->update(delta);
 
     backgroundPtr->update(delta);

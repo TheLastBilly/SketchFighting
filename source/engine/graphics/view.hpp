@@ -29,6 +29,7 @@ namespace graphics
         virtual void initialize() = 0;
         virtual void setup() = 0;
         virtual void update(size_t delta) = 0;
+        virtual void cleannup() = 0;
 
     public:        
         inline void setRenderer(SDL_Renderer *renderer)

@@ -3,6 +3,8 @@
 #include "views/intro.hpp"
 #include "utilities/loader.hpp"
 
+#include "entities/globalSettings.hpp"
+
 #define APP_NAME "King Sketch Figthing"
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
@@ -15,8 +17,10 @@ void setupCore(engine::core *engineCore)
 
     engineCore->setAssetsRootPath("C:\\Users\\joset\\Documents\\SketchFighting\\assets\\export");
 
-    ksf::utilities::loader::loadSprites(engineCore->getAssetsManager());
-    ksf::utilities::loader::loadAnimations(engineCore->getAnimationsManager(), engineCore->getAssetsManager());
+    engineCore->getNodesManager()->registerNode( new ksf::entities::globalSettings() );
+
+    ksf::utilities::contentLoader::loadSprites(engineCore->getAssetsManager());
+    ksf::utilities::contentLoader::loadAnimations(engineCore->getAnimationsManager(), engineCore->getAssetsManager());
 
     engineCore->getViewsManager()->registerView(new ksf::views::intro());
     engineCore->getViewsManager()->setActiveView("Intro");

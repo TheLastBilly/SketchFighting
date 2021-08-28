@@ -10,6 +10,8 @@
 #include "engine/managers/genericManager.hpp"
 #include "math/collisions.hpp"
 
+#define collisionEventCallback [=](engine::entity *entityA, engine::entity *entityB)
+
 namespace engine
 {
     namespace managers
@@ -17,16 +19,29 @@ namespace engine
         class collisionEvent : public node
         {
         public:
-            collisionEvent(const std::string& name, entity* entityA, entity* entityB, const std::function<void(entity*, entity*)>& callback) :
-                node(name), entityA(entityA), entityB(entityB), callback(callback) {}
+            typedef std::function<void(engine::entity* entityA, engine::entity* entityB)> callback;
+
+        public:
+            collisionEvent(const std::string& name, entity* entityA, entity* entityB, const callback& onCollisionCallback, const callback& outOfCollisionCallback = nullptr) :
+                node(name), entityA(entityA), entityB(entityB), onCollisionCallback(onCollisionCallback), outOfCollisionCallback(outOfCollisionCallback) {}
 
             inline bool collisionHappened() const
             {
                 return active && math::collisions::hitboxesCollide(*entityA->getHitbox(), *entityB->getHitbox());
             }
-            inline void runCallback()
+            inline void runCallbacks()
             {
-                callback(entityA, entityB);
+                if (getActive())
+                {
+                    if (collisionHappened() && onCollisionCallback)
+                    {
+                        onCollisionCallback(entityA, entityB);
+                        return;
+                    }
+                    
+                    if (outOfCollisionCallback)
+                        outOfCollisionCallback(entityA, entityB);
+                }
             }
 
             inline bool getActive() const
@@ -42,7 +57,7 @@ namespace engine
             bool active = false;
 
             entity* entityA, * entityB;
-            std::function<void(entity*, entity*)> callback;
+            callback onCollisionCallback, outOfCollisionCallback;
         };
 
         class collisionsManager : public genericManager<collisionEvent>
@@ -69,10 +84,7 @@ namespace engine
             void runCollisions()
             {
                 for (const auto& event : elements)
-                {
-                    if (event->collisionHappened())
-                        event->runCallback();
-                }
+                    event->runCallbacks();
             }
         };
     }

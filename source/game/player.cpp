@@ -8,6 +8,16 @@ void ksf::entities::player::setWindowConstraints(int windowWidth, int windowHeig
     0);
 }
 
+void ksf::entities::player::setFloorHeight(int height)
+{
+    setVerticalContraints(height - getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight(), 0);
+}
+
+void ksf::entities::player::setWindowBorders(int x, int width)
+{
+    setHorizontalContraints(x, width - getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth());
+}
+
 void ksf::entities::player::update(size_t delta)
 {
     isMovingHorizontally = false;
@@ -30,11 +40,11 @@ void ksf::entities::player::update(size_t delta)
 
         isMovingHorizontally = true;
     }
-    if (currentController.jumpPressed() && getCoordinates()->getY() == getCoordinates()->getUpperLimit())
+    if (currentController.jumpPressed() && !isMidAir())
     { jump(); }
     
     // Apply gravity
-    if (isMidAir =  (getCoordinates()->getY() < getCoordinates()->getUpperLimit()))
+    if (isMidAir())
     { verticalVelocity -= gravity; }
     verticalSpeedBuffer += verticalVelocity;
 
@@ -51,7 +61,7 @@ void ksf::entities::player::update(size_t delta)
 
     // Set animations
     graphics::sprite::flip flip = getCurrentAnimation()->getSpritesFlip();
-    if (isMidAir)
+    if (isMidAir())
     {
         if (verticalVelocity > .0)
             jumpingAnimation->setCurrentFrame(0);
