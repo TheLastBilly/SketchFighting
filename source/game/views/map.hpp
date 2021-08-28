@@ -24,6 +24,11 @@ namespace ksf
                 {
                     setCurrentAnimation(animation);
                 }
+
+                inline void load()
+                { getCurrentAnimation()->load(); }
+                inline void unload()
+                { getCurrentAnimation()->unload(); }
             };
 
             class floor : public engine::entity
@@ -35,11 +40,6 @@ namespace ksf
                     coordinates.setY(y);
 
                     updateHitbox(width, height);
-                }
-
-                inline const math::collisions::hitbox* getHitbox() const
-                {
-                    return entity::getHitbox();
                 }
             };
 

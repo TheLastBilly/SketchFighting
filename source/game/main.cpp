@@ -6,6 +6,7 @@
 
 #include "views/mainMenu.hpp"
 #include "views/instructions.hpp"
+#include "views/gameSelection.hpp"
 
 #define APP_NAME "King Sketch Figthing"
 
@@ -26,8 +27,9 @@ void setupCore(engine::core *engineCore)
 
     engineCore->getViewsManager()->registerView(new ksf::views::mainMenu());
     engineCore->getViewsManager()->registerView(new ksf::views::instructions());
+    engineCore->getViewsManager()->registerView(new ksf::views::gameSelection());
 
-    engineCore->getViewsManager()->setActiveView("Main Menu");
+    engineCore->getViewsManager()->setActiveView("Game Selection");
     
     engineCore->setAppName(APP_NAME);
 }

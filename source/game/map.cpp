@@ -25,11 +25,16 @@ void map::setup()
 
     // Get pointers from global settings
     nodesManager->registerNode(
-        new background("Background", globalSettings->background)
+        backgroundPtr = new background("Background", globalSettings->background)
     );
 
     player1Ptr = globalSettings->player1;
     player2Ptr = globalSettings->player2;
+
+    // Load animations and assets
+    player1Ptr->load();
+    player2Ptr->load();
+    backgroundPtr->load();
 
     // Initialize floor
     nodesManager->registerNode(
@@ -82,7 +87,7 @@ void map::update(size_t delta)
 void map::cleannup()
 {
     // Unload sprites
-    backgroundPtr->getCurrentAnimation()->unload();
+    backgroundPtr->unload();
     player1Ptr->unload();
     player2Ptr->unload();
 

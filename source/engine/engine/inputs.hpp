@@ -16,6 +16,8 @@ namespace engine
             num0,num1,num2,num3,num4,num5,num6,num7,num9,
             enter, space, scape,
 
+            dot, comma,
+
             none
         };
 
@@ -34,7 +36,10 @@ namespace engine
         inline bool isKeyActive(key id) const
         { return inputState[id]; }
 
+        inline void clearKeys()
+        { for (size_t i = 0; i < sizeof(inputState) / sizeof(bool); i++) inputState[i] = false; }
+
     private:
-        bool inputState[static_cast<unsigned int>(key::none)] = {false};
+        bool inputState[static_cast<unsigned int>(key::none) + 1] = {false};
     };
 }

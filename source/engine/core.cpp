@@ -166,6 +166,7 @@ void core::execute()
             currentView->clearRender();
             SDL_RenderPresent(renderer);
 
+            keyboardHandlerPtr->clearKeys();
             currentView->setup();
             afterFrame = beforeFrame;
         }

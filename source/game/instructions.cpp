@@ -40,7 +40,7 @@ void instructions::update(size_t delta)
         alpha = (alpha -= fadeStep) >= 0 ? alpha : 0;
         currentSprite->setAlpha(alpha);
         if (alpha == 0)
-            viewsManager->setActiveView("Main Menu");
+            viewsManager->setActiveView("Game Selection");
     }
 
     instructionsPtr->play(delta,

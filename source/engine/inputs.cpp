@@ -59,6 +59,9 @@ void keyboardHandler::updateInputs(const SDL_Event &event)
         keyCase(key::space, SDLK_SPACE);
         keyCase(key::enter, SDLK_RETURN);
         keyCase(key::scape, SDLK_ESCAPE);
+
+        keyCase(key::dot, SDLK_PERIOD);
+        keyCase(key::comma, SDLK_COMMA);
     
     default:
         index = key::none;

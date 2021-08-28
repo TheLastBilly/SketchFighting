@@ -6,19 +6,19 @@ namespace ksf
 {
 	namespace players
 	{
-		class hammerGuy: public genericPlayer
+		class miso: public genericPlayer
 		{
 		public:
-			hammerGuy(engine::managers::animationsManager* animationsManager) : genericPlayer("Hammer Guy", animationsManager) {}
+			miso(engine::managers::animationsManager* animationsManager) : genericPlayer("Miso", animationsManager) {}
 
 			entities::player* createPlayer() override
 			{
 				entities::player *player = new entities::player(
 					getName(),
 
-					animationsManager->getAnimation("Hammer Guy Idle"),
-					animationsManager->getAnimation("Hammer Guy Walking"),
-					animationsManager->getAnimation("Hammer Guy Jumping")
+					animationsManager->getAnimation("Miso Idle"),
+					animationsManager->getAnimation("Miso Walking"),
+					animationsManager->getAnimation("Miso Jumping")
 				);
 
 				player->setGravity(.02);
@@ -32,11 +32,11 @@ namespace ksf
 
 			graphics::animation* getIdleAnimation() override
 			{
-				return animationsManager->getAnimation("Hammer Guy Idle");
+				return animationsManager->getAnimation("Miso Idle");
 			}
 			graphics::animation* getNameAnimation()
 			{
-				return animationsManager->getAnimation("Hammer Guy Name");
+				return animationsManager->getAnimation("Miso Name");
 			}
 		};
 	}
