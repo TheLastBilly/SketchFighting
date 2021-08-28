@@ -5,6 +5,7 @@
 #include "entities/globalSettings.hpp"
 
 #include "views/mainMenu.hpp"
+#include "views/instructions.hpp"
 
 #define APP_NAME "King Sketch Figthing"
 
@@ -24,6 +25,8 @@ void setupCore(engine::core *engineCore)
     ksf::utilities::contentLoader::loadAnimations(engineCore->getAnimationsManager(), engineCore->getAssetsManager());
 
     engineCore->getViewsManager()->registerView(new ksf::views::mainMenu());
+    engineCore->getViewsManager()->registerView(new ksf::views::instructions());
+
     engineCore->getViewsManager()->setActiveView("Main Menu");
     
     engineCore->setAppName(APP_NAME);

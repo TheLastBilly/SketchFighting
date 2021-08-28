@@ -14,10 +14,10 @@ namespace ksf
 {
 	namespace views
 	{
-		class mainMenu: public graphics::view
+		class instructions : public graphics::view
 		{
 		public:
-			mainMenu() : view("Main Menu") {}
+			instructions() : view("Instructions") {}
 
 			void setup() override;
 			void update(size_t delta) override;
@@ -29,25 +29,13 @@ namespace ksf
 		private:
 			engine::managers::animationsManager* animationsManager = nullptr;
 			engine::managers::viewsManager* viewsManager = nullptr;
-			engine::managers::nodesManager* nodesManager = nullptr;
-			engine::keyboardHandler* keyboardHandler = nullptr;
 
-			engine::entity
-				* title = nullptr,
-				* quit = nullptr,
-				* play = nullptr,
-				* arrow = nullptr;
-			
-			graphics::animation
-				* arrowOn = nullptr,
-				* arrowOff = nullptr;
-			
-			int option = 0;
-			bool optionSelected = false;
-
-			int selectDelay = 500;
+			graphics::animation *instructionsPtr = nullptr;
 
 			size_t counter = 0;
+			int alpha = 0;
+
+			const size_t showDelay = 5000, fadeDelay = 4000, fadeStep = fadeDelay /255;
 		};
 	}
 }

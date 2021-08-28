@@ -74,16 +74,10 @@ namespace engine
         {
             if (!currentAnimation)
                 throw_exception_without_msg(animation_not_defined_error);
-            
-            math::coordinates* coordinates = getCoordinates();
-            const size_t sprites = getCurrentAnimation()->getFrameCount();
 
-            for (size_t i = 0; i < sprites; i++)
-            {
-                graphics::sprite* currentSprite = getCurrentAnimation()->getFrame(i)->getSprite();
-                coordinates->setX(screenWidth / 2 - currentSprite->getWidth() / 2);
-                coordinates->setY(screenHeight / 2 - currentSprite->getHeight() / 2);
-            }
+            graphics::sprite* currentSprite = getCurrentAnimation()->getCurrentFrame()->getSprite();
+            coordinates.setX(screenWidth / 2 - currentSprite->getWidth() / 2);
+            coordinates.setY(screenHeight / 2 - currentSprite->getHeight() / 2);
         }
 
     protected:

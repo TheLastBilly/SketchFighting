@@ -87,9 +87,14 @@ namespace graphics
             currentBackgroundColor.g = g;
             currentBackgroundColor.b = b;
             currentBackgroundColor.a = a;
+
+            SDL_SetRenderDrawColor(getRenderer(), r,g,b,a);
         }
         inline backgroundColor getBackgroundColor() const
         { return currentBackgroundColor; }
+
+        inline void clearRender() const
+        { SDL_RenderClear(renderer); }
 
     private:
         std::function<void(const std::string &name)> changeActiveViewCallback;

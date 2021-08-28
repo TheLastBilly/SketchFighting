@@ -154,15 +154,16 @@ void core::execute()
 
         if(currentView != viewsManagerPtr->getActiveView())
         {
-            if(currentView != nullptr)
+            if (currentView != nullptr)
+            {
                 currentView->cleannup();
+                currentView->clearRender();
+            }
 
             collisionsManagerPtr->setAllCollisionsEnable(false);
             currentView = viewsManagerPtr->getActiveView();
 
-            view::backgroundColor bg = currentView->getBackgroundColor();
-            SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
-            SDL_RenderClear(renderer);
+            currentView->clearRender();
             SDL_RenderPresent(renderer);
 
             currentView->setup();

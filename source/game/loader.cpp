@@ -27,6 +27,10 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Main Menu Title 01", "mainMenu/title01.png"},
         {"Main Menu Title 02", "mainMenu/title02.png"},
 
+        // Instructions
+        {"Instructions 01", "instructions/instructions01.png"},
+        {"Instructions 02", "instructions/instructions02.png"},
+
         // Beach background
         {"Beach Background 01", "beach/1.png"},
         {"Beach Background 02", "beach/2.png"},
@@ -68,5 +72,10 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         {"Beach Background 03", 500},
         {"Beach Background 04", 500},
         {"Beach Background 05", 500}
+    });
+    
+    animationsManagerPtr->requestAnimation("Instructions", {
+        { "Instructions 01", 500 },
+        { "Instructions 02", 500 },
     });
 }

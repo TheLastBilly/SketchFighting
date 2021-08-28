@@ -30,7 +30,6 @@ void mainMenu::initialize()
     title->setCurrentAnimation(animationsManager->getAnimation("Main Menu Title"));
     quit->setCurrentAnimation(animationsManager->getAnimation("Main Menu Quit"));
     play->setCurrentAnimation(animationsManager->getAnimation("Main Menu Play"));
-    arrow->setCurrentAnimation(arrowOff);
 }
 
 void mainMenu::setup()
@@ -42,6 +41,8 @@ void mainMenu::setup()
 
     arrowOn->load();
     arrowOff->load();
+
+    arrow->setCurrentAnimation(arrowOff);
 
     title->getCurrentAnimation()->setSpritesSize(500, 500);
     /*quit->getCurrentAnimation()->setSpritesSize(300, 300);
@@ -66,16 +67,15 @@ void mainMenu::setup()
     arrow->setCoordinates(play->getCoordinates());
 
     option = 1;
+    counter = 0;
+    optionSelected = false;
 
     // Cleare render and set background color
-    SDL_SetRenderDrawColor(getRenderer(), 255, 255, 255, 255);
-    SDL_RenderClear(getRenderer());
+    setBackgroundColor(255,255,255,255);
 }
 
 void mainMenu::update(size_t delta)
 {
-    static size_t counter = 0;
-
     if (!optionSelected)
     {
         if (keyboardHandler->isKeyActive(engine::keyboardHandler::key::up))
@@ -120,7 +120,7 @@ void mainMenu::update(size_t delta)
         switch (option)
         {
         case 1:
-            shouldClose(true);
+            viewsManager->setActiveView("Instructions");
             break;
         case 2:
             shouldClose(true);

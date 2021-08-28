@@ -35,6 +35,11 @@ namespace graphics
                 SDL_DestroyTexture(texture);
         }
 
+        inline void setAlpha(uint8_t alpha)
+        { SDL_SetTextureAlphaMod(texture, alpha); }
+        inline uint8_t getAlpha() const
+        { uint8_t a = 0;  SDL_GetTextureAlphaMod(texture, &a); return a; }
+
         void render(int x, int y) const;
 
         inline int getWidth() const
