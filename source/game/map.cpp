@@ -41,9 +41,6 @@ void map::setup()
         floorPtr = new map::floor("Floor", getWindowWidth(), 1, 0, getWindowHeight() - globalSettings->floorHeight)
     );
 
-    // Setup background
-    backgroundPtr->getCurrentAnimation()->setSpritesSize(getWindowWidth(), getWindowHeight());
-    backgroundPtr->centerToScreen(getWindowWidth(), getWindowHeight());
 
     // Regsiter floor collisions
     collisionsManager->regsiterCollisionEvent(
@@ -52,18 +49,6 @@ void map::setup()
     collisionsManager->regsiterCollisionEvent(
         new engine::managers::collisionEvent("Player 2 Hits Floor", player2Ptr, floorPtr, collisionEventCallback { player2Ptr->setMidAir(false); }, collisionEventCallback { player2Ptr->setMidAir(true); })
     );
-
-    // Set player boundaries
-    player1Ptr->setWindowBorders(0, getWindowWidth());
-    player2Ptr->setWindowBorders(0, getWindowWidth());
-    player1Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
-    player2Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
-
-    // Move players to their respective positions
-    player1Ptr->getCoordinates()->moveHorizontally(0);
-    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
-    player2Ptr->getCoordinates()->moveHorizontally(getWindowWidth());
-    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
 
     // Make sure players are facing eachother
     player1Ptr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
@@ -78,6 +63,22 @@ void map::setup()
 
 void map::update(size_t delta)
 {
+    // Setup background
+    backgroundPtr->getCurrentAnimation()->setSpritesSize(getWindowWidth(), getWindowHeight());
+    backgroundPtr->centerToScreen(getWindowWidth(), getWindowHeight());
+
+    // Set player boundaries
+    player1Ptr->setWindowBorders(0, getWindowWidth());
+    player2Ptr->setWindowBorders(0, getWindowWidth());
+    player1Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
+    player2Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
+
+    // Move players to their respective positions
+    player1Ptr->getCoordinates()->moveHorizontally(0);
+    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
+    player2Ptr->getCoordinates()->moveHorizontally(getWindowWidth());
+    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
+
     player1Ptr->update(delta);
     player2Ptr->update(delta);
 

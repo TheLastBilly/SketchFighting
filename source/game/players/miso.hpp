@@ -11,10 +11,10 @@ namespace ksf
 		public:
 			miso(engine::managers::animationsManager* animationsManager) : genericPlayer("Miso", animationsManager) {}
 
-			entities::player* createPlayer() override
+			entities::player* createPlayer(const std::string& name) override
 			{
 				entities::player *player = new entities::player(
-					getName(),
+					name,
 
 					animationsManager->getAnimation("Miso Idle"),
 					animationsManager->getAnimation("Miso Walking"),

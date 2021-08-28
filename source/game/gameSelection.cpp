@@ -13,15 +13,17 @@ void gameSelection::initialize()
     keyboardHandler = getRoot()->getChild<engine::keyboardHandler>("Keyboard Handler");
     globalSettings = nodesManager->getChild<entities::globalSettings>("Global Settings");
 
-    players::genericPlayer* player = nullptr;
-
     // Get players (loaders)
+    players::genericPlayer* player = nullptr;
     nodesManager->registerNode(player = new players::hammerGuy(animationsManager));
     players.push_back(player);
     nodesManager->registerNode(player = new players::miso(animationsManager));
     players.push_back(player);
 
-    // Register entities
+    // Register backgrounds
+    maps::genericBackground* background = nullptr;
+    nodesManager->registerNode(background = new maps::beach(animationsManager));
+    maps.push_back(background);
 
     // Frame
     nodesManager->registerNode(selectionFrame = new entity("Selection Frame"));
@@ -67,11 +69,22 @@ void gameSelection::initialize()
 
 void gameSelection::setup()
 {
+    // Reset players
+    if (globalSettings->player1 != nullptr && nodesManager->hasChild(globalSettings->player1->getName()))
+        nodesManager->removeChild(globalSettings->player1->getName());
+    if (globalSettings->player2 != nullptr && nodesManager->hasChild(globalSettings->player2->getName()))
+        nodesManager->removeChild(globalSettings->player2->getName());
+
     // Load animations
     for (players::genericPlayer* player : players)
     {
         player->getIntroAnimation()->load();
         player->getNameAnimation()->load();
+    }
+    for (maps::genericBackground* map : maps)
+    {
+        map->getIntroAnimation()->load();
+        map->getNameAnimation()->load();
     }
 
     selectionFrame->getCurrentAnimation()->load();
@@ -83,8 +96,13 @@ void gameSelection::setup()
 
     option = 0;
     counter = 0;
+    playerCount = 1;
     options = players.size();
-    optionSelected = false;
+    playersSelected = false;
+
+    globalSettings->background = nullptr;
+    globalSettings->player1 = nullptr;
+    globalSettings->player2 = nullptr;
 
     // Cleare render and set background color
     setBackgroundColor(255, 255, 255, 255);
@@ -92,6 +110,12 @@ void gameSelection::setup()
 
 void gameSelection::update(size_t delta)
 {
+    if (!playersSelected && players.at(option)->getSelected())
+    {
+        incrementOption();
+        currentAnimation = players.at(option)->getIntroAnimation();
+    }
+
     int playerNameWidthHalf = playerName->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth()/2;
 
     // Setup animations
@@ -137,7 +161,7 @@ void gameSelection::update(size_t delta)
     {
         if (currentController->leftPressed())
         {
-            option = option < 1 ? options - 1 : option-1;
+            decrementOption();
             leftArrowAnimation = selectionOn;
             buttonPressed = true;
         }
@@ -146,19 +170,51 @@ void gameSelection::update(size_t delta)
 
         if(currentController->rightPressed())
         {
-            option = option >= options -1 ? 0 : option+1;
+            incrementOption();
             buttonPressed = true;
             rightArrowAnimation = selectionOn;
         }
         else
             rightArrowAnimation = selectionOff;
+        
+        if (currentController->lightPressed())
+        {
+            entities::player** player = nullptr;
+            if (*(player = &globalSettings->player1) == nullptr || *(player = &globalSettings->player2) == nullptr)
+            {
+                nodesManager->registerNode(*player = players.at(option)->createPlayer("Player " + std::to_string(playerCount++)));
+                players.at(option)->setSelected(true);
+                buttonPressed = true;
+
+                if (globalSettings->player2 != nullptr)
+                {
+                    option = 0;
+                    options = maps.size();
+                    playersSelected = true;
+                    currentAnimation = maps.at(option)->getIntroAnimation();
+                }
+            }
+            else
+            {
+                globalSettings->background = maps.at(option)->getBackground();
+                globalSettings->floorHeight = maps.at(option)->getFloorHeight();
+                viewsManager->setActiveView("Map");
+            }
+
+            rightArrowAnimation = selectionOn;
+            leftArrowAnimation = selectionOn;
+        }
 
         if (buttonPressed)
         {
-            currentAnimation = players.at(option)->getIntroAnimation();
+            if (!playersSelected)
+                currentAnimation = players.at(option)->getIntroAnimation();
+            else
+                currentAnimation = maps.at(option)->getIntroAnimation();
         }
     }
-    buttonPressed = currentController->leftPressed() || currentController->rightPressed();
+    else
+        buttonPressed = currentController->leftPressed() || currentController->rightPressed() || currentController->lightPressed();
 
     // Update animations
     selectionFrame->update(delta);

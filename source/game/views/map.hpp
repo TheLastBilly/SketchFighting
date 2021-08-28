@@ -44,7 +44,7 @@ namespace ksf
             };
 
         public:
-            map(const std::string &map) : view("Intro") {}
+            map() : view("Map") {}
 
             void setup() override;
             void update(size_t delta) override;

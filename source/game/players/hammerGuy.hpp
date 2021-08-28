@@ -11,16 +11,16 @@ namespace ksf
 		public:
 			hammerGuy(engine::managers::animationsManager* animationsManager) : genericPlayer("Hammer Guy", animationsManager) {}
 
-			entities::player* createPlayer() override
+			entities::player* createPlayer(const std::string &name) override
 			{
 				entities::player *player = new entities::player(
-					getName(),
+					name,
 
 					animationsManager->getAnimation("Hammer Guy Idle"),
 					animationsManager->getAnimation("Hammer Guy Walking"),
 					animationsManager->getAnimation("Hammer Guy Jumping")
 				);
-
+			
 				player->setGravity(.02);
 				player->setHorizontalSpeed(.3);
 				player->setJumpSpeed(10.);

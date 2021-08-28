@@ -13,6 +13,8 @@
 #include "players/hammerGuy.hpp"
 #include "players/miso.hpp"
 
+#include "maps/beach.hpp"
+
 namespace ksf
 {
 	namespace views
@@ -25,6 +27,11 @@ namespace ksf
 			void setup() override;
 			void update(size_t delta) override;
 			void cleannup() override;
+			
+			inline void decrementOption()
+			{ option = option < 1 ? options - 1 : option - 1; }
+			inline void incrementOption()
+			{ option = option >= options -1 ? 0 : option+1; }
 
 		protected:
 			void initialize() override;
@@ -36,9 +43,9 @@ namespace ksf
 			engine::keyboardHandler* keyboardHandler = nullptr;
 
 			entities::player::controller player1Controller, player2Controller;
-            entities::player::controller* currentController;
+            entities::player::controller* currentController = nullptr;
 
-            entities::globalSettings* globalSettings;
+            entities::globalSettings* globalSettings = nullptr;
 
 			engine::entity
 				* selectionFrame = nullptr, 
@@ -55,15 +62,16 @@ namespace ksf
                 
                 *currentAnimation = nullptr;
 
-			int option = 0, options = 0;
-			bool optionSelected = false, buttonPressed = false;
+			int option = 0, options = 0, playerCount = 0;
+			bool playersSelected = false, buttonPressed = false;
 
 			int selectDelay = 500;
 
 			size_t counter = 0;
 
         private:
-            std::vector<players::genericPlayer*> players; 
+			std::vector<players::genericPlayer*> players;
+			std::vector<maps::genericBackground*> maps;
 		};
 	}
 }

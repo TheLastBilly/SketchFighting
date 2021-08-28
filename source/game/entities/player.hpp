@@ -106,6 +106,9 @@ namespace ksf
             {
                 setCurrentAnimation(idleAnimation);
                 jumpingAnimation->setRepeat(false);
+
+                width = idleAnimation->getCurrentFrame()->getSprite()->getWidth();
+                height = idleAnimation->getCurrentFrame()->getSprite()->getHeight();
             }
         
             void update(size_t delta);
@@ -146,6 +149,8 @@ namespace ksf
                 idleAnimation->load();
                 walkingAnimation->load();
                 jumpingAnimation->load();
+
+                setSpritesSize(this->width, this->height);
             }
             void unload()
             {
@@ -156,6 +161,9 @@ namespace ksf
 
             void setSpritesSize(int width, int height)
             {
+                this->height = height;
+                this->width = width;
+
                 idleAnimation->setSpritesSize(width, height);
                 walkingAnimation->setSpritesSize(width, height);
                 jumpingAnimation->setSpritesSize(width, height);
@@ -168,6 +176,8 @@ namespace ksf
                 *jumpingAnimation = nullptr;
             
             size_t updateTimeCounter = 0;
+
+            int height = 0, width = 0;
 
             float
                 verticalVelocity = .0,
