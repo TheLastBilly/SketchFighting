@@ -79,16 +79,6 @@ void gameSelection::setup()
     selectionOn->load();
     selectionOff->load();
 
-    // Setup animations
-    selectionFrame->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    selectionArrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    playerName->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    currentSelection->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-
-    selectionFrame->getCurrentAnimation()->setSpritesSize(600,600);
-    selectionFrame->centerToScreen(getWindowWidth(), getWindowHeight());
-    selectionFrame->getCoordinates()->moveVertically(-100);
-
     currentAnimation = players.at(0)->getIntroAnimation();
 
     option = 0;
@@ -103,6 +93,16 @@ void gameSelection::setup()
 void gameSelection::update(size_t delta)
 {
     int playerNameWidthHalf = playerName->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth()/2;
+
+    // Setup animations
+    selectionFrame->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+    selectionArrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+    playerName->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+    currentSelection->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+
+    selectionFrame->getCurrentAnimation()->setSpritesSize(600, 600);
+    selectionFrame->centerToScreen(getWindowWidth(), getWindowHeight());
+    selectionFrame->getCoordinates()->moveVertically(-100);
 
     // Setup current selection
     currentSelection->setCurrentAnimation(currentAnimation);

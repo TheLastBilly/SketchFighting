@@ -53,6 +53,7 @@ void core::initialize()
     );
     if(!window)
         throw_exception_with_msg(sdl_window_creation_error, SDL_GetError());
+    SDL_SetWindowResizable(window, SDL_TRUE);
     
     renderer = SDL_CreateRenderer(
         window, -1, SDL_DEFAULT_RENDERER_FLAGS

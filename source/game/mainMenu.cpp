@@ -49,26 +49,10 @@ void mainMenu::setup()
     play->getCurrentAnimation()->setSpritesSize(300, 300);
     arrow->getCurrentAnimation()->setSpritesSize(300, 300);*/
 
-    // Setup animations
-    arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    quit->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    play->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-
-    // Place all the elements accordingly
-    title->centerToScreen(getWindowWidth(), getWindowHeight());
-    title->getCoordinates()->moveVertically(100);
-
-    play->centerToScreen(getWindowWidth(), getWindowHeight());
-    play->getCoordinates()->moveVertically(100);
-    quit->setCoordinates(play->getCoordinates());
-    quit->getCoordinates()->moveVertically(150);
-
-    arrow->setCoordinates(play->getCoordinates());
-
     option = 1;
     counter = 0;
     optionSelected = false;
+    initialScaling = true;
 
     // Cleare render and set background color
     setBackgroundColor(255,255,255,255);
@@ -76,6 +60,28 @@ void mainMenu::setup()
 
 void mainMenu::update(size_t delta)
 {
+    if(initialScaling || windowSizeHasChanged())
+    {
+        // Setup animations
+        arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+        quit->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+        play->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+        arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+
+        // Place all the elements accordingly
+        title->centerToScreen(getWindowWidth(), getWindowHeight());
+        title->getCoordinates()->moveVertically(100);
+
+        play->centerToScreen(getWindowWidth(), getWindowHeight());
+        play->getCoordinates()->moveVertically(100);
+        quit->setCoordinates(play->getCoordinates());
+        quit->getCoordinates()->moveVertically(150);
+
+        arrow->setCoordinates(play->getCoordinates());
+
+        initialScaling = false;
+    }
+
     if (!optionSelected)
     {
         if (keyboardHandler->isKeyActive(engine::keyboardHandler::key::up))

@@ -48,10 +48,24 @@ namespace graphics
         inline SDL_Window* getWindow() const
         { return window; }
 
-        inline int getWindowHeight() const
-        { return height; } 
-        inline int getWindowWidth() const
-        { return width; } 
+        bool windowSizeHasChanged()
+        {
+            int newHeight = 0, newWidth = 0;
+            SDL_GetWindowSize(window, &newHeight, &newWidth);
+
+            return newHeight != height || newWidth != width;
+        }
+
+        inline int getWindowHeight()
+        {
+            SDL_GetWindowSize(window, NULL, &height);
+            return height;
+        } 
+        inline int getWindowWidth()
+        {
+            SDL_GetWindowSize(window, &width, NULL);
+            return width;
+        }
 
         inline void setChangeActiveViewCallback(const std::function<void(const std::string &name)> &callback)
         { changeActiveViewCallback = callback; }
@@ -73,7 +87,7 @@ namespace graphics
             shouldCloseCallback(shouldClose);
         }
 
-        void moveEntityToCenter(engine::entity* entityPtr) const
+        void moveEntityToCenter(engine::entity* entityPtr)
         { 
             sprite* spritePtr = entityPtr->getCurrentAnimation()->getCurrentFrame()->getSprite();
             

@@ -43,7 +43,7 @@ namespace ksf
 				* arrowOff = nullptr;
 			
 			int option = 0;
-			bool optionSelected = false;
+			bool optionSelected = false, initialScaling = true;
 
 			int selectDelay = 500;
 
