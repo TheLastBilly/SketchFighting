@@ -28,10 +28,11 @@ void setupCore(engine::core *engineCore)
 
     engineCore->getViewsManager()->registerView(new ksf::views::mainMenu());
     engineCore->getViewsManager()->registerView(new ksf::views::fadingView("Instructions", "Instructions", 600, 600, 5000, "Game Selection"));
+    engineCore->getViewsManager()->registerView(new ksf::views::fadingView("Credits", "Credits", 600, 600, 5000, "Main Menu"));
     engineCore->getViewsManager()->registerView(new ksf::views::gameSelection());
     engineCore->getViewsManager()->registerView(new ksf::views::map());
 
-    engineCore->getViewsManager()->setActiveView("Game Selection");
+    engineCore->getViewsManager()->setActiveView("Credits");
     
     engineCore->setAppName(APP_NAME);
 }

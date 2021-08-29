@@ -103,7 +103,11 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Beach Background 02", "beach/2.png"},
         {"Beach Background 03", "beach/3.png"},
         {"Beach Background 04", "beach/4.png"},
-        {"Beach Background 05", "beach/5.png"}
+        {"Beach Background 05", "beach/5.png"},
+
+        // Credits
+        {"Credits 01", "Credits/1.png"},
+        {"Credits 02", "Credits/2.png"},
     };
 
     for(const auto &sprite: sprites)
@@ -249,6 +253,12 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "UI P2 Wins 02", 500 },
     });
 
+
+    // Credits
+    animationsManagerPtr->requestAnimation("Credits", {
+        { "Credits 01", 500 },
+        { "Credits 02", 500 },
+    });
 
     // Selection Screen
     animationsManagerPtr->requestAnimation("Selection Arrow On", {

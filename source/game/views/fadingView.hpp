@@ -18,7 +18,7 @@ namespace ksf
 		{
 		public:
 			fadingView(const std::string &name, const std::string &animationName, size_t width, size_t height, size_t duration, const std::string &nextSceneName):
-				view("Instructions"),
+				view(name),
 				animationName(animationName),
 				width(width),
 				height(height),
