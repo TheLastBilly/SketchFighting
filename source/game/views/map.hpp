@@ -6,6 +6,7 @@
 #include "engine/inputs.hpp"
 
 #include "engine/managers/collisionsManager.hpp"
+#include "engine/managers/viewsManager.hpp"
 
 #include "entities/player.hpp"
 #include "entities/globalSettings.hpp"
@@ -58,6 +59,10 @@ namespace ksf
         protected:
             int floorHeight = 0;
 
+            size_t victoryTimeCounter = 0;
+
+            const size_t victoryAnimationDelay = 5000;
+
             bool initialScaling = true;
 
             entities::player
@@ -69,7 +74,12 @@ namespace ksf
                 * pencilBad = nullptr,
                 * p1 = nullptr,
                 * p2 = nullptr,
-                * circle = nullptr;
+                * circle = nullptr,
+                * wins = nullptr;
+
+            graphics::animation
+                * p1Wins = nullptr,
+                * p2Wins = nullptr;
 
             int windowWidth = 0, windowHeight = 0;
 
@@ -80,6 +90,7 @@ namespace ksf
             engine::managers::collisionsManager* collisionsManager = nullptr;
             engine::managers::nodesManager* nodesManager = nullptr;
             engine::managers::animationsManager* animationsManager = nullptr;
+            engine::managers::viewsManager* viewsManager = nullptr;
 
             engine::keyboardHandler* keyboardHandlerPtr = nullptr;
 

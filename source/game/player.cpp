@@ -105,7 +105,7 @@ void ksf::entities::player::update(size_t delta)
 
     // Get inputs
     setDirection(none);
-    if (canMove || isMidAir())
+    if (!paused && (canMove || isMidAir()))
     {
         if (currentController.leftPressed())
         {
@@ -155,34 +155,37 @@ void ksf::entities::player::update(size_t delta)
     }
 
 
-    // Set animations
-    graphics::sprite::flip flip = getCurrentAnimation()->getSpritesFlip();
-    if (isAttacking)
-        setCurrentAnimation(attackAnimation);
-    else if (hasBeenHit)
-        setCurrentAnimation(hitAnimation);
-    else if (isBlocking)
-        setCurrentAnimation(blockAnimation);
-    else
+    // Set animations (don't change the animation if you are paused)
+    if (!paused)
     {
-        if (isMidAir())
-        {
-            if (verticalVelocity > .0)
-                jumpingAnimation->setCurrentFrame(0);
-            else if (verticalVelocity < .0)
-                jumpingAnimation->setCurrentFrame(1);
-
-            setCurrentAnimation(jumpingAnimation);
-        }
+        graphics::sprite::flip flip = getCurrentAnimation()->getSpritesFlip();
+        if (isAttacking)
+            setCurrentAnimation(attackAnimation);
+        else if (hasBeenHit)
+            setCurrentAnimation(hitAnimation);
+        else if (isBlocking)
+            setCurrentAnimation(blockAnimation);
         else
         {
-            if (isMovingHorizontally)
-                setCurrentAnimation(walkingAnimation);
+            if (isMidAir())
+            {
+                if (verticalVelocity > .0)
+                    jumpingAnimation->setCurrentFrame(0);
+                else if (verticalVelocity < .0)
+                    jumpingAnimation->setCurrentFrame(1);
+
+                setCurrentAnimation(jumpingAnimation);
+            }
             else
-                setCurrentAnimation(idleAnimation);
+            {
+                if (isMovingHorizontally)
+                    setCurrentAnimation(walkingAnimation);
+                else
+                    setCurrentAnimation(idleAnimation);
+            }
         }
+        getCurrentAnimation()->flipSprites(flip);
     }
-    getCurrentAnimation()->flipSprites(flip);
 
     // Play current animation and update hitboxes
     entity::update(delta);

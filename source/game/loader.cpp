@@ -49,6 +49,24 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Hammer Guy Hit 01", "HammerGuy/hit01.png"},
         {"Hammer Guy Hit 02", "HammerGuy/hit02.png"},
 
+        // Uero
+        {"Uero Jumping 01", "Uero/jumping01.png"},
+        {"Uero Jumping 02", "Uero/jumping02.png"},
+        {"Uero Name 01", "Uero/name01.png"},
+        {"Uero Name 02", "Uero/name02.png"},
+        {"Uero Idle 01", "Uero/standing01.png"},
+        {"Uero Idle 02", "Uero/standing02.png"},
+        {"Uero Walking 01", "Uero/walking01.png"},
+        {"Uero Walking 02", "Uero/walking02.png"},
+        {"Uero Walking 03", "Uero/walking03.png"},
+        {"Uero Block 01", "Uero/block01.png"},
+        {"Uero Block 02", "Uero/block02.png"},
+        {"Uero Hit 01", "Uero/hit01.png"},
+        {"Uero Hit 02", "Uero/hit02.png"},
+        {"Uero Hit 03", "Uero/hit03.png"},
+        {"Uero Hit 01", "Uero/hit01.png"},
+        {"Uero Hit 02", "Uero/hit02.png"},
+
         // Miso
         {"Miso Jumping 01", "Miso/jump/1.png"},
         {"Miso Jumping 02", "Miso/jump/2.png"},
@@ -79,6 +97,10 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"UI P1 02", "ui/p102.png"},
         {"UI P2 01", "ui/p201.png"},
         {"UI P2 02", "ui/p202.png"},
+        {"UI P1 Wins 01", "ui/p1wins01.png"},
+        {"UI P1 Wins 02", "ui/p1wins02.png"},
+        {"UI P2 Wins 01", "ui/p2wins01.png"},
+        {"UI P2 Wins 02", "ui/p2wins02.png"},
 
         // Beach background
         {"Beach Background 01", "beach/1.png"},
@@ -154,6 +176,38 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "Hammer Guy Block 02", 500 },
     });
 
+    // Uero
+    animationsManagerPtr->requestAnimation("Uero Jumping", {
+        { "Uero Jumping 01", 500 },
+        { "Uero Jumping 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Name", {
+        { "Uero Name 01", 500 },
+        { "Uero Name 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Idle", {
+        { "Uero Idle 01", 700 },
+        { "Uero Idle 02", 700 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Walking", {
+        { "Uero Walking 01", 500 },
+        { "Uero Walking 02", 500 },
+        { "Uero Walking 03", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Hit", {
+        { "Uero Hit 01", 500 },
+        { "Uero Hit 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Ground", {
+        { "Uero Ground 01", 700 },
+        { "Uero Ground 02", 200 },
+        { "Uero Ground 03", 700 },
+    });
+    animationsManagerPtr->requestAnimation("Uero Block", {
+        { "Uero Block 01", 500 },
+        { "Uero Block 02", 500 },
+    });
+
     // Miso
     animationsManagerPtr->requestAnimation("Miso Jumping", {
         { "Miso Jumping 01", 500 },
@@ -194,6 +248,15 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "UI P2 01", 500 },
         { "UI P2 02", 500 },
     });
+    animationsManagerPtr->requestAnimation("UI P1 Wins", {
+        { "UI P1 Wins 01", 500 },
+        { "UI P1 Wins 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI P2 Wins", {
+        { "UI P2 Wins 01", 500 },
+        { "UI P2 Wins 02", 500 },
+    });
+
 
     // Selection Screen
     animationsManagerPtr->requestAnimation("Selection Arrow On", {

@@ -33,6 +33,7 @@ namespace graphics
         {
             if (texture != NULL)
                 SDL_DestroyTexture(texture);
+            currentFlip = static_cast<SDL_RendererFlip>(flip::none);
         }
 
         inline void setAlpha(uint8_t alpha)

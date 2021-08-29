@@ -87,6 +87,9 @@ void gameSelection::setup()
         map->getNameAnimation()->load();
     }
 
+    for (players::genericPlayer* p : players)
+        p->setSelected(false);
+
     selectionFrame->getCurrentAnimation()->load();
 
     selectionOn->load();
@@ -99,6 +102,7 @@ void gameSelection::setup()
     playerCount = 1;
     options = players.size();
     playersSelected = false;
+    buttonPressed = false;
 
     globalSettings->background = nullptr;
     globalSettings->player1 = nullptr;
@@ -176,6 +180,9 @@ void gameSelection::update(size_t delta)
         }
         else
             rightArrowAnimation = selectionOff;
+
+        if (keyboardHandler->isKeyActive(keyboardHandler::key::q))
+            shouldClose(true);
         
         if (currentController->lightPressed())
         {

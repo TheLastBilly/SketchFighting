@@ -22,18 +22,23 @@ void map::initialize()
     collisionsManager = getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager");
     nodesManager = getRoot()->getChild<engine::managers::nodesManager>("Generic Nodes Manager");
     animationsManager = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
+    viewsManager = getRoot()->getChild<engine::managers::viewsManager>("Views Manager");
 
     nodesManager->registerNode(pencilOk = new entity("Pencil Ok"));
     nodesManager->registerNode(pencilBad = new entity("Pencil Bad"));
     nodesManager->registerNode(circle = new entity("Player Circle"));
     nodesManager->registerNode(p1 = new entity("P1"));
     nodesManager->registerNode(p2 = new entity("P2"));
+    nodesManager->registerNode(wins = new entity("Wins"));
 
     pencilOk->setCurrentAnimation(animationsManager->getAnimation("UI Pencil Ok"));
     pencilBad->setCurrentAnimation(animationsManager->getAnimation("UI Pencil Bad"));
     circle->setCurrentAnimation(animationsManager->getAnimation("UI Circle"));
     p1->setCurrentAnimation(animationsManager->getAnimation("UI P1"));
     p2->setCurrentAnimation(animationsManager->getAnimation("UI P2"));
+
+    p1Wins = animationsManager->getAnimation("UI P1 Wins");
+    p2Wins = animationsManager->getAnimation("UI P2 Wins");
 }
 
 void map::setup()
@@ -53,6 +58,8 @@ void map::setup()
     player1Ptr->load();
     player2Ptr->load();
     backgroundPtr->load();
+    p1Wins->load();
+    p2Wins->load();
     pencilOk->getCurrentAnimation()->load();
     pencilBad->getCurrentAnimation()->load();
     circle->getCurrentAnimation()->load();
@@ -95,7 +102,11 @@ void map::setup()
     player1Ptr->setController(globalSettings->player1Controller);
     player2Ptr->setController(globalSettings->player2Controller);
 
+    // Set current wins animation
+    wins->setCurrentAnimation(nullptr);
+
     initialScaling = true;
+    victoryTimeCounter = 0;
 
     // Set background color
     setBackgroundColor(255,255,255,255);
@@ -103,6 +114,20 @@ void map::setup()
 
 void map::update(size_t delta)
 {
+    if (wins->getCurrentAnimation() != nullptr)
+    {
+        // Fuck it, just update the damn thing if someone won
+        wins->centerToScreen(getWindowWidth(), getWindowHeight());
+
+        player1Ptr->setPaused(true);
+        player2Ptr->setPaused(true);
+
+        if (victoryTimeCounter < victoryAnimationDelay)
+            victoryTimeCounter += delta;
+        else
+            viewsManager->setActiveView("Game Selection");
+    }
+
     // Setup background
     backgroundPtr->getCurrentAnimation()->setSpritesSize(getWindowWidth(), getWindowHeight());
     backgroundPtr->centerToScreen(getWindowWidth(), getWindowHeight());
@@ -117,9 +142,6 @@ void map::update(size_t delta)
 
     player1Ptr->setFloorHeight(getWindowHeight() - globalSettings->floorHeight);
     player2Ptr->setFloorHeight(getWindowHeight() - globalSettings->floorHeight);
-
-    player1Ptr->update(delta);
-    player2Ptr->update(delta);
 
     // Show player icons
     circle->setCoordinates(p1->getCoordinates());
@@ -166,7 +188,15 @@ void map::update(size_t delta)
         healthEntity->update(0);
     }
 
+    if (player1Ptr->getHealth() <= 0)
+        wins->setCurrentAnimation(p2Wins);
+    if (player2Ptr->getHealth() <= 0)
+        wins->setCurrentAnimation(p1Wins);
+
     backgroundPtr->update(delta);
+    player1Ptr->update(delta);
+    player2Ptr->update(delta);
+    wins->update(delta);
 }
 
 void map::cleannup()
@@ -182,11 +212,11 @@ void map::cleannup()
     player1Ptr->unload();
     player2Ptr->unload();
 
+    p1Wins->unload();
+    p2Wins->unload();
+
     // Remove collision events
     collisionsManager->removeChild("Players are touching");
-
-    // Remove floor
-    nodesManager->removeChild("Floor");
 
     // Remove background
     nodesManager->removeChild("Background");

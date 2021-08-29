@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
         launcher->execute();
     }
     catch(const std::exception &e)
-    { error(e.what()); }
+    {
+        error(e.what());
+        return -1;
+    }
     return 0;
 }

@@ -31,7 +31,7 @@ void setupCore(engine::core *engineCore)
     engineCore->getViewsManager()->registerView(new ksf::views::gameSelection());
     engineCore->getViewsManager()->registerView(new ksf::views::map());
 
-    engineCore->getViewsManager()->setActiveView("Game Selection");
+    engineCore->getViewsManager()->setActiveView("Main Menu");
     
     engineCore->setAppName(APP_NAME);
 }

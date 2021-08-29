@@ -225,7 +225,9 @@ namespace ksf
             }
 
             inline void setPaused(bool paused)
-            { this->paused = paused; }
+            {
+                this->paused = paused;
+            }
 
         private:
             graphics::animation
@@ -267,7 +269,8 @@ namespace ksf
                 isAttacking = false,
                 hasBeenHit = false,
                 isBlocking = false,
-                touchingOponent = false;
+                touchingOponent = false,
+                paused = false;
 
             controller currentController = {};
 
