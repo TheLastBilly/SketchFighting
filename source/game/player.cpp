@@ -29,6 +29,11 @@ void ksf::entities::player::update(size_t delta)
     updateTimeCounter += delta;
     if (shouldMove = (updateTimeCounter > 16)) updateTimeCounter = 0;
 
+    if (oponent->getCoordinates()->getX() <= getCoordinates()->getX())
+        flipToTheLeft();
+    else
+        flipToTheRight();
+
     if (getCurrentAnimation()->isDonePlaying())
     {
         canMove = true;
@@ -42,8 +47,8 @@ void ksf::entities::player::update(size_t delta)
         getCurrentAnimation()->reset();
     }
 
-    if (isAttacking && touchingPlayer != nullptr)
-        touchingPlayer->reduceHealth(attackDamage);
+    if (isAttacking && touchingOponent)
+        oponent->reduceHealth(attackDamage);
     
     if (!canReceiveDamage)
     {
@@ -56,13 +61,13 @@ void ksf::entities::player::update(size_t delta)
         }
     }
 
-    if (canReceiveDamage && damageReceived != 0 && this->touchingPlayer != nullptr)
+    if (canReceiveDamage && damageReceived != 0 && touchingOponent)
     {
         direction origin = direction::none;
         if (
             // This is due in a couple ours, f*ck it, I don't care anymore
-            (((origin = direction::right) != direction::none && touchingPlayer->getDirection() != direction::left) && getCoordinates()->getX() > touchingPlayer->getCoordinates()->getX()) ||
-            (((origin = direction::left) != direction::none && touchingPlayer->getDirection() != direction::right) && getCoordinates()->getX() < touchingPlayer->getCoordinates()->getX())
+            (((origin = direction::right) != direction::none && oponent->getDirection() != direction::left) && getCoordinates()->getX() > oponent->getCoordinates()->getX()) ||
+            (((origin = direction::left) != direction::none && oponent->getDirection() != direction::right) && getCoordinates()->getX() < oponent->getCoordinates()->getX())
          )
         {
             if (getDirection() != direction::none && origin == getDirection())
@@ -104,21 +109,25 @@ void ksf::entities::player::update(size_t delta)
     {
         if (currentController.leftPressed())
         {
+            setDirection(direction::left);
             horizontalSpeedMultiplier = -1;
-            flipToTheLeft();
 
             isMovingHorizontally = true;
         }
         if (currentController.rightPressed())
         {
+            setDirection(direction::right);
             horizontalSpeedMultiplier = 1;
-            flipToTheRight();
 
             isMovingHorizontally = true;
         }
         if (currentController.jumpPressed() && !isMidAir())
         {
             jump();
+        }
+        if (currentController.downPressed())
+        {
+            fallFaster();
         }
         if (currentController.lightPressed() && (!isAttacking || !hasBeenHit))
         {

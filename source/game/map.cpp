@@ -36,16 +36,20 @@ void map::setup()
     player2Ptr->load();
     backgroundPtr->load();
 
+    // Set up oponents
+    player1Ptr->setOponent(player2Ptr);
+    player2Ptr->setOponent(player1Ptr);
+
     // Regsiter collisions
     collisionsManager->regsiterCollisionEvent(
         new engine::managers::collisionEvent("Players are touching", player1Ptr, player2Ptr,
             collisionEventCallback{
-                player1Ptr->setTouchingPlayer(player2Ptr);
-                player2Ptr->setTouchingPlayer(player1Ptr);
+                player1Ptr->setTouchingOponent(true);
+                player2Ptr->setTouchingOponent(true);
             },
             collisionEventCallback{
-                player1Ptr->setTouchingPlayer(nullptr);
-                player2Ptr->setTouchingPlayer(nullptr);
+                player1Ptr->setTouchingOponent(false);
+                player2Ptr->setTouchingOponent(false);
             }
     ));
     collisionsManager->setAllCollisionsEnable(true);
@@ -58,9 +62,6 @@ void map::setup()
     player2Ptr->getCoordinates()->setX(getWindowWidth());
     player1Ptr->getCoordinates()->setY(getWindowHeight());
     player2Ptr->getCoordinates()->setY(getWindowHeight());
-
-    player1Ptr->flipToTheRight();
-    player2Ptr->flipToTheLeft();
 
     // Assign player controllers
     player1Ptr->setController(globalSettings->player1Controller);

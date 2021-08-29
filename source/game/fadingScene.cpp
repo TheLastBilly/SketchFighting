@@ -1,22 +1,22 @@
-#include "views/instructions.hpp"
+#include "views/fadingView.hpp"
 
 using namespace ksf::views;
 
 register_logger()
 
-void instructions::initialize()
+void fadingView::initialize()
 {
     animationsManager = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
     viewsManager = getRoot()->getChild<engine::managers::viewsManager>("Views Manager");
 
-    instructionsPtr = animationsManager->getAnimation("Instructions");
+    animationPtr = animationsManager->getAnimation(animationName);
 }
 
-void instructions::setup()
+void fadingView::setup()
 {
-    instructionsPtr->load();
-    instructionsPtr->setShouldTransition(true);
-    instructionsPtr->setSpritesSize(600,600);
+    animationPtr->load();
+    animationPtr->setShouldTransition(true);
+    animationPtr->setSpritesSize(width,height);
 
     alpha = 0;
     counter = 0;
@@ -24,33 +24,33 @@ void instructions::setup()
     setBackgroundColor(255,255,255,255);
 }
 
-void instructions::update(size_t delta)
+void fadingView::update(size_t delta)
 {
     counter += delta;
 
-    graphics::sprite* currentSprite = instructionsPtr->getCurrentFrame()->getSprite();
+    graphics::sprite* currentSprite = animationPtr->getCurrentFrame()->getSprite();
 
     if (counter < fadeDelay && counter % fadeStep == 0)
     {
         alpha = (alpha += fadeStep) <= 255 ? alpha : 255;
         currentSprite->setAlpha(alpha);
     }
-    if (counter > showDelay && counter % fadeStep == 0)
+    if (counter > duration && counter % fadeStep == 0)
     {
         alpha = (alpha -= fadeStep) >= 0 ? alpha : 0;
         currentSprite->setAlpha(alpha);
         if (alpha == 0)
-            viewsManager->setActiveView("Game Selection");
+            viewsManager->setActiveView(nextSceneName);
     }
 
-    instructionsPtr->play(delta,
+    animationPtr->play(delta,
         getWindowWidth()/2 - currentSprite->getWidth()/2,
         getWindowHeight()/2 - currentSprite->getHeight()/2
     );
 }
 
-void instructions::cleannup()
+void fadingView::cleannup()
 {
     // Unload sprites
-    instructionsPtr->unload();
+    animationPtr->unload();
 }

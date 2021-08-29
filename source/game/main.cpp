@@ -5,7 +5,7 @@
 #include "entities/globalSettings.hpp"
 
 #include "views/mainMenu.hpp"
-#include "views/instructions.hpp"
+#include "views/fadingView.hpp"
 #include "views/gameSelection.hpp"
 #include "views/map.hpp"
 
@@ -27,11 +27,11 @@ void setupCore(engine::core *engineCore)
     ksf::utilities::contentLoader::loadAnimations(engineCore->getAnimationsManager(), engineCore->getAssetsManager());
 
     engineCore->getViewsManager()->registerView(new ksf::views::mainMenu());
-    engineCore->getViewsManager()->registerView(new ksf::views::instructions());
+    engineCore->getViewsManager()->registerView(new ksf::views::fadingView("Instructions", "Instructions", 600, 600, 5000, "Game Selection"));
     engineCore->getViewsManager()->registerView(new ksf::views::gameSelection());
     engineCore->getViewsManager()->registerView(new ksf::views::map());
 
-    engineCore->getViewsManager()->setActiveView("Game Selection");
+    engineCore->getViewsManager()->setActiveView("Main Menu");
     
     engineCore->setAppName(APP_NAME);
 }

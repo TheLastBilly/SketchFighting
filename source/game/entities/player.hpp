@@ -149,6 +149,8 @@ namespace ksf
 
             inline void jump()
             { verticalVelocity = jumpSpeed; }
+            inline void fallFaster()
+            { verticalVelocity = -jumpSpeed * 1.15; }
 
             inline bool isMidAir()
             { return getCoordinates()->getY() < getCoordinates()->getUpperLimit(); }
@@ -187,8 +189,10 @@ namespace ksf
                 attackAnimation->setSpritesSize(width, height);
             }
 
-            inline void setTouchingPlayer(player* touchingPlayer)
-            { this->touchingPlayer = touchingPlayer; }
+            inline void setOponent(player* oponent)
+            { this->oponent = oponent; }
+            inline void setTouchingOponent(bool touchingOponent)
+            { this->touchingOponent = touchingOponent; }
 
             inline int getHealth() const
             {
@@ -214,12 +218,10 @@ namespace ksf
             virtual void flipToTheRight()
             {
                 getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
-                setDirection(direction::right);
             }
             virtual void flipToTheLeft()
             {
                 getCurrentAnimation()->flipSprites(graphics::sprite::flip::none);
-                setDirection(direction::left);
             }
 
         private:
@@ -231,7 +233,7 @@ namespace ksf
                 * blockAnimation = nullptr,
                 * attackAnimation = nullptr;
             
-            player* touchingPlayer = nullptr;
+            player* oponent = nullptr;
             
             size_t updateTimeCounter = 0, damageTimeCounter = 0;
 
@@ -261,13 +263,14 @@ namespace ksf
                 hitAttempted = false,
                 isAttacking = false,
                 hasBeenHit = false,
-                isBlocking = false;
+                isBlocking = false,
+                touchingOponent = false;
 
             controller currentController = {};
 
             direction currentDirection = direction::left;
 
-            const size_t damageCooldown = 2000;
+            const size_t damageCooldown = 500;
         };
     }
 }

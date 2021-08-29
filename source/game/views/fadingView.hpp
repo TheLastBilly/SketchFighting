@@ -14,10 +14,17 @@ namespace ksf
 {
 	namespace views
 	{
-		class instructions : public graphics::view
+		class fadingView : public graphics::view
 		{
 		public:
-			instructions() : view("Instructions") {}
+			fadingView(const std::string &name, const std::string &animationName, size_t width, size_t height, size_t duration, const std::string &nextSceneName):
+				view("Instructions"),
+				animationName(animationName),
+				width(width),
+				height(height),
+				duration(duration),
+				nextSceneName(nextSceneName)
+			{}
 
 			void setup() override;
 			void update(size_t delta) override;
@@ -30,12 +37,14 @@ namespace ksf
 			engine::managers::animationsManager* animationsManager = nullptr;
 			engine::managers::viewsManager* viewsManager = nullptr;
 
-			graphics::animation *instructionsPtr = nullptr;
+			graphics::animation *animationPtr = nullptr;
 
 			size_t counter = 0;
 			int alpha = 0;
 
-			const size_t showDelay = 5000, fadeDelay = 4000, fadeStep = fadeDelay /255;
+			const std::string animationName, nextSceneName;
+			const size_t fadeDelay = 4000, fadeStep = fadeDelay /255;
+			const size_t duration, width, height;
 		};
 	}
 }

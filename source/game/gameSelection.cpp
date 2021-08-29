@@ -186,12 +186,16 @@ void gameSelection::update(size_t delta)
                 players.at(option)->setSelected(true);
                 buttonPressed = true;
 
+                currentController = &globalSettings->player2Controller;
+
                 if (globalSettings->player2 != nullptr)
                 {
                     option = 0;
                     options = maps.size();
                     playersSelected = true;
                     currentAnimation = maps.at(option)->getIntroAnimation();
+
+                    currentController = &globalSettings->player1Controller;
                 }
             }
             else
