@@ -6,25 +6,25 @@ namespace ksf
 {
 	namespace maps
 	{
-		class beach: public genericBackground
+		class theboard: public genericBackground
 		{
 		public:
-			beach(engine::managers::animationsManager* animationsManager) : genericBackground("Beach", animationsManager) {}
+			theboard(engine::managers::animationsManager* animationsManager) : genericBackground("The Board", animationsManager) {}
 
 			graphics::animation* getBackground() override
 			{
-				return animationsManager->getAnimation("Beach Background");
+				return animationsManager->getAnimation("The Board");
 			}
 
 			graphics::animation* getIntroAnimation() override
 			{
-				graphics::animation* intro = animationsManager->getAnimation("Beach Background");
+				graphics::animation* intro = animationsManager->getAnimation("The Board");
 				intro->setSpritesSize(400, 400);
 				return intro;
 			}
 			graphics::animation* getNameAnimation()
 			{
-				return animationsManager->getAnimation("Beach Background Name");
+				return animationsManager->getAnimation("The Board Name");
 			}
 
 			int getFloorHeight() override

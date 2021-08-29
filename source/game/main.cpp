@@ -19,7 +19,7 @@ void setupCore(engine::core *engineCore)
     engineCore->setWindowHeight(720);
     engineCore->setWindowWidth(1080);
 
-    engineCore->setAssetsRootPath("C:\\Users\\joset\\Documents\\SketchFighting\\assets\\export");
+    engineCore->setAssetsRootPath(std::string(SDL_GetBasePath()) + "assets");
 
     engineCore->getNodesManager()->registerNode( new ksf::entities::globalSettings() );
 

@@ -16,6 +16,7 @@
 #include "players/doggi.hpp"
 
 #include "maps/beach.hpp"
+#include "maps/theboard.hpp"
 
 namespace ksf
 {

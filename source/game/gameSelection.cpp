@@ -28,6 +28,8 @@ void gameSelection::initialize()
     maps::genericBackground* background = nullptr;
     nodesManager->registerNode(background = new maps::beach(animationsManager));
     maps.push_back(background);
+    nodesManager->registerNode(background = new maps::theboard(animationsManager));
+    maps.push_back(background);
 
     // Frame
     nodesManager->registerNode(selectionFrame = new entity("Selection Frame"));
@@ -124,6 +126,11 @@ void gameSelection::update(size_t delta)
         currentAnimation = players.at(option)->getIntroAnimation();
     }
 
+    if (playersSelected)
+        playerName->setCurrentAnimation(maps.at(option)->getNameAnimation());
+    else
+        playerName->setCurrentAnimation(players.at(option)->getNameAnimation());
+
     int playerNameWidthHalf = playerName->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth()/2;
 
     // Setup animations
@@ -145,9 +152,10 @@ void gameSelection::update(size_t delta)
         *currentSprite = currentSelection->getCurrentAnimation()->getCurrentFrame()->getSprite();
     currentSelection->getCoordinates()->moveHorizontally(frameSprite->getWidth() / 2 - currentSprite->getWidth()/2);
     currentSelection->getCoordinates()->moveVertically(frameSprite->getHeight() / 2 - currentSprite->getHeight() / 2);
+    if (playersSelected)
+        currentSelection->getCoordinates()->moveVertically(50);
 
     // Move player name
-    playerName->setCurrentAnimation(players.at(option)->getNameAnimation());
     playerName->centerToScreen(getWindowWidth(), getWindowHeight());
     playerName->getCoordinates()->moveVertically(280);
 

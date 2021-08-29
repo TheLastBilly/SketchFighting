@@ -114,6 +114,14 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Beach Background 03", "beach/3.png"},
         {"Beach Background 04", "beach/4.png"},
         {"Beach Background 05", "beach/5.png"},
+        {"Beach Background Name 01", "beach/name01.png"},
+        {"Beach Background Name 02", "beach/name02.png"},
+
+        // The Board
+        { "The Board 01", "theboard/1.png" },
+        { "The Board 02", "theboard/2.png" },
+        { "The Board Name 01", "theboard/name01.png" },
+        { "The Board Name 02", "theboard/name02.png" },
 
         // Credits
         {"Credits 01", "Credits/1.png"},
@@ -304,7 +312,7 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "Selection Frame 01", 500 },
         { "Selection Frame 02", 500 },
     });
-
+    
     // Beach background
     animationsManagerPtr->requestAnimation("Beach Background",{
         {"Beach Background 01", 500},
@@ -312,5 +320,19 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         {"Beach Background 03", 500},
         {"Beach Background 04", 500},
         {"Beach Background 05", 500}
+    });
+    animationsManagerPtr->requestAnimation("Beach Background Name",{
+        {"Beach Background Name 01", 500},
+        {"Beach Background Name 02", 500},
+    });
+
+    // The Board
+    animationsManagerPtr->requestAnimation("The Board",{
+        {"The Board 01", 500},
+        {"The Board 02", 500},
+    });
+    animationsManagerPtr->requestAnimation("The Board Name",{
+        {"The Board Name 01", 500},
+        {"The Board Name 02", 500},
     });
 }
