@@ -31,7 +31,7 @@ namespace ksf
 			void cleannup() override;
 			
 			inline void decrementOption()
-			{ option = option < 1 ? options - 1 : option - 1; }
+			{ option = option <= 0 ? options - 1 : option - 1; }
 			inline void incrementOption()
 			{ option = option >= options -1 ? 0 : option+1; }
 
