@@ -41,6 +41,13 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Hammer Guy Walking 01", "HammerGuy/walking01.png"},
         {"Hammer Guy Walking 02", "HammerGuy/walking02.png"},
         {"Hammer Guy Walking 03", "HammerGuy/walking03.png"},
+        {"Hammer Guy Block 01", "HammerGuy/block01.png"},
+        {"Hammer Guy Block 02", "HammerGuy/block02.png"},
+        {"Hammer Guy Ground 01", "HammerGuy/ground01.png"},
+        {"Hammer Guy Ground 02", "HammerGuy/ground02.png"},
+        {"Hammer Guy Ground 03", "HammerGuy/ground03.png"},
+        {"Hammer Guy Hit 01", "HammerGuy/hit01.png"},
+        {"Hammer Guy Hit 02", "HammerGuy/hit02.png"},
 
         // Miso
         {"Miso Jumping 01", "Miso/jump/1.png"},
@@ -113,13 +120,26 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "Hammer Guy Name 02", 500 },
     });
     animationsManagerPtr->requestAnimation("Hammer Guy Idle", {
-        { "Hammer Guy Idle 01", 500 },
-        { "Hammer Guy Idle 02", 500 },
+        { "Hammer Guy Idle 01", 700 },
+        { "Hammer Guy Idle 02", 700 },
     });
     animationsManagerPtr->requestAnimation("Hammer Guy Walking", {
         { "Hammer Guy Walking 01", 500 },
         { "Hammer Guy Walking 02", 500 },
         { "Hammer Guy Walking 03", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Hammer Guy Hit", {
+        { "Hammer Guy Hit 01", 500 },
+        { "Hammer Guy Hit 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Hammer Guy Ground", {
+        { "Hammer Guy Ground 01", 700 },
+        { "Hammer Guy Ground 02", 200 },
+        { "Hammer Guy Ground 03", 700 },
+    });
+    animationsManagerPtr->requestAnimation("Hammer Guy Block", {
+        { "Hammer Guy Block 01", 500 },
+        { "Hammer Guy Block 02", 500 },
     });
 
     // Miso

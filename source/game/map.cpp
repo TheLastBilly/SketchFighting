@@ -36,30 +36,31 @@ void map::setup()
     player2Ptr->load();
     backgroundPtr->load();
 
-    // Initialize floor
-    nodesManager->registerNode(
-        floorPtr = new map::floor("Floor", getWindowWidth(), 1, 0, getWindowHeight() - globalSettings->floorHeight)
-    );
-
-    // Regsiter floor collisions
+    // Regsiter collisions
     collisionsManager->regsiterCollisionEvent(
-        new engine::managers::collisionEvent("Player 1 Hits Floor", player1Ptr, floorPtr, collisionEventCallback { player1Ptr->setMidAir(false); }, collisionEventCallback { player1Ptr->setMidAir(true); })
-    );
-    collisionsManager->regsiterCollisionEvent(
-        new engine::managers::collisionEvent("Player 2 Hits Floor", player2Ptr, floorPtr, collisionEventCallback { player2Ptr->setMidAir(false); }, collisionEventCallback { player2Ptr->setMidAir(true); })
-    );
+        new engine::managers::collisionEvent("Players are touching", player1Ptr, player2Ptr,
+            collisionEventCallback{
+                player1Ptr->setTouchingPlayer(player2Ptr);
+                player2Ptr->setTouchingPlayer(player1Ptr);
+            },
+            collisionEventCallback{
+                player1Ptr->setTouchingPlayer(nullptr);
+                player2Ptr->setTouchingPlayer(nullptr);
+            }
+    ));
+    collisionsManager->setAllCollisionsEnable(true);
 
     // Make sure players are facing eachother
     player1Ptr->getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
 
-    // Fix scaling
-    fixScaling();
-
     // Move players to their respective positions
-    player1Ptr->getCoordinates()->moveHorizontally(-getWindowWidth());
-    player1Ptr->getCoordinates()->moveVertically(getWindowHeight());
-    player2Ptr->getCoordinates()->moveHorizontally(getWindowWidth());
-    player2Ptr->getCoordinates()->moveVertically(getWindowHeight());
+    player1Ptr->getCoordinates()->setX(-getWindowWidth());
+    player2Ptr->getCoordinates()->setX(getWindowWidth());
+    player1Ptr->getCoordinates()->setY(getWindowHeight());
+    player2Ptr->getCoordinates()->setY(getWindowHeight());
+
+    player1Ptr->flipToTheRight();
+    player2Ptr->flipToTheLeft();
 
     // Assign player controllers
     player1Ptr->setController(globalSettings->player1Controller);
@@ -85,6 +86,9 @@ void map::update(size_t delta)
         fixScaling();
     }
 
+    player1Ptr->setFloorHeight(getWindowHeight() - globalSettings->floorHeight);
+    player2Ptr->setFloorHeight(getWindowHeight() - globalSettings->floorHeight);
+
     player1Ptr->update(delta);
     player2Ptr->update(delta);
 
@@ -99,8 +103,7 @@ void map::cleannup()
     player2Ptr->unload();
 
     // Remove collision events
-    collisionsManager->removeChild("Player 1 Hits Floor");
-    collisionsManager->removeChild("Player 2 Hits Floor");
+    collisionsManager->removeChild("Players are touching");
 
     // Remove floor
     nodesManager->removeChild("Floor");

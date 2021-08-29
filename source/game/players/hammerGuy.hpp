@@ -18,7 +18,11 @@ namespace ksf
 
 					animationsManager->getAnimation("Hammer Guy Idle"),
 					animationsManager->getAnimation("Hammer Guy Walking"),
-					animationsManager->getAnimation("Hammer Guy Jumping")
+					animationsManager->getAnimation("Hammer Guy Jumping"),
+
+					animationsManager->getAnimation("Hammer Guy Hit"),
+					animationsManager->getAnimation("Hammer Guy Block"),
+					animationsManager->getAnimation("Hammer Guy Ground")
 				);
 			
 				player->setGravity(.02);

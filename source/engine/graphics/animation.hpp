@@ -80,6 +80,7 @@ namespace graphics
         {
             timer = 0;
             currentFrame = 0;
+            donePlaying = false;
         }
 
         inline void setRepeat(bool repeat)
@@ -88,7 +89,7 @@ namespace graphics
         { return repeat; }
 
         inline bool isDonePlaying() const
-        { return !repeat && currentFrame == frames.size()-1; }
+        { return donePlaying; }
 
         void play(ssize_t delta, int x, int y)
         {
@@ -98,7 +99,8 @@ namespace graphics
             ssize_t counter = timer;
             if((timer += delta) >= frames[currentFrame].getDuration() && shouldTransition)
             {
-                currentFrame = currentFrame < frames.size()-1 ? currentFrame + 1: (repeat ? 0 : currentFrame);
+                donePlaying = currentFrame >= frames.size() - 1;
+                currentFrame = !donePlaying ? currentFrame + 1: (repeat ? 0 : currentFrame);
                 timer = 0;
             }
 
@@ -138,6 +140,6 @@ namespace graphics
 
         sprite::flip currentFlip = sprite::flip::none;
 
-        bool repeat = true, shouldTransition = true;
+        bool repeat = true, shouldTransition = true, donePlaying = false;
     };
 }

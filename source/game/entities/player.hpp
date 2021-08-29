@@ -12,6 +12,11 @@ namespace ksf
         class player: public engine::entity
         {
         public:
+            enum direction
+            {
+                left, right, none
+            };
+
             class controller
             {
             public:
@@ -96,13 +101,19 @@ namespace ksf
                 const std::string &name,
                 graphics::animation *idleAnimation,
                 graphics::animation* walkingAnimation,
-                graphics::animation* jumpingAnimation
+                graphics::animation* jumpingAnimation,
+                graphics::animation* hitAnimation,
+                graphics::animation* blockAnimation,
+                graphics::animation* attackAnimation
             ): 
                 entity(name),
 
                 idleAnimation(idleAnimation),
                 walkingAnimation(walkingAnimation),
-                jumpingAnimation(jumpingAnimation)
+                jumpingAnimation(jumpingAnimation),
+                hitAnimation(hitAnimation),
+                blockAnimation(blockAnimation),
+                attackAnimation(attackAnimation)
             {
                 setCurrentAnimation(idleAnimation);
                 jumpingAnimation->setRepeat(false);
@@ -139,16 +150,17 @@ namespace ksf
             inline void jump()
             { verticalVelocity = jumpSpeed; }
 
-            inline void setMidAir(bool midAir)
-            { this->midAir = midAir; }
-            inline bool isMidAir() const
-            { return this->midAir; }
+            inline bool isMidAir()
+            { return getCoordinates()->getY() < getCoordinates()->getUpperLimit(); }
 
             void load()
             {
                 idleAnimation->load();
                 walkingAnimation->load();
                 jumpingAnimation->load();
+                hitAnimation->load();
+                blockAnimation->load();
+                attackAnimation->load();
 
                 setSpritesSize(this->width, this->height);
             }
@@ -157,6 +169,9 @@ namespace ksf
                 idleAnimation->unload();
                 walkingAnimation->unload();
                 jumpingAnimation->unload();
+                hitAnimation->unload();
+                blockAnimation->unload();
+                attackAnimation->unload();
             }
 
             void setSpritesSize(int width, int height)
@@ -167,17 +182,66 @@ namespace ksf
                 idleAnimation->setSpritesSize(width, height);
                 walkingAnimation->setSpritesSize(width, height);
                 jumpingAnimation->setSpritesSize(width, height);
+                hitAnimation->setSpritesSize(width, height);
+                blockAnimation->setSpritesSize(width, height);
+                attackAnimation->setSpritesSize(width, height);
+            }
+
+            inline void setTouchingPlayer(player* touchingPlayer)
+            { this->touchingPlayer = touchingPlayer; }
+
+            inline int getHealth() const
+            {
+                return health;
+            }
+            inline void reduceHealth(int damage)
+            {
+                if (!canReceiveDamage)
+                    return;
+                
+                damageReceived = damage;
+            }
+
+            inline direction getDirection() const
+            {
+                return currentDirection;
+            }
+            inline void setDirection(direction newDirection)
+            {
+                currentDirection = newDirection;
+            }
+
+            virtual void flipToTheRight()
+            {
+                getCurrentAnimation()->flipSprites(graphics::sprite::flip::horizontal);
+                setDirection(direction::right);
+            }
+            virtual void flipToTheLeft()
+            {
+                getCurrentAnimation()->flipSprites(graphics::sprite::flip::none);
+                setDirection(direction::left);
             }
 
         private:
-            graphics::animation 
-                *idleAnimation = nullptr,
-                *walkingAnimation = nullptr,
-                *jumpingAnimation = nullptr;
+            graphics::animation
+                * idleAnimation = nullptr,
+                * walkingAnimation = nullptr,
+                * jumpingAnimation = nullptr,
+                * hitAnimation = nullptr,
+                * blockAnimation = nullptr,
+                * attackAnimation = nullptr;
             
-            size_t updateTimeCounter = 0;
+            player* touchingPlayer = nullptr;
+            
+            size_t updateTimeCounter = 0, damageTimeCounter = 0;
 
-            int height = 0, width = 0;
+            int
+                height = 0,
+                width = 0,
+                health = 0,
+                damageReceived = 0,
+                attackDamage = 20,
+                horizontalSpeedMultiplier = 0;
 
             float
                 verticalVelocity = .0,
@@ -192,9 +256,18 @@ namespace ksf
             bool
                 shouldMove = false,
                 isMovingHorizontally = false,
-                midAir = false;
+                canReceiveDamage = true,
+                canMove = true,
+                hitAttempted = false,
+                isAttacking = false,
+                hasBeenHit = false,
+                isBlocking = false;
 
-            controller currentController;
+            controller currentController = {};
+
+            direction currentDirection = direction::left;
+
+            const size_t damageCooldown = 2000;
         };
     }
 }

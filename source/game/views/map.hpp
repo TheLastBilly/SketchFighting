@@ -52,11 +52,8 @@ namespace ksf
 
             void fixScaling()
             {
-                floorPtr->getCoordinates()->setY(getWindowHeight() - globalSettings->floorHeight);
                 player1Ptr->setWindowBorders(0, getWindowWidth());
                 player2Ptr->setWindowBorders(0, getWindowWidth());
-                player1Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
-                player2Ptr->setFloorHeight(floorPtr->getCoordinates()->getY());
             }
 
         protected:
@@ -70,7 +67,6 @@ namespace ksf
             entities::player* player1Ptr = nullptr;
             entities::player* player2Ptr = nullptr;
             background* backgroundPtr = nullptr;
-            floor* floorPtr = nullptr;
 
             engine::managers::collisionsManager* collisionsManager = nullptr;
             engine::managers::nodesManager* nodesManager = nullptr;

@@ -18,6 +18,9 @@ namespace ksf
 
 					animationsManager->getAnimation("Miso Idle"),
 					animationsManager->getAnimation("Miso Walking"),
+					animationsManager->getAnimation("Miso Jumping"),
+					animationsManager->getAnimation("Miso Jumping"),
+					animationsManager->getAnimation("Miso Jumping"),
 					animationsManager->getAnimation("Miso Jumping")
 				);
 
