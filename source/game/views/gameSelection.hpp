@@ -13,6 +13,7 @@
 #include "players/hammerGuy.hpp"
 #include "players/miso.hpp"
 #include "players/uero.hpp"
+#include "players/doggi.hpp"
 
 #include "maps/beach.hpp"
 

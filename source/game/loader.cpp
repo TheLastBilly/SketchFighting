@@ -74,6 +74,16 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Miso Walking 02", "Miso/walking/2.png"},
         {"Miso Walking 03", "Miso/walking/3.png"},
 
+        // Doggi
+        {"Doggi Jumping 01", "Doggi/jump01.png"},
+        {"Doggi Jumping 02", "Doggi/jump02.png"},
+        {"Doggi Name 01", "Doggi/name01.png"},
+        {"Doggi Name 02", "Doggi/name02.png"},
+        {"Doggi Idle 01", "Doggi/idle01.png"},
+        {"Doggi Idle 02", "Doggi/idle02.png"},
+        {"Doggi Hit 01", "Doggi/hit01.png"},
+        {"Doggi Hit 02", "Doggi/hit02.png"},
+
         // Selection Screen
         {"Selection Arrow Off 01", "SelectionScreen/arrowOff01.png"},
         {"Selection Arrow Off 02", "SelectionScreen/arrowOff02.png"},
@@ -221,6 +231,27 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "Miso Walking 01", 500 },
         { "Miso Walking 02", 500 },
         { "Miso Walking 03", 500 },
+    });
+
+    // Doggi
+    animationsManagerPtr->requestAnimation("Doggi Hit", {
+        { "Doggi Jumping 01", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Doggi Jumping", {
+        { "Doggi Jumping 01", 500 },
+        { "Doggi Jumping 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Doggi Name", {
+        { "Doggi Name 01", 500 },
+        { "Doggi Name 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Doggi Idle", {
+        { "Doggi Idle 01", 500 },
+        { "Doggi Idle 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("Doggi Attack", {
+        { "Doggi Hit 01", 500 },
+        { "Doggi Hit 02", 500 },
     });
 
     // UI
