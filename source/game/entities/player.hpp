@@ -224,6 +224,9 @@ namespace ksf
                 getCurrentAnimation()->flipSprites(graphics::sprite::flip::none);
             }
 
+            inline void setPaused(bool paused)
+            { this->paused = paused; }
+
         private:
             graphics::animation
                 * idleAnimation = nullptr,
@@ -240,7 +243,7 @@ namespace ksf
             int
                 height = 0,
                 width = 0,
-                health = 0,
+                health = 100,
                 damageReceived = 0,
                 attackDamage = 20,
                 horizontalSpeedMultiplier = 0;

@@ -68,6 +68,18 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Selection Frame 01", "SelectionScreen/frame01.png"},
         {"Selection Frame 02", "SelectionScreen/frame02.png"},
 
+        // UI
+        {"UI Pencil Ok 01", "ui/pencilOk01.png"},
+        {"UI Pencil Ok 02", "ui/pencilOk02.png"},
+        {"UI Pencil Bad 01", "ui/pencilBad01.png"},
+        {"UI Pencil Bad 02", "ui/pencilBad02.png"},
+        {"UI Circle 01", "ui/circle01.png"},
+        {"UI Circle 02", "ui/circle02.png"},
+        {"UI P1 01", "ui/p101.png"},
+        {"UI P1 02", "ui/p102.png"},
+        {"UI P2 01", "ui/p201.png"},
+        {"UI P2 02", "ui/p202.png"},
+
         // Beach background
         {"Beach Background 01", "beach/1.png"},
         {"Beach Background 02", "beach/2.png"},
@@ -161,6 +173,28 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
         { "Miso Walking 03", 500 },
     });
 
+    // UI
+    animationsManagerPtr->requestAnimation("UI Pencil Ok", {
+        { "UI Pencil Ok 01", 500 },
+        { "UI Pencil Ok 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI Pencil Bad", {
+        { "UI Pencil Bad 01", 500 },
+        { "UI Pencil Bad 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI Circle", {
+        { "UI Circle 01", 500 },
+        { "UI Circle 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI P1", {
+        { "UI P1 01", 500 },
+        { "UI P1 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI P2", {
+        { "UI P2 01", 500 },
+        { "UI P2 02", 500 },
+    });
+
     // Selection Screen
     animationsManagerPtr->requestAnimation("Selection Arrow On", {
         { "Selection Arrow On 01", 500 },
@@ -169,7 +203,7 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
     animationsManagerPtr->requestAnimation("Selection Arrow Off", {
         { "Selection Arrow Off 01", 500 },
         { "Selection Arrow Off 02", 500 },
-        });
+    });
     animationsManagerPtr->requestAnimation("Selection Frame", {
         { "Selection Frame 01", 500 },
         { "Selection Frame 02", 500 },

@@ -12,10 +12,28 @@ using namespace engine;
 
 register_logger()
 
+static inline int clampHealth(int health)
+{
+    return health >= 0 ? (health <= 100 ? health : 100) : 0;
+}
+
 void map::initialize()
 {
     collisionsManager = getRoot()->getChild<engine::managers::collisionsManager>("Collisions Manager");
     nodesManager = getRoot()->getChild<engine::managers::nodesManager>("Generic Nodes Manager");
+    animationsManager = getRoot()->getChild<engine::managers::animationsManager>("Animations Manager");
+
+    nodesManager->registerNode(pencilOk = new entity("Pencil Ok"));
+    nodesManager->registerNode(pencilBad = new entity("Pencil Bad"));
+    nodesManager->registerNode(circle = new entity("Player Circle"));
+    nodesManager->registerNode(p1 = new entity("P1"));
+    nodesManager->registerNode(p2 = new entity("P2"));
+
+    pencilOk->setCurrentAnimation(animationsManager->getAnimation("UI Pencil Ok"));
+    pencilBad->setCurrentAnimation(animationsManager->getAnimation("UI Pencil Bad"));
+    circle->setCurrentAnimation(animationsManager->getAnimation("UI Circle"));
+    p1->setCurrentAnimation(animationsManager->getAnimation("UI P1"));
+    p2->setCurrentAnimation(animationsManager->getAnimation("UI P2"));
 }
 
 void map::setup()
@@ -35,10 +53,20 @@ void map::setup()
     player1Ptr->load();
     player2Ptr->load();
     backgroundPtr->load();
+    pencilOk->getCurrentAnimation()->load();
+    pencilBad->getCurrentAnimation()->load();
+    circle->getCurrentAnimation()->load();
+    p1->getCurrentAnimation()->load();
+    p2->getCurrentAnimation()->load();
 
     // Set up oponents
     player1Ptr->setOponent(player2Ptr);
     player2Ptr->setOponent(player1Ptr);
+
+    // Set up widgets
+    p1->getCurrentAnimation()->setSpritesSize(100, 100);
+    p2->getCurrentAnimation()->setSpritesSize(100, 100);
+    circle->getCurrentAnimation()->setSpritesSize(100, 100);
 
     // Regsiter collisions
     collisionsManager->regsiterCollisionEvent(
@@ -93,12 +121,63 @@ void map::update(size_t delta)
     player1Ptr->update(delta);
     player2Ptr->update(delta);
 
+    // Show player icons
+    circle->setCoordinates(p1->getCoordinates());
+    circle->update(delta);
+    p1->update(delta);
+
+    circle->setCoordinates(p2->getCoordinates());
+    circle->update(delta);
+    p2->update(delta);
+
+    // Update health bar icons off-screen
+    pencilOk->getCoordinates()->setX(windowWidth*2);
+    pencilOk->update(delta);
+    pencilBad->getCoordinates()->setX(windowWidth * 2);
+    pencilBad->update(delta);
+
+    // Show health for player 1
+    int health = 0;
+    health = clampHealth(player1Ptr->getHealth());
+    entity* healthEntity = nullptr;
+    for (int i = 0; i < healthBarLenght; i++)
+    {
+        if (health == 0 || i <= ((health / healthBarLenght) % healthBarLenght) -1)
+            healthEntity = pencilBad;
+        else
+            healthEntity = pencilOk;
+
+        healthEntity->setCoordinates(p1->getCoordinates());
+        healthEntity->getCoordinates()->moveHorizontally((healthBarLenght - i) * 50 + 20);
+        healthEntity->update(0);
+    }
+
+    // Show health for player 2
+    health = clampHealth(player2Ptr->getHealth());
+    for (int i = 0; i < healthBarLenght; i++)
+    {
+        if (health == 0 || i <= ((health / healthBarLenght) % healthBarLenght) - 1)
+            healthEntity = pencilBad;
+        else
+            healthEntity = pencilOk;
+
+        healthEntity->setCoordinates(p2->getCoordinates());
+        healthEntity->getCoordinates()->moveHorizontally(-((healthBarLenght - i) * 50 + 20));
+        healthEntity->update(0);
+    }
+
     backgroundPtr->update(delta);
 }
 
 void map::cleannup()
 {
     // Unload sprites
+    pencilOk->getCurrentAnimation()->unload();
+    pencilBad->getCurrentAnimation()->unload();
+    circle->getCurrentAnimation()->unload();
+    p1->getCurrentAnimation()->unload();
+    p2->getCurrentAnimation()->unload();
+
     backgroundPtr->unload();
     player1Ptr->unload();
     player2Ptr->unload();
@@ -111,4 +190,25 @@ void map::cleannup()
 
     // Remove background
     nodesManager->removeChild("Background");
+}
+
+void map::fixScaling()
+{
+    windowWidth = getWindowWidth();
+    windowHeight = getWindowHeight();
+
+    player1Ptr->setWindowBorders(0, windowWidth);
+    player2Ptr->setWindowBorders(0, windowWidth);
+
+    pencilOk->setConstraintsBasedOnCurrentSprite(0, windowWidth, 0, windowHeight);
+    pencilBad->setConstraintsBasedOnCurrentSprite(0, windowWidth, 0, windowHeight);
+    circle->setConstraintsBasedOnCurrentSprite(0, windowWidth, 0, windowHeight);
+    p1->setConstraintsBasedOnCurrentSprite(0, windowWidth, 0, windowHeight);
+    p2->setConstraintsBasedOnCurrentSprite(0, windowWidth, 0, windowHeight);
+
+    p1->getCoordinates()->moveHorizontally(-windowWidth);
+    p1->getCoordinates()->moveVertically(-windowHeight);
+
+    p2->getCoordinates()->moveHorizontally(windowWidth);
+    p2->getCoordinates()->moveVertically(-windowHeight);
 }

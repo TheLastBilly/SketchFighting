@@ -17,15 +17,12 @@ int main(int argc, char *argv[])
 {
     std::shared_ptr<engine::_coreLauncher> launcher = std::make_shared<engine::_coreLauncher>();
     setupCore(static_cast<engine::core*>(launcher.get()));
-    launcher->initialize();
-    launcher->execute();
-    /*try
+    try
     {
+        launcher->initialize();
+        launcher->execute();
     }
     catch(const std::exception &e)
-    {
-        error(e.what());
-        return -1;
-    }*/
+    { error(e.what()); }
     return 0;
 }

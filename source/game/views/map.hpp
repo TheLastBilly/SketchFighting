@@ -50,11 +50,7 @@ namespace ksf
             void update(size_t delta) override;
             void cleannup() override;
 
-            void fixScaling()
-            {
-                player1Ptr->setWindowBorders(0, getWindowWidth());
-                player2Ptr->setWindowBorders(0, getWindowWidth());
-            }
+            void fixScaling();
 
         protected:
             void initialize() override;
@@ -64,12 +60,26 @@ namespace ksf
 
             bool initialScaling = true;
 
-            entities::player* player1Ptr = nullptr;
-            entities::player* player2Ptr = nullptr;
+            entities::player
+                * player1Ptr = nullptr,
+                * player2Ptr = nullptr;
+
+            engine::entity
+                * pencilOk = nullptr,
+                * pencilBad = nullptr,
+                * p1 = nullptr,
+                * p2 = nullptr,
+                * circle = nullptr;
+
+            int windowWidth = 0, windowHeight = 0;
+
+            const int healthBarLenght = 5;
+
             background* backgroundPtr = nullptr;
 
             engine::managers::collisionsManager* collisionsManager = nullptr;
             engine::managers::nodesManager* nodesManager = nullptr;
+            engine::managers::animationsManager* animationsManager = nullptr;
 
             engine::keyboardHandler* keyboardHandlerPtr = nullptr;
 

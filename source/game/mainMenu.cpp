@@ -66,10 +66,10 @@ void mainMenu::update(size_t delta)
     if(initialScaling || windowSizeHasChanged())
     {
         // Setup animations
-        arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-        quit->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-        play->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-        arrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+        arrow->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+        quit->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+        play->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+        arrow->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
 
         // Place all the elements accordingly
         title->centerToScreen(getWindowWidth(), getWindowHeight());

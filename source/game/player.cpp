@@ -5,15 +5,15 @@ register_logger()
 
 void ksf::entities::player::setWindowConstraints(int windowWidth, int windowHeight)
 {
-    setConstraints(0, 
-        windowWidth - getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth(),
-        windowHeight - getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight(),
-    0);
+    setConstraints(
+        0, windowWidth - getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth(),
+        0, windowHeight - getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight()
+    );
 }
 
 void ksf::entities::player::setFloorHeight(int height)
 {
-    setVerticalContraints(height - getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight(), 0);
+    setVerticalContraints(0, height - getCurrentAnimation()->getCurrentFrame()->getSprite()->getHeight());
 }
 
 void ksf::entities::player::setWindowBorders(int x, int width)

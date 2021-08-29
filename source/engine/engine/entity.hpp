@@ -49,6 +49,11 @@ namespace engine
             setHorizontalContraints(minX, maxX);
             setVerticalContraints(minY, maxY);
         }
+        void setConstraintsBasedOnCurrentSprite(int minX, int maxX, int minY, int maxY)
+        {
+            graphics::sprite* sprite = getCurrentAnimation()->getCurrentFrame()->getSprite();
+            setConstraints(minX, maxX - sprite->getWidth(), minY, maxY - sprite->getHeight());
+        }
 
         void setHorizontalContraints(int minX, int maxX)
         {
@@ -65,7 +70,8 @@ namespace engine
         {
             if (currentAnimation)
             {
-                currentAnimation->play(delta, coordinates.getX(), coordinates.getY());
+                if(animationEnabled)
+                    currentAnimation->play(delta, coordinates.getX(), coordinates.getY());
                 updateHitbox(currentAnimation->getCurrentFrame()->getSprite()->getWidth(), currentAnimation->getCurrentFrame()->getSprite()->getHeight());
             }
         }
@@ -80,11 +86,18 @@ namespace engine
             coordinates.setY(screenHeight / 2 - currentSprite->getHeight() / 2);
         }
 
+        inline void setAnimationEnabled(bool animationEnabled)
+        {
+            this->animationEnabled = animationEnabled;
+        }
+
     protected:
         graphics::animation* currentAnimation = nullptr;
 
     protected:
         math::coordinates coordinates;
         math::collisions::hitbox hitbox;
+
+        bool animationEnabled = true;
     };
 }

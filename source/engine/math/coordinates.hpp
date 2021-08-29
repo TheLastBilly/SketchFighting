@@ -12,7 +12,7 @@ namespace math
             this->leftLimit = leftLimit;
             this->rightLimit = rightLimit;
         }
-        inline void setVerticalRange(int upperLimit, int lowerLimit)
+        inline void setVerticalRange(int lowerLimit, int upperLimit)
         {
             this->upperLimit = upperLimit;
             this->lowerLimit = lowerLimit;

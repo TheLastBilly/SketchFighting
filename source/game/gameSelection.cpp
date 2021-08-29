@@ -119,10 +119,10 @@ void gameSelection::update(size_t delta)
     int playerNameWidthHalf = playerName->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth()/2;
 
     // Setup animations
-    selectionFrame->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    selectionArrow->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    playerName->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
-    currentSelection->setConstraints(0, getWindowWidth(), getWindowHeight(), 0);
+    selectionFrame->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+    selectionArrow->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+    playerName->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
+    currentSelection->setConstraints(0, getWindowWidth(), 0, getWindowHeight());
 
     selectionFrame->getCurrentAnimation()->setSpritesSize(600, 600);
     selectionFrame->centerToScreen(getWindowWidth(), getWindowHeight());
