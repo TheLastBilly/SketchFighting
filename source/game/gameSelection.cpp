@@ -19,6 +19,8 @@ void gameSelection::initialize()
     players.push_back(player);
     nodesManager->registerNode(player = new players::miso(animationsManager));
     players.push_back(player);
+    nodesManager->registerNode(player = new players::uero(animationsManager));
+    players.push_back(player);
 
     // Register backgrounds
     maps::genericBackground* background = nullptr;

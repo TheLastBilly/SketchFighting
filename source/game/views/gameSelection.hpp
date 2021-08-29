@@ -12,6 +12,7 @@
 
 #include "players/hammerGuy.hpp"
 #include "players/miso.hpp"
+#include "players/uero.hpp"
 
 #include "maps/beach.hpp"
 

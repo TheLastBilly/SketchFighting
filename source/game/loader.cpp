@@ -54,18 +54,14 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"Uero Jumping 02", "Uero/jumping02.png"},
         {"Uero Name 01", "Uero/name01.png"},
         {"Uero Name 02", "Uero/name02.png"},
-        {"Uero Idle 01", "Uero/standing01.png"},
-        {"Uero Idle 02", "Uero/standing02.png"},
+        {"Uero Idle 01", "Uero/idle01.png"},
+        {"Uero Idle 02", "Uero/idle02.png"},
         {"Uero Walking 01", "Uero/walking01.png"},
         {"Uero Walking 02", "Uero/walking02.png"},
-        {"Uero Walking 03", "Uero/walking03.png"},
         {"Uero Block 01", "Uero/block01.png"},
-        {"Uero Block 02", "Uero/block02.png"},
         {"Uero Hit 01", "Uero/hit01.png"},
         {"Uero Hit 02", "Uero/hit02.png"},
         {"Uero Hit 03", "Uero/hit03.png"},
-        {"Uero Hit 01", "Uero/hit01.png"},
-        {"Uero Hit 02", "Uero/hit02.png"},
 
         // Miso
         {"Miso Jumping 01", "Miso/jump/1.png"},
@@ -192,20 +188,16 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
     animationsManagerPtr->requestAnimation("Uero Walking", {
         { "Uero Walking 01", 500 },
         { "Uero Walking 02", 500 },
-        { "Uero Walking 03", 500 },
     });
     animationsManagerPtr->requestAnimation("Uero Hit", {
-        { "Uero Hit 01", 500 },
-        { "Uero Hit 02", 500 },
+        { "Uero Block 01", 500 },
     });
     animationsManagerPtr->requestAnimation("Uero Ground", {
-        { "Uero Ground 01", 700 },
-        { "Uero Ground 02", 200 },
-        { "Uero Ground 03", 700 },
+        { "Uero Hit 01", 700 },
+        { "Uero Hit 02", 200 },
     });
     animationsManagerPtr->requestAnimation("Uero Block", {
         { "Uero Block 01", 500 },
-        { "Uero Block 02", 500 },
     });
 
     // Miso
