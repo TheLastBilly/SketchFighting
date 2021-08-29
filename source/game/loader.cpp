@@ -107,6 +107,8 @@ void contentLoader::loadSprites(engine::managers::assetsManager* manager)
         {"UI P1 Wins 02", "ui/p1wins02.png"},
         {"UI P2 Wins 01", "ui/p2wins01.png"},
         {"UI P2 Wins 02", "ui/p2wins02.png"},
+        {"UI Close 01", "ui/close01.png"},
+        {"UI Close 02", "ui/close02.png"},
 
         // Beach background
         {"Beach Background 01", "beach/1.png"},
@@ -290,6 +292,10 @@ void contentLoader::loadAnimations(engine::managers::animationsManager* animatio
     animationsManagerPtr->requestAnimation("UI P2 Wins", {
         { "UI P2 Wins 01", 500 },
         { "UI P2 Wins 02", 500 },
+    });
+    animationsManagerPtr->requestAnimation("UI Close", {
+        { "UI Close 01", 500 },
+        { "UI Close 02", 500 },
     });
 
 

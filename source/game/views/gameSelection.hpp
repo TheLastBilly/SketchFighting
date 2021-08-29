@@ -34,7 +34,7 @@ namespace ksf
 			inline void decrementOption()
 			{ option = option <= 0 ? options - 1 : option - 1; }
 			inline void incrementOption()
-			{ option = option >= options -1 ? 0 : option+1; }
+			{ option = option < options-1 ? option+1 : 0; }
 
 		protected:
 			void initialize() override;
@@ -54,7 +54,8 @@ namespace ksf
 				* selectionFrame = nullptr, 
 				* selectionArrow = nullptr,
 				* playerName = nullptr,
-                * currentSelection = nullptr;
+                * currentSelection = nullptr,
+				* closeButton = nullptr;
             
             graphics::animation  
                 *selectionOn = nullptr, 

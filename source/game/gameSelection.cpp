@@ -45,6 +45,10 @@ void gameSelection::initialize()
     // Current Selection
     nodesManager->registerNode(currentSelection = new entity("Current Selection"));
 
+    // Close Button Indicator
+    nodesManager->registerNode(closeButton = new entity("UI Close"));
+    closeButton->setCurrentAnimation(animationsManager->getAnimation("UI Close"));
+
     // Get selection arrow animations
     selectionOn = animationsManager->getAnimation("Selection Arrow On");
     selectionOff = animationsManager->getAnimation("Selection Arrow Off");
@@ -101,6 +105,8 @@ void gameSelection::setup()
     selectionOn->load();
     selectionOff->load();
 
+    closeButton->getCurrentAnimation()->load();
+
     currentAnimation = players.at(0)->getIntroAnimation();
 
     option = 0;
@@ -122,7 +128,8 @@ void gameSelection::update(size_t delta)
 {
     if (!playersSelected && players.at(option)->getSelected())
     {
-        incrementOption();
+        if (option == 0) incrementOption();
+        else decrementOption();
         currentAnimation = players.at(option)->getIntroAnimation();
     }
 
@@ -142,6 +149,9 @@ void gameSelection::update(size_t delta)
     selectionFrame->getCurrentAnimation()->setSpritesSize(600, 600);
     selectionFrame->centerToScreen(getWindowWidth(), getWindowHeight());
     selectionFrame->getCoordinates()->moveVertically(-100);
+
+    closeButton->getCoordinates()->setX(getWindowWidth() - closeButton->getCurrentAnimation()->getCurrentFrame()->getSprite()->getWidth() - 20);
+    closeButton->getCoordinates()->setY(0);
 
     // Setup current selection
     currentSelection->setCurrentAnimation(currentAnimation);
@@ -178,6 +188,7 @@ void gameSelection::update(size_t delta)
         if (currentController->leftPressed())
         {
             decrementOption();
+            if (!playersSelected && players[option]->getSelected()) decrementOption();
             leftArrowAnimation = selectionOn;
             buttonPressed = true;
         }
@@ -187,6 +198,7 @@ void gameSelection::update(size_t delta)
         if(currentController->rightPressed())
         {
             incrementOption();
+            if (!playersSelected && players[option]->getSelected()) incrementOption();
             buttonPressed = true;
             rightArrowAnimation = selectionOn;
         }
@@ -204,6 +216,8 @@ void gameSelection::update(size_t delta)
                 nodesManager->registerNode(*player = players.at(option)->createPlayer("Player " + std::to_string(playerCount++)));
                 players.at(option)->setSelected(true);
                 buttonPressed = true;
+
+                incrementOption();
 
                 currentController = &globalSettings->player2Controller;
 
@@ -243,6 +257,7 @@ void gameSelection::update(size_t delta)
     selectionFrame->update(delta);
     playerName->update(delta);
     currentSelection->update(delta);
+    closeButton->update(delta);
 }
 
 void gameSelection::cleannup()
@@ -254,4 +269,5 @@ void gameSelection::cleannup()
     selectionFrame->getCurrentAnimation()->unload();
     selectionArrow->getCurrentAnimation()->unload();
     playerName->getCurrentAnimation()->unload();
+    closeButton->getCurrentAnimation()->unload();
 }
