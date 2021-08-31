@@ -26,8 +26,8 @@ namespace ksf
             entities::player *playerPtr = nullptr;
             entities::player* player2Ptr = nullptr;
 
-            entities::background* backgroundPtr = nullptr;
-            entities::floor* floorPtr = nullptr;
+            map::background* backgroundPtr = nullptr;
+            map::floor* floorPtr = nullptr;
 
             graphics::animation* idleAnimation = nullptr;
             graphics::animation* walkingAnimation = nullptr;

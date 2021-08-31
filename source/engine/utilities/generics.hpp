@@ -1,6 +1,8 @@
 #pragma once
 
+#ifdef WAIT_WITH_STD_THREAD
 #include <chrono>
+#endif
 
 #include "utilities/exceptions.hpp"
 #include "SDL2/SDL.h"

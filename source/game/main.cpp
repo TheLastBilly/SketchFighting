@@ -19,7 +19,11 @@ void setupCore(engine::core *engineCore)
     engineCore->setWindowHeight(720);
     engineCore->setWindowWidth(1080);
 
+#ifdef _DEBUG
+    engineCore->setAssetsRootPath(std::string(DEBUG_ASSETS_PATH));
+#else
     engineCore->setAssetsRootPath(std::string(SDL_GetBasePath()) + "assets");
+#endif
 
     engineCore->getNodesManager()->registerNode( new ksf::entities::globalSettings() );
 

@@ -8,7 +8,7 @@
 
 #include "graphics/sprite.hpp"
 
-#ifdef WIN32
+#ifndef ssize_t
 #define ssize_t signed long long 
 #endif
 
