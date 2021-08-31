@@ -25,6 +25,36 @@
     <Filter Include="Source Files\game">
       <UniqueIdentifier>{2abb348c-fa9b-4130-a839-a0bd43e6a505}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\engine\engine">
+      <UniqueIdentifier>{0941a5ea-022e-4927-98e1-dca82a52fbc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\graphics">
+      <UniqueIdentifier>{83fd0025-19ab-4cac-9b95-2981e6502e08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\math">
+      <UniqueIdentifier>{279eb1da-d542-4f80-9fa4-821d0b69aeb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\utilities">
+      <UniqueIdentifier>{498122e0-7361-4130-86af-8f6db66d7f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine\engine\managers">
+      <UniqueIdentifier>{6705ac34-3156-4004-922b-2fbea803f5ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\entities">
+      <UniqueIdentifier>{6017ad4b-c20c-45f6-8dac-ef8f69311002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\maps">
+      <UniqueIdentifier>{c61ab6bc-2935-418b-8a3c-78ce64707014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\players">
+      <UniqueIdentifier>{5817acd4-1093-437d-9fcb-267537313590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\utilities">
+      <UniqueIdentifier>{d22302bf-dd05-4552-8245-aa1f42ac9ec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\views">
+      <UniqueIdentifier>{e481d3f7-45e8-486f-9d57-c432575bce33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\game\fadingScene.cpp">
@@ -69,5 +99,112 @@
     <ClCompile Include="..\..\source\engine\sprite.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\engine\engine\core.hpp">
+      <Filter>Header Files\engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\entity.hpp">
+      <Filter>Header Files\engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\inputs.hpp">
+      <Filter>Header Files\engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\node.hpp">
+      <Filter>Header Files\engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\animationsManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\assetsManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\collisionsManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\genericManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\nodesManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\engine\managers\viewsManager.hpp">
+      <Filter>Header Files\engine\engine\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\graphics\animation.hpp">
+      <Filter>Header Files\engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\graphics\sprite.hpp">
+      <Filter>Header Files\engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\graphics\view.hpp">
+      <Filter>Header Files\engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\collisions.hpp">
+      <Filter>Header Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\coordinates.hpp">
+      <Filter>Header Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\math\geometry.hpp">
+      <Filter>Header Files\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\utilities\exceptions.hpp">
+      <Filter>Header Files\engine\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\utilities\generics.hpp">
+      <Filter>Header Files\engine\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\engine\utilities\logger.hpp">
+      <Filter>Header Files\engine\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\entities\globalSettings.hpp">
+      <Filter>Header Files\game\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\entities\player.hpp">
+      <Filter>Header Files\game\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\maps\beach.hpp">
+      <Filter>Header Files\game\maps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\maps\genericBackground.hpp">
+      <Filter>Header Files\game\maps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\maps\theboard.hpp">
+      <Filter>Header Files\game\maps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\views\fadingView.hpp">
+      <Filter>Header Files\game\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\views\gameSelection.hpp">
+      <Filter>Header Files\game\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\views\intro.hpp">
+      <Filter>Header Files\game\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\views\mainMenu.hpp">
+      <Filter>Header Files\game\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\views\map.hpp">
+      <Filter>Header Files\game\views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\utilities\loader.hpp">
+      <Filter>Header Files\game\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\players\doggi.hpp">
+      <Filter>Header Files\game\players</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\players\genericPlayer.hpp">
+      <Filter>Header Files\game\players</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\players\hammerGuy.hpp">
+      <Filter>Header Files\game\players</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\players\miso.hpp">
+      <Filter>Header Files\game\players</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\game\players\uero.hpp">
+      <Filter>Header Files\game\players</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -32,6 +32,17 @@ namespace engine
             graphics::animation* getAnimation(const std::string &name) const
             { return getObject(name); }
 
+            void loadAll() const
+            {
+                for (const std::shared_ptr<graphics::animation>& animation : elements)
+                    animation->load();
+            }
+            void unloadAll() const
+            {
+                for (const std::shared_ptr<graphics::animation>& animation : elements)
+                    animation->unload();
+            }
+
         private:
             std::queue<std::pair<std::string, framesRequest>> animationQueue;
         };

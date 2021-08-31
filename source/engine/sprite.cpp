@@ -31,7 +31,7 @@ void sprite::render(int x, int y) const
     SDL_Rect source, destination;
 
     if (texture == NULL)
-        return;
+        throw_exception_without_msg(null_texture_error);
 
     source.h = defaultWidth;
     source.w = defaultHeight;

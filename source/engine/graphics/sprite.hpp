@@ -12,6 +12,7 @@ namespace graphics
     public:
         register_exception(texture_loading_error, "cannot load specified texture");
         register_exception(sprite_rendering_error, "cannot render current sprite");
+        register_exception(null_texture_error, "cannot do operation with null texture");
 
     public:
         enum flip
@@ -33,6 +34,7 @@ namespace graphics
         {
             if (texture != NULL)
                 SDL_DestroyTexture(texture);
+            texture = NULL;
             currentFlip = static_cast<SDL_RendererFlip>(flip::none);
         }
 

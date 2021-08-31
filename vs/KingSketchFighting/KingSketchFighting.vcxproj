@@ -34,6 +34,43 @@
     <ClCompile Include="..\..\source\game\map.cpp" />
     <ClCompile Include="..\..\source\game\player.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\engine\engine\core.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\entity.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\inputs.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\animationsManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\assetsManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\collisionsManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\genericManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\nodesManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\managers\viewsManager.hpp" />
+    <ClInclude Include="..\..\source\engine\engine\node.hpp" />
+    <ClInclude Include="..\..\source\engine\graphics\animation.hpp" />
+    <ClInclude Include="..\..\source\engine\graphics\sprite.hpp" />
+    <ClInclude Include="..\..\source\engine\graphics\view.hpp" />
+    <ClInclude Include="..\..\source\engine\math\collisions.hpp" />
+    <ClInclude Include="..\..\source\engine\math\coordinates.hpp" />
+    <ClInclude Include="..\..\source\engine\math\geometry.hpp" />
+    <ClInclude Include="..\..\source\engine\utilities\exceptions.hpp" />
+    <ClInclude Include="..\..\source\engine\utilities\generics.hpp" />
+    <ClInclude Include="..\..\source\engine\utilities\logger.hpp" />
+    <ClInclude Include="..\..\source\game\entities\globalSettings.hpp" />
+    <ClInclude Include="..\..\source\game\entities\player.hpp" />
+    <ClInclude Include="..\..\source\game\maps\beach.hpp" />
+    <ClInclude Include="..\..\source\game\maps\genericBackground.hpp" />
+    <ClInclude Include="..\..\source\game\maps\theboard.hpp" />
+    <ClInclude Include="..\..\source\game\players\doggi.hpp" />
+    <ClInclude Include="..\..\source\game\players\genericPlayer.hpp" />
+    <ClInclude Include="..\..\source\game\players\hammerGuy.hpp" />
+    <ClInclude Include="..\..\source\game\players\miso.hpp" />
+    <ClInclude Include="..\..\source\game\players\uero.hpp" />
+    <ClInclude Include="..\..\source\game\utilities\loader.hpp" />
+    <ClInclude Include="..\..\source\game\views\fadingView.hpp" />
+    <ClInclude Include="..\..\source\game\views\gameSelection.hpp" />
+    <ClInclude Include="..\..\source\game\views\intro.hpp" />
+    <ClInclude Include="..\..\source\game\views\mainMenu.hpp" />
+    <ClInclude Include="..\..\source\game\views\map.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

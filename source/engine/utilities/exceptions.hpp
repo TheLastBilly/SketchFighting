@@ -44,9 +44,11 @@
     { 															\
     public: 													\
         EX(std::string m, const char *f, int l): 				\
-            exceptions::base_exception(m,f,l) {}        		\
+            exceptions::base_exception(							\
+				std::string(#EX) + ": " +  m,f,l) {}			\
         EX(const char *f, int l): 								\
-            exceptions::base_exception(MSG,f,l) {}      		\
+            exceptions::base_exception(							\
+				std::string(#EX) + ": " +  MSG,f,l) {}			\
     }
 #define get_object_name(a) (typeid(a).name())
 

@@ -158,6 +158,7 @@ void core::execute()
             {
                 currentView->cleannup();
                 currentView->clearRender();
+                animationsManagerPtr->unloadAll();
             }
 
             collisionsManagerPtr->setAllCollisionsEnable(false);

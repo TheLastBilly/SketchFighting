@@ -1,1 +1,73 @@
-﻿  KingSketchFighting.vcxproj -> C:\Users\joset\Documents\KingSketchFighting\vs\KingSketchFighting\Debug\KingSketchFighting.exe
+﻿  animationsManager.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+  assetsManager.cpp
+  core.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\core.cpp(153,62): warning C4244: '=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\core.cpp(181,61): warning C4244: '=': conversion from '__int64' to 'size_t', possible loss of data
+  init.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+  sprite.cpp
+  fadingScene.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  gameSelection.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\hammerGuy.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\hammerGuy.hpp(29,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\miso.hpp(27,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\miso.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\uero.hpp(52,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\uero.hpp(53,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\doggi.hpp(27,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\doggi.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+  loader.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\hammerGuy.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\hammerGuy.hpp(29,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\miso.hpp(27,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\miso.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\uero.hpp(52,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\uero.hpp(53,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\doggi.hpp(27,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\joset\Documents\KingSketchFighting\source\game\players\doggi.hpp(28,1): warning C4305: 'argument': truncation from 'double' to 'float'
+  mainMenu.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\mainMenu.cpp(124,21): warning C4018: '<': signed/unsigned mismatch
+  map.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  player.cpp
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(100,33): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\joset\Documents\KingSketchFighting\source\engine\graphics\animation.hpp(107,1): warning C4244: '+=': conversion from '__int64' to 'size_t', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\entities\player.hpp(153,45): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\player.cpp(150,60): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\joset\Documents\KingSketchFighting\source\game\player.cpp(153,66): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  LINK : C:\Users\joset\Documents\KingSketchFighting\vs\KingSketchFighting\Debug\KingSketchFighting.exe not found or not built by the last incremental link; performing full link
+  KingSketchFighting.vcxproj -> C:\Users\joset\Documents\KingSketchFighting\vs\KingSketchFighting\Debug\KingSketchFighting.exe
