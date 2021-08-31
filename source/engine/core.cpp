@@ -158,9 +158,11 @@ void core::execute()
             {
                 currentView->cleannup();
                 currentView->clearRender();
-                animationsManagerPtr->unloadAll();
+                if(unloadTextureAfterCleannup)
+                    animationsManagerPtr->unloadAll();
             }
 
+            unloadTextureAfterCleannup = true;
             collisionsManagerPtr->setAllCollisionsEnable(false);
             currentView = viewsManagerPtr->getActiveView();
 

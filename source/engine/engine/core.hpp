@@ -83,6 +83,11 @@ namespace engine
             return resizeable == SDL_TRUE ? true : false;
         }
 
+        inline void setUnloadTextureAfterCleannup(bool unloadTextureAfterCleannup)
+        { unloadTextureAfterCleannup = unloadTextureAfterCleannup; }
+        inline bool getUnloadTextureAfterCleannup() const
+        { return unloadTextureAfterCleannup; }
+
     protected:
         void initialize();
         void execute();
@@ -104,6 +109,7 @@ namespace engine
 
         bool initialized = false;
         bool shouldClose = false;
+        bool unloadTextureAfterCleannup = true;
     
     private:
         std::shared_ptr<engine::managers::assetsManager> assetsManagerPtr;
